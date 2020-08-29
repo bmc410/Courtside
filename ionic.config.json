@@ -1,0 +1,7 @@
+{
+  "name": "CourtSide",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
