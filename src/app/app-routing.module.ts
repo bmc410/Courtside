@@ -1,6 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CheckTutorial } from './providers/check-tutorial.service';
+import { AuthguardService } from './services/authguard.service';
+
+
+const routes1: Routes = [
+  { 
+    path: '', 
+    canActivate: [AuthguardService], 
+    loadChildren: () => import('./pages/tabs-page/tabs-page.module').then(m => m.TabsModule)
+  },
+  { 
+    path: 'login', 
+    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule)
+  },
+];
 
 const routes: Routes = [
   {
@@ -26,6 +40,7 @@ const routes: Routes = [
   },
   {
     path: 'app',
+    canActivate: [AuthguardService],
     loadChildren: () => import('./pages/tabs-page/tabs-page.module').then(m => m.TabsModule)
   },
   {
