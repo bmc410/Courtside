@@ -48,6 +48,10 @@ const routes: Routes = [
   {
     path: 'match',
     loadChildren: () => import('./pages/match/match.module').then( m => m.MatchPageModule)
+  },
+  {
+    path: 'playerpopover',
+    loadChildren: () => import('./pages/playerpopover/playerpopover.module').then( m => m.PlayerpopoverPageModule)
   }
 ];
 

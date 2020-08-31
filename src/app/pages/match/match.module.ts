@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { MatchPageRoutingModule } from './match-routing.module';
 
 import { MatchPage } from './match.page';
+import {MatSelectModule} from '@angular/material/select'
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MatchPageRoutingModule
+    MatchPageRoutingModule,
+    MatSelectModule
   ],
   declarations: [MatchPage]
 })
