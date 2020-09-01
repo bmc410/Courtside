@@ -7,13 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { TeamdetailPageRoutingModule } from './teamdetail-routing.module';
 
 import { TeamdetailPage } from './teamdetail.page';
-
+import {TableModule} from 'primeng/table';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    TableModule,
     TeamdetailPageRoutingModule
   ],
   declarations: [TeamdetailPage]
