@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-teams',
@@ -15,9 +16,13 @@ export class TeamsPage implements OnInit {
     }
   ]
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  addTeam() {
+    this.router.navigateByUrl("/app/tabs/teamdetail/", { skipLocationChange: true })
   }
 
   itemSelected(item) {
