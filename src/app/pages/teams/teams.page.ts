@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatchService } from 'src/app/services/matchservice';
+import { ConnectionService } from 'ng-connection-service';
+import { NetworkService } from 'src/app/services/network.service';
+import { OfflineService } from 'src/app/services/offline.service';
+import { MessageService } from 'primeng/api';
+import { ClubWithId, TeamWithId } from 'src/app/models/appModels';
 
 @Component({
   selector: 'app-teams',
@@ -7,26 +13,47 @@ import { Router } from '@angular/router';
   styleUrls: ['./teams.page.scss'],
 })
 export class TeamsPage implements OnInit {
+  clubs: ClubWithId[] = [];
+  teams: TeamWithId[] = [];
+  team: TeamWithId;
 
-  items: Array<any> = [
-    {
-      'id': "1",
-      'title': "Fusion 17 White",
-      'description': 'Fusion 17 White'
-    }
-  ]
+  constructor(private router: Router,
+    private matchService: MatchService,
+    private connectionService: ConnectionService,
+    private _ngZone: NgZone,
+    private networkService: NetworkService,
+    private offlineservice: OfflineService,
+    private messageService: MessageService) { }
 
-  constructor(private router: Router) { }
+  async ngOnInit() {
+    await this.matchService.getClubs().then(data => {
+      var json = JSON.stringify(data);
+      this.clubs = JSON.parse(json);
+    });
 
-  ngOnInit() {
+    await this.matchService.getTeams().then(data => {
+      var json = JSON.stringify(data);
+      this.teams = JSON.parse(json);
+    });
+
   }
 
   addTeam() {
-    this.router.navigateByUrl("/app/tabs/teamdetail/", { skipLocationChange: true })
+    this.router.navigate(['/app/tabs/teams/teamdetail'], { queryParams: { context: '-1' } });
   }
 
   itemSelected(item) {
-    console.log(item);
+    this.router.navigate(['/app/tabs/teams/teamdetail'], { queryParams: { context: JSON.stringify(item.data) } });
+  }
+
+  getClubNameById(id: string) {
+    var c =  this.clubs.filter(x => x.objectId == id)[0]
+    if (c) {
+      return c.ClubName
+    }
+    else {
+      return ''
+    }
   }
 
 }

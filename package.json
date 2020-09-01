@@ -31,8 +31,16 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^5.0.0",
     "@ionic/storage": "^2.3.0",
+    "chart.js": "^2.9.3",
+    "dexie": "^3.0.2",
     "firebase": "^7.19.1",
+    "guid-typescript": "^1.0.9",
     "ionic-native": "^2.9.0",
+    "ng-connection-service": "^1.0.4",
+    "parse": "^2.15.0",
+    "primeicons": "^4.0.0",
+    "primeng": "^10.0.0-rc.3",
+    "quill": "^1.3.7",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
@@ -61,5 +69,5 @@
     "tslint": "~6.1.0",
     "typescript": "~3.9.5"
   },
-  "description": "An Ionic project"
+  "description": "Courtside"
 }

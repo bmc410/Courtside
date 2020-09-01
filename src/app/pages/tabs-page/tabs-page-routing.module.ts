@@ -84,6 +84,19 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'teamdetail/:id',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../teamdetail/teamdetail.module').then(m => m.TeamdetailPageModule)
+          },
+          {
+            path: 'teamdetail',
+            loadChildren: () => import('../teamdetail/teamdetail.module').then(m => m.TeamdetailPageModule)
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: '/app/tabs/schedule',
         pathMatch: 'full'

@@ -2,7 +2,7 @@
   <ion-toolbar color="primary">
     <ion-title>My Teams</ion-title>
     <ion-buttons slot="end">
-      <ion-button routerLink="teamdetail" >
+      <ion-button (click)="addTeam()" >
         Add
       </ion-button>
     </ion-buttons>
@@ -10,10 +10,30 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let item of items" routerLink="teamdetail">
-      <ion-label>{{item.title}}</ion-label>
-      <!-- <ion-icon slot="end" name="people-circle-outline"></ion-icon> -->
+  <p-table [value]="teams" selectionMode="single" [(selection)]="selectedTeam" (onRowSelect)="itemSelected($event)">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Team</th>
+        <th>Club</th>
+        <th>Year</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-team>
+      <tr [pSelectableRow]="team">
+        <td>{{ team?.TeamName }}</td>
+        <td>{{ getClubNameById(team?.ClubId) }}</td>
+        <td>{{ team?.Year }}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary" let-rowData>
+      <div style="text-align:left">
+        <button type="button" pButton icon="fa fa-plus" (click)="showAddTeamDialog()" label="Add"></button>
+      </div>
+    </ng-template>
+  </p-table>
+  <!-- <ion-list>
+    <ion-item *ngFor="let team of teams" (click)="itemSelected(team)">
+      <ion-label>{{team.TeamName}}</ion-label>
      </ion-item>
-  </ion-list>
+  </ion-list> -->
 </ion-content>
