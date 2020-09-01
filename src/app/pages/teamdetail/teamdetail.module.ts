@@ -8,6 +8,7 @@ import { TeamdetailPageRoutingModule } from './teamdetail-routing.module';
 
 import { TeamdetailPage } from './teamdetail.page';
 
+
 @NgModule({
   imports: [
     CommonModule,

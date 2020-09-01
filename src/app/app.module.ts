@@ -17,6 +17,8 @@ import { PlayerpopoverPageModule } from './pages/playerpopover/playerpopover.mod
 import { AuthenticateService } from './services/authenticate.service';
 import { AuthguardService } from './services/authguard.service';
 
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   imports: [
@@ -24,6 +26,8 @@ import { AuthguardService } from './services/authguard.service';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    MatInputModule,
+    MatFormFieldModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
@@ -31,6 +35,10 @@ import { AuthguardService } from './services/authguard.service';
     }),
     BrowserAnimationsModule,
     PlayerpopoverPageModule
+  ],
+  exports: [
+    MatFormFieldModule,
+    MatInputModule,
   ],
   declarations: [AppComponent],
   providers: [InAppBrowser, SplashScreen, StatusBar,AuthenticateService,AuthguardService],

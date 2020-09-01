@@ -11,6 +11,7 @@ import { Storage } from '@ionic/storage';
 
 import { UserData } from './providers/user-data';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
