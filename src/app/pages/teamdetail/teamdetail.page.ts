@@ -6,6 +6,7 @@ import { NetworkService } from 'src/app/services/network.service';
 import { OfflineService } from 'src/app/services/offline.service';
 import { MessageService } from 'primeng/api';
 import { ClubWithId, TeamWithId, Player, PlayerWithId, TeamPlayerWithID } from 'src/app/models/appModels';
+import { ToastController } from '@ionic/angular';
 
 
 @Component({
@@ -40,7 +41,8 @@ export class TeamdetailPage implements OnInit {
     private _ngZone: NgZone,
     private networkService: NetworkService,
     private offlineservice: OfflineService,
-    private messageService: MessageService) { 
+    private messageService: MessageService,
+    public toastController: ToastController) { 
      
       this.route.queryParams.subscribe(params => {
         this.context = params['context'];
@@ -60,7 +62,7 @@ export class TeamdetailPage implements OnInit {
     }
 
 
-    async getTeamPlayers() {
+  async getTeamPlayers() {
       this.teamPlayers = []
       this.teamPlayerIDs = []
       this.pickedPlayers = []
@@ -88,7 +90,7 @@ export class TeamdetailPage implements OnInit {
           this.teamPlayers.push(tp);
         });
       })
-    }
+  }
 
   async ngOnInit() {
     
@@ -155,10 +157,17 @@ export class TeamdetailPage implements OnInit {
 
   }
 
-  save() {
-    this.messageService.add({severity:'success', summary:'Upload Successfull', detail:'The data from this device has been successfully uploaded'});
-  }
+  async save() {
+    const toast = await this.toastController.create({
+      color: 'success',
+      duration: 2000,
+      message: 'Saved successfully'
+    });
 
+    await toast.present();
+    //this.messageService.add({severity:'success', summary: 'Success Message', detail:'Order submitted'});  }
+  }
+  
   compareFn = (o1, o2) => {
     return o1 && o2 ? o1.id === o2.id : o1 === o2;
   };

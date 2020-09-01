@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content>
-  <p-table [value]="teams" selectionMode="single" [(selection)]="selectedTeam" (onRowSelect)="itemSelected($event)">
+  <p-table [value]="teams" selectionMode="single" [(selection)]="team" (onRowSelect)="itemSelected($event)">
     <ng-template pTemplate="header">
       <tr>
         <th>Team</th>
@@ -25,11 +25,7 @@
         <td>{{ team?.Year }}</td>
       </tr>
     </ng-template>
-    <ng-template pTemplate="summary" let-rowData>
-      <div style="text-align:left">
-        <button type="button" pButton icon="fa fa-plus" (click)="showAddTeamDialog()" label="Add"></button>
-      </div>
-    </ng-template>
+   
   </p-table>
   <!-- <ion-list>
     <ion-item *ngFor="let team of teams" (click)="itemSelected(team)">

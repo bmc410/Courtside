@@ -8,7 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { TableModule } from 'primeng/table';
-
+import {ToastModule} from 'primeng/toast';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -39,6 +39,7 @@ import { MessageService } from 'primeng/api';
     FormsModule,
     TableModule,
     MatInputModule,
+    ToastModule,
     MatFormFieldModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
