@@ -5,12 +5,14 @@
       <ion-button (click)="addTeam()" >
         Add
       </ion-button>
-      <ion-button>
+      <ion-button (click)="menu.toggle($event)">
         <ion-icon slot="icon-only" ios="ellipsis-vertical" md="ellipsis-vertical"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
+<p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 
 <ion-content>
   <p-table [value]="teams" selectionMode="single" [(selection)]="team" (onRowSelect)="itemSelected($event)">

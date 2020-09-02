@@ -6,6 +6,8 @@ import { NetworkService } from 'src/app/services/network.service';
 import { OfflineService } from 'src/app/services/offline.service';
 import { MessageService } from 'primeng/api';
 import { ClubWithId, TeamWithId } from 'src/app/models/appModels';
+import { ToastController } from '@ionic/angular';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-teams',
@@ -16,14 +18,30 @@ export class TeamsPage implements OnInit {
   clubs: ClubWithId[] = [];
   teams: TeamWithId[] = [];
   team: TeamWithId;
-
+  
   constructor(private router: Router,
     private matchService: MatchService,
     private connectionService: ConnectionService,
     private _ngZone: NgZone,
+    private authenticationService: AuthenticationService,
     private networkService: NetworkService,
     private offlineservice: OfflineService,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    public toastController: ToastController) { }
+
+
+  menuitems = [{
+    label: 'Log out',
+    icon: 'pi pi-fw pi-power-off',
+    command: () => {
+      this.logoff();
+    }
+  }];
+  
+  logoff() {
+      this.authenticationService.logout();
+      this.router.navigate(['/login']);
+  }
 
   async ngOnInit() {
     await this.matchService.getClubs().then(data => {
@@ -38,6 +56,8 @@ export class TeamsPage implements OnInit {
 
   }
 
+  
+
   addTeam() {
     this.router.navigate(['/app/tabs/teams/teamdetail'], { queryParams: { context: '-1' } });
   }
@@ -47,7 +67,7 @@ export class TeamsPage implements OnInit {
   }
 
   getClubNameById(id: string) {
-    var c =  this.clubs.filter(x => x.objectId == id)[0]
+    var c = this.clubs.filter(x => x.objectId == id)[0]
     if (c) {
       return c.ClubName
     }

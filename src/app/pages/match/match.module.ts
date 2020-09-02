@@ -8,11 +8,14 @@ import { MatchPageRoutingModule } from './match-routing.module';
 
 import { MatchPage } from './match.page';
 import {MatSelectModule} from '@angular/material/select'
+import {MenuModule} from 'primeng/menu';
+import {MenuItem} from 'primeng/api';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    MenuModule,
     IonicModule,
     MatchPageRoutingModule,
     MatSelectModule

@@ -5,6 +5,8 @@ import { Platform } from '@ionic/angular';
 import { FormControl } from '@angular/forms';
 import { PopoverController } from '@ionic/angular';
 import { PlayerpopoverPage } from '../playerpopover/playerpopover.page';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -40,6 +42,8 @@ export class MatchPage implements OnInit {
     @Inject(DOCUMENT) private doc: Document,
     public confData: ConferenceData,
     public platform: Platform,
+    private router: Router,
+    private authenticationService: AuthenticationService,
     private popover: PopoverController) { }
 
   ngOnInit() {
@@ -96,6 +100,18 @@ export class MatchPage implements OnInit {
 
   }
 
+  menuitems = [{
+    label: 'Log out',
+    icon: 'pi pi-fw pi-power-off',
+    command: () => {
+      this.logoff();
+    }
+  }];
+  
+  logoff() {
+      this.authenticationService.logout();
+      this.router.navigate(['/login']);
+  }
 
 
   async ngAfterViewInit() {
