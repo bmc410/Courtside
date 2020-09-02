@@ -85,7 +85,11 @@ export class TeamdetailPage implements OnInit {
       });
       this.currentModal = modal
       modal.onDidDismiss().then((dataReturned) => {
-        
+        this.matchService.addPlayersToTeam(dataReturned.data, this.selectedTeam.objectId).subscribe(x => {
+          this.matchService.loadTeams()
+          this.getTeamPlayers()
+        })
+        console.log(dataReturned)
       });
       return await modal.present();
   }

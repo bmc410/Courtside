@@ -40,7 +40,7 @@ export class PlayerpopoverPage implements OnInit {
    }
 
    dismissModal() {
-    this.modalController.dismiss()
+    this.modalController.dismiss(this.selectedPlayers)
    }
 
 }
