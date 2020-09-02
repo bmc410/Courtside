@@ -7,9 +7,15 @@
   </ion-toolbar>
 </ion-header>
 <ion-content >
-    <ion-list>
+  <p-listbox [options]="players" [(ngModel)]="selectedPlayers" [multiple]="true" [checkbox]="true" optionLabel="FirstName">
+    <p-header>
+      Players
+    </p-header>
+  </p-listbox>
+
+    <!-- <ion-list>
       <ion-item *ngFor="let player of selectedPlayers" (click)="dismiss(item)">
         <ion-label>{{player.FirstName}}</ion-label> 
       </ion-item>
-    </ion-list>
+    </ion-list> -->
 </ion-content>

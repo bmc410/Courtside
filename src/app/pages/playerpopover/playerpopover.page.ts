@@ -11,17 +11,17 @@ import { MatchService } from 'src/app/services/matchservice';
 export class PlayerpopoverPage implements OnInit {
 
   players: PlayerWithId[] = [];
-  selectedPlayers: PlayerWithId[] = [];
+  selectedPlayers: PlayerWithId[];
   
   constructor(public navParams: NavParams, 
     private matchService: MatchService,
     public modalController: ModalController,
     private popover:PopoverController) { 
-    var players = JSON.parse(this.navParams.get('players'));
+    //var players = JSON.parse(this.navParams.get('players'));
 
-    players.forEach(element => {
-      this.players.push(element)
-    });
+    // players.forEach(element => {
+    //   this.players.push(element)
+    // });
 
   }
 
@@ -30,7 +30,7 @@ export class PlayerpopoverPage implements OnInit {
     await this.matchService.getPlayers().then(data => {
       var json = JSON.stringify(data);
       var d = JSON.parse(json);
-      this.selectedPlayers = d
+      this.players = d
     })
   }
 
