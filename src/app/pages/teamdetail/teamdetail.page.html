@@ -8,6 +8,9 @@
       <ion-button (click)="save()">
         Save
       </ion-button>
+        <ion-button>
+          <ion-icon slot="icon-only" ios="ellipsis-vertical" md="ellipsis-vertical"></ion-icon>
+        </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -47,7 +50,7 @@
   <ion-item   *ngIf="playersvisable === true">
     <p-table  dataKey="objectId" (onEditComplete)="onEditComplete($event)" (onRowSelect)="onTeamPlayerSelect($event)"
        [value]="teamPlayers" selectionMode="single"
-      [(selection)]="selectedTeamPlayer">
+      [(selection)]="selectedPlayer">
       <ng-template pTemplate="header">
         <tr>
           <th>#</th>

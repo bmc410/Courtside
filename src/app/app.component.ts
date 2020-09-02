@@ -10,6 +10,13 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
 
 import { UserData } from './providers/user-data';
+import { AuthenticationService } from './services/authentication.service';
+import { NetworkService } from './services/network.service';
+import { OfflineService } from './services/offline.service';
+import { MatchService } from './services/matchservice';
+import { ConnectionService } from 'ng-connection-service';
+import { IPlayers } from './models/dexie-models';
+import { Guid } from 'guid-typescript';
 
 
 @Component({
@@ -19,32 +26,42 @@ import { UserData } from './providers/user-data';
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
-  appPages = [
-    {
-      title: 'Schedule',
-      url: '/app/tabs/schedule',
-      icon: 'calendar'
-    },
-    {
-      title: 'Speakers',
-      url: '/app/tabs/speakers',
-      icon: 'people'
-    },
-    {
-      title: 'Map',
-      url: '/app/tabs/map',
-      icon: 'map'
-    },
-    {
-      title: 'About',
-      url: '/app/tabs/about',
-      icon: 'information-circle'
-    }
-  ];
+  currentUser: any;
+  offline: any;
+  players: IPlayers[] = []
+  isConnected = true;
+  status = 'ONLINE';
+  // appPages = [
+  //   {
+  //     title: 'Schedule',
+  //     url: '/app/tabs/schedule',
+  //     icon: 'calendar'
+  //   },
+  //   {
+  //     title: 'Speakers',
+  //     url: '/app/tabs/speakers',
+  //     icon: 'people'
+  //   },
+  //   {
+  //     title: 'Map',
+  //     url: '/app/tabs/map',
+  //     icon: 'map'
+  //   },
+  //   {
+  //     title: 'About',
+  //     url: '/app/tabs/about',
+  //     icon: 'information-circle'
+  //   }
+  // ];
   loggedIn = false;
   dark = false;
 
   constructor(
+    private authenticationService: AuthenticationService,
+    private networkService: NetworkService,
+    private offlineService: OfflineService,
+    private matchService: MatchService,
+    private connectionService: ConnectionService,
     private menu: MenuController,
     private platform: Platform,
     private router: Router,
@@ -59,28 +76,29 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.checkLoginStatus();
-    this.listenForLoginEvents();
 
-    this.swUpdate.available.subscribe(async res => {
-      const toast = await this.toastCtrl.create({
-        message: 'Update available!',
-        position: 'bottom',
-        buttons: [
-          {
-            role: 'cancel',
-            text: 'Reload'
-          }
-        ]
-      });
+    this.networkService.HasInternet().subscribe(isConnected => {
+      this.isConnected = isConnected;
+      console.log(isConnected)
+      if (this.isConnected) {
+        this.status = "ONLINE";
+      }
+      else {
+        this.status = "OFFLINE";
+      }
+    })
 
-      await toast.present();
+    var status = this.networkService.getlaststatus();
+    if(status == true) {
+      this.networkService.NetworkChange(status)
+    }
+    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.networkService.currentStatus.subscribe(x => this.offline = x);
 
-      toast
-        .onDidDismiss()
-        .then(() => this.swUpdate.activateUpdate())
-        .then(() => window.location.reload());
-    });
+    this.offlineService.getPlayers().subscribe(result => {
+      this.players = result
+    })
+    
   }
 
   initializeApp() {

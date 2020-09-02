@@ -9,37 +9,26 @@
     <img style="height: 25vh;" src="assets/img/appicon.svg" >
   </div>
 
-  <form #loginForm="ngForm" novalidate>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <ion-list>
       <ion-item>
         <ion-label position="stacked" color="primary">Username</ion-label>
-        <ion-input [(ngModel)]="login.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off"
-          required>
-        </ion-input>
+        <ion-input formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" ></ion-input>
       </ion-item>
-
-      <ion-text color="danger">
-        <p [hidden]="username.valid || submitted == false" class="ion-padding-start">
-          Username is required
-        </p>
-      </ion-text>
-
+      <ion-label style="margin-bottom: 0px; font-size: xx-small;" *ngIf="submitted && f.username.errors" color="danger">Username is required</ion-label>
+        
+    
       <ion-item>
         <ion-label position="stacked" color="primary">Password</ion-label>
-        <ion-input [(ngModel)]="login.password" name="password" type="password" #password="ngModel" required>
-        </ion-input>
+        <ion-input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" ></ion-input>
       </ion-item>
-
-      <ion-text color="danger">
-        <p [hidden]="password.valid || submitted == false" class="ion-padding-start">
-          Password is required
-        </p>
-      </ion-text>
+      <ion-label style="margin-bottom: 0px; font-size: xx-small;" *ngIf="submitted && f.password.errors" color="danger">Password is required</ion-label>
+    
     </ion-list>
 
     <ion-row>
       <ion-col>
-        <ion-button (click)="onLogin(loginForm)" type="submit" expand="block">Login</ion-button>
+        <ion-button type="submit" expand="block">Login</ion-button>
       </ion-col>
     </ion-row>
   </form>

@@ -174,4 +174,13 @@ export class TeamdetailPage implements OnInit {
 
   compareWith = this.compareFn;
 
+
+  onEditComplete(event) {
+
+  }
+
+  onTeamPlayerSelect(event) {
+
+  }
+
 }

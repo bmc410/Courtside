@@ -7,7 +7,7 @@ import { AuthguardService } from './services/authguard.service';
 const routes1: Routes = [
   { 
     path: '', 
-    // canActivate: [AuthguardService], 
+    canActivate: [AuthguardService], 
     loadChildren: () => import('./pages/tabs-page/tabs-page.module').then(m => m.TabsModule)
   },
   { 
@@ -40,7 +40,7 @@ const routes: Routes = [
   },
   {
     path: 'app',
-    // canActivate: [AuthguardService],
+    canActivate: [AuthguardService],
     loadChildren: () => import('./pages/tabs-page/tabs-page.module').then(m => m.TabsModule)
   },
   {

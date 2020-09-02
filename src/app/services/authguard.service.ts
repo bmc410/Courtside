@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 import { AuthenticateService } from './authenticate.service';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthguardService implements CanActivate {
 
-  constructor(private auth: AuthenticateService, private router: Router) { }
+  constructor(private auth: AuthenticationService, private router: Router) { }
 
   canActivate(): boolean {
-    let value = this.auth.isAuthenticated()
+    let value = this.auth.isLoggedIn()
     if (!value) {
       // initially was just redirecting here, but following the
       // documentation I updated code to return a UrlTree
