@@ -6,14 +6,10 @@ import { NetworkService } from 'src/app/services/network.service';
 import { OfflineService } from 'src/app/services/offline.service';
 import { MessageService } from 'primeng/api';
 import { ClubWithId, TeamWithId, Player, PlayerWithId, TeamPlayerWithID } from 'src/app/models/appModels';
-import { ToastController } from '@ionic/angular';
+import { ToastController, ModalController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { FormGroup, Validators, FormBuilder, NgForm } from '@angular/forms';
-
-export class yearModel {
-  name: string; 
-  code: string;
-}
+import { PlayerpopoverPage } from '../playerpopover/playerpopover.page';
 
 @Component({
   selector: 'app-teamdetail',
@@ -21,13 +17,14 @@ export class yearModel {
   styleUrls: ['./teamdetail.page.scss'],
 })
 export class TeamdetailPage implements OnInit {
+  currentModal:any
   context:string
+  deletevisible=false;
   playersvisable = false;
-  teamname: string;
-  selectedyear: number
-  selectedClub: ClubWithId;  
-  teamYears: yearModel[] = [];
-  selectedclub:ClubWithId;
+  selectedteamname: string;
+  selectedyear: Number
+  teamYears: Number[] = [];
+  selectedclub:string;
   clubs: ClubWithId[] = [];
   param:string;
   selectedTeam: TeamWithId;
@@ -43,6 +40,7 @@ export class TeamdetailPage implements OnInit {
   
   constructor(private route: ActivatedRoute,
     private router: Router,
+    public modalController: ModalController,
     private matchService: MatchService,
     private connectionService: ConnectionService,
     private _ngZone: NgZone,
@@ -62,18 +60,35 @@ export class TeamdetailPage implements OnInit {
           this.playersvisable = false;
           this.selectedTeam = null;
           this.selectedclub = null;
+          this.deletevisible = false
         }
         else {
           let obj = JSON.parse(this.context)
           this.selectedTeam = JSON.parse(this.context);
           this.playersvisable = true;
+          this.deletevisible = true
         }
       });
   
     }
 
      // convenience getter for easy access to form fields
-  get f() { return this.tdForm.controls; }
+
+    
+
+  async addPlayers() {
+      const modal = await this.modalController.create({
+        component: PlayerpopoverPage,
+        componentProps: {
+          'players': JSON.stringify(this.players),
+        }
+      });
+      this.currentModal = modal
+      modal.onDidDismiss().then((dataReturned) => {
+        
+      });
+      return await modal.present();
+  }
 
     menuitems = [{
       label: 'Log out',
@@ -126,23 +141,17 @@ export class TeamdetailPage implements OnInit {
     });
 
     let year = new Date().getFullYear();
-    const teamYear = new yearModel();
-    teamYear.code = year.toString()
-    teamYear.name = year.toString()
-    this.teamYears.push(teamYear);
+    this.teamYears.push(year);
     for (let index = 1; index < 5; index++) {
       year += 1;
-      const teamYear = new yearModel();
-      teamYear.code = year.toString()
-      teamYear.name = year.toString()
-      this.teamYears.push(teamYear);
+      this.teamYears.push(year);
     }
 
 
     await this.matchService.getClubs().then(async data => {
       var json = JSON.stringify(data);
       this.clubs = JSON.parse(json);
-      this.selectedclub = this.clubs.filter(c => String(c.objectId) === this.selectedTeam?.ClubId)[0]
+      //this.selectedclub = this.clubs.filter(c => String(c.objectId) === this.selectedTeam?.ClubId)[0].objectId
 
       await this.matchService.getPlayers().then(data => {
         var json = JSON.stringify(data);
@@ -157,8 +166,8 @@ export class TeamdetailPage implements OnInit {
           return 0;
         });
   
-        this.players = this.selectedPlayers;
-        this.availablePlayers = this.selectedPlayers;
+        this.players = this.selectedPlayers.slice();
+        this.availablePlayers = this.selectedPlayers.slice();
         // this.players = data.map(e => {
         //   return {
         //     id: e.payload.doc.id,
@@ -170,6 +179,9 @@ export class TeamdetailPage implements OnInit {
           this.players[index].fullName = this.players[index].FirstName + " " + this.players[index].LastName
         }
         if (this.selectedTeam) {
+          this.selectedyear = this.selectedTeam.Year;
+          this.selectedclub = this.selectedTeam.ClubId;
+          this.selectedteamname = this.selectedTeam.TeamName;
           this.getTeamPlayers()
         }
       });
@@ -185,17 +197,53 @@ export class TeamdetailPage implements OnInit {
     //this.selectedclub = this.clubs.filter(c => c.objectId === e.detail.value)[0]
   }
 
+  deleteTeam() {
+    this.matchService.deleteTeam(this.selectedTeam.objectId).then(async m => {
+      const toast = await this.toastController.create({
+        color: 'danger',
+        duration: 2000,
+        message: this.selectedTeam.TeamName + ' was deleted'
+      });
+  
+      await toast.present();
+      this.matchService.loadTeams();
+      this.router.navigate(['/app/tabs/teams/']);
+
+    })
+  }
+
   saveTeam(form: NgForm) {
+    var id: string
     if (!this.selectedTeam) {
       let t = new TeamWithId()
-      t.TeamName = this.f.username.value;
-      t.ClubId = this.f.club.value;
-      // this.matchService.createTeam(t).subscribe(data => {
-      //   // this.matchService.getTeams().subscribe(data => {
-      //   //   var json = JSON.stringify(data);
-      //   //   this.teams = JSON.parse(json);
-      //   // });
-      // })
+      t.TeamName = this.selectedteamname
+      t.ClubId = this.selectedclub;
+      t.Year = this.selectedyear
+      this.matchService.createTeam(t).subscribe(async data => {
+        var s = JSON.stringify(data)
+        var d = JSON.parse(s);
+        id = d.objectId
+        this.matchService.loadTeams()
+
+        this.matchService.getTeams().then(data => {
+          var json = JSON.stringify(data);
+          var teams = JSON.parse(json);
+          this.selectedTeam = teams.filter(t => t.objectId === id)[0]
+        });
+
+        this.playersvisable = true
+        this.deletevisible = true
+        const toast = await this.toastController.create({
+          color: 'success',
+          duration: 2000,
+          message: 'Saved successfully'
+        });
+    
+        await toast.present();
+        
+
+
+      })
     }
     else {
       // let t = new TeamWithId()
@@ -240,6 +288,12 @@ export class TeamdetailPage implements OnInit {
 
   onTeamPlayerSelect(event) {
 
+  }
+
+  dismissModal() {
+    if (this.currentModal) {
+      this.currentModal.dismiss().then(() => { this.currentModal = null; });
+    }
   }
 
 }

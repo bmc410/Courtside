@@ -27,7 +27,11 @@ export class TeamsPage implements OnInit {
     private networkService: NetworkService,
     private offlineservice: OfflineService,
     private messageService: MessageService,
-    public toastController: ToastController) { }
+    public toastController: ToastController) { 
+
+      this.matchService.loadTeams();
+      
+    }
 
 
   menuitems = [{
@@ -49,7 +53,7 @@ export class TeamsPage implements OnInit {
       this.clubs = JSON.parse(json);
     });
 
-    await this.matchService.getTeams().then(data => {
+    await this.matchService.getTeamsAsync().subscribe(data => {
       var json = JSON.stringify(data);
       this.teams = JSON.parse(json);
     });

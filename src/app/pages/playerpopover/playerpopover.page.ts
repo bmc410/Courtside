@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { PopoverController, NavParams } from '@ionic/angular';
+import { Component, OnInit, Input } from '@angular/core';
+import { PopoverController, NavParams, ModalController } from '@ionic/angular';
+import { PlayerWithId } from 'src/app/models/appModels';
+import { MatchService } from 'src/app/services/matchservice';
 
 @Component({
   selector: 'app-playerpopover',
@@ -7,18 +9,38 @@ import { PopoverController, NavParams } from '@ionic/angular';
   styleUrls: ['./playerpopover.page.scss'],
 })
 export class PlayerpopoverPage implements OnInit {
-  items: any; // = [{title:"Settings",id:1},{title:"Logout",id:2},{title:"Profile",id:3},{title:"Help",id:4}]
-  constructor(public navParams: NavParams, private popover:PopoverController) { 
-    this.items = this.navParams.get('data');
+
+  players: PlayerWithId[] = [];
+  selectedPlayers: PlayerWithId[] = [];
+  
+  constructor(public navParams: NavParams, 
+    private matchService: MatchService,
+    public modalController: ModalController,
+    private popover:PopoverController) { 
+    var players = JSON.parse(this.navParams.get('players'));
+
+    players.forEach(element => {
+      this.players.push(element)
+    });
+
   }
 
-  ngOnInit() {
-        
+
+  async ngOnInit() {
+    await this.matchService.getPlayers().then(data => {
+      var json = JSON.stringify(data);
+      var d = JSON.parse(json);
+      this.selectedPlayers = d
+    })
   }
 
   dismiss(item)
    {
      this.popover.dismiss(item);
+   }
+
+   dismissModal() {
+    this.modalController.dismiss()
    }
 
 }

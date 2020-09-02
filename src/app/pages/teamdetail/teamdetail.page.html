@@ -17,16 +17,19 @@
 <p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 
 <ion-content style="display: flex; flex-flow:column; height: 100%;">
-
-  <form id="tdForm" [formGroup]="tdForm">
+  <ion-item lines="none">
+    <ion-title style="padding-left: 0px"  slot="start" >{{selectedteamname}}</ion-title>
+    <ion-button *ngIf="deletevisible == true" (click)="deleteTeam();" color="danger" slot="end" >
+      <ion-icon name="trash-outline"></ion-icon>
+    </ion-button>
+  </ion-item>
     <ion-item>
       <ion-label class="ion-label" position="floating">Team Name</ion-label>
-      <ion-input placeholder="Enter team name" formControlName="teamname"></ion-input>
+      <ion-input placeholder="Enter team name" [(ngModel)]="selectedteamname"></ion-input>
     </ion-item>
-  </form>
   <ion-item>
     <ion-label class="ion-label">Club</ion-label>
-    <ion-select [(ngModel)]="selectedclub" interface="popover">
+    <ion-select [(ngModel)]="selectedclub" placeholder="Select club" interface="popover">
       <ion-select-option *ngFor="let club of clubs" value="{{club.objectId}}">
         {{club.ClubName}}
       </ion-select-option>
@@ -34,7 +37,7 @@
   </ion-item>
   <ion-item>
     <ion-label class="ion-label">Year</ion-label>
-    <ion-select [(ngModel)]="selectedyear"  interface="popover">
+    <ion-select [(ngModel)]="selectedyear" placeholder="Select club year"  interface="popover">
       <ion-select-option *ngFor="let year of teamYears" [value]="year">
         {{year}}
       </ion-select-option>
@@ -44,7 +47,7 @@
     <ion-toolbar>
       <ion-label class="ion-label" style="font-weight: bold;">Players</ion-label>
       <ion-buttons slot="end">
-        <ion-button (click)="save()">
+        <ion-button (click)="addPlayers()">
           Add
         </ion-button>
       </ion-buttons>

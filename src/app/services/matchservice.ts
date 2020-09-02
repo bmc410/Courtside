@@ -50,7 +50,8 @@ export class MatchService {
   dbTeams: Observable<any>;
   match: Match[] = [];
   public Matches: BehaviorSubject<MatchWithId[]> = new BehaviorSubject<MatchWithId[]>([]);
-
+  public Teams: BehaviorSubject<TeamWithId[]> = new BehaviorSubject<TeamWithId[]>([]);
+ 
 
   //mappedPos = new Array();
 
@@ -542,11 +543,33 @@ export class MatchService {
   //#endregion
 
   //#region ******* Teams  */
+
+  deleteTeam(teamId) {
+    const Teams = Parse.Object.extend('Teams');
+    const query = new Parse.Query(Teams);
+    // here you put the objectId that you want to delete
+    return query.get(teamId).then((object) => {
+      object.destroy()
+    });
+  }
+
+  loadTeams() {
+    const Teams = Parse.Object.extend('Teams');
+    const query = new Parse.Query(Teams);
+    return query.find().then(result => {
+      this.Teams.next(result);
+    })
+  }
+
   getAllTeamPlayers() {
     const Teams = Parse.Object.extend('TeamPlayers')
     const query = new Parse.Query(Teams);
     return query.find();
   }
+  getTeamsAsync() {
+    return this.Teams.asObservable()
+  }
+
   getTeams() {
     const Teams = Parse.Object.extend('Teams');
     const query = new Parse.Query(Teams);
