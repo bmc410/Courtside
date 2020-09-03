@@ -38,6 +38,13 @@ export class TeamdetailPage implements OnInit {
   pickedPlayers: PlayerWithId[] = [];
   tdForm: FormGroup;
   displayPlayer = false
+  menuitems = [{
+      label: 'Log out',
+      icon: 'pi pi-fw pi-power-off',
+      command: () => {
+        this.logoff();
+      }
+  }];
   
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -71,7 +78,7 @@ export class TeamdetailPage implements OnInit {
         }
       });
   
-    }
+  }
   
   removeItem(item) {
       this.matchService.deleteTeamPlayer(item.objectId).then(x => {
@@ -82,8 +89,9 @@ export class TeamdetailPage implements OnInit {
   async addPlayers() {
       const modal = await this.modalController.create({
         component: PlayerpopoverPage,
+        swipeToClose: true,
         componentProps: {
-          'players': JSON.stringify(this.players),
+          'players': JSON.stringify(this.teamPlayers),
         }
       });
       this.currentModal = modal
@@ -97,20 +105,11 @@ export class TeamdetailPage implements OnInit {
       });
       return await modal.present();
   }
-
-  menuitems = [{
-      label: 'Log out',
-      icon: 'pi pi-fw pi-power-off',
-      command: () => {
-        this.logoff();
-      }
-  }];
     
   logoff() {
         this.authenticationService.logout();
         this.router.navigate(['/login']);
   }
-
 
   async getTeamPlayers() {
       this.teamPlayers = []
@@ -224,13 +223,14 @@ export class TeamdetailPage implements OnInit {
                 }
               });
               let tp = new TeamPlayerWithID()
+              tp.playerId = pl.objectId
               tp.FirstName = pl.FirstName
               tp.LastName = pl.LastName
               tp.objectId = p.objectId;
               tp.jersey = p.Jersey
               this.teamPlayers.push(tp);
             });
-            console.log(d)
+            //console.log(d)
             //this.teamPlayers = d
           }})
         }
@@ -249,6 +249,11 @@ export class TeamdetailPage implements OnInit {
 
   deleteTeam() {
     this.matchService.deleteTeam(this.selectedTeam.objectId).then(async m => {
+      this.teamPlayers.forEach(element => {
+        this.matchService.deleteTeamPlayer(element.objectId).then(x => {
+        })        
+      });
+      this.matchService.loadTeamPlayers(this.selectedTeam.objectId)
       const toast = await this.toastController.create({
         color: 'danger',
         duration: 2000,
@@ -275,11 +280,11 @@ export class TeamdetailPage implements OnInit {
         id = d.objectId
         this.matchService.loadTeams()
 
-        this.matchService.getTeams().then(data => {
-          var json = JSON.stringify(data);
-          var teams = JSON.parse(json);
-          this.selectedTeam = teams.filter(t => t.objectId === id)[0]
-        });
+        // this.matchService.getTeams().then(data => {
+        //   var json = JSON.stringify(data);
+        //   var teams = JSON.parse(json);
+        //   this.selectedTeam = teams.filter(t => t.objectId === id)[0]
+        // });
 
         this.playersvisable = true
         this.deletevisible = true
@@ -290,23 +295,27 @@ export class TeamdetailPage implements OnInit {
         });
     
         await toast.present();
-        
-
-
       })
     }
     else {
-      // let t = new TeamWithId()
-      // t.TeamName = this.f.username.value;
-      // t.ClubId = this.f.club.value;
-      // t.Year = this.selectedTeamYear
-      // t.objectId = this.selectedTeamId
-      // this.matchService.upDateTeam(t).subscribe(data => {
-      //   this.matchService.getTeams().subscribe(data => {
-      //     var json = JSON.stringify(data);
-      //     this.teams = JSON.parse(json);
-      //   });
-      // })
+      let t = new TeamWithId()
+      t.TeamName = this.selectedteamname
+      t.ClubId = this.selectedclub;
+      t.Year = this.selectedyear
+      t.objectId = this.selectedTeam.objectId
+      this.matchService.upDateTeam(t).subscribe(async data => {
+        this.matchService.loadTeams();
+
+        this.playersvisable = true
+        this.deletevisible = true
+        const toast = await this.toastController.create({
+          color: 'success',
+          duration: 2000,
+          message: 'Saved successfully'
+        });
+    
+        await toast.present();
+      })
     } 
    
   }

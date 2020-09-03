@@ -17,19 +17,21 @@ export class PlayerpopoverPage implements OnInit {
     private matchService: MatchService,
     public modalController: ModalController,
     private popover:PopoverController) { 
-    //var players = JSON.parse(this.navParams.get('players'));
-
-    // players.forEach(element => {
-    //   this.players.push(element)
-    // });
-
   }
 
 
   async ngOnInit() {
+    var paramplayers = JSON.parse(this.navParams.get('players'));
+
     await this.matchService.getPlayers().then(data => {
       var json = JSON.stringify(data);
       var d = JSON.parse(json);
+      d.forEach(element => {
+        element.fullName = element.FirstName + ' ' + element.LastName
+      });
+      paramplayers.forEach(element => {
+        d = d.filter(x => x.objectId != element.playerId)
+      });
       this.players = d
     })
   }

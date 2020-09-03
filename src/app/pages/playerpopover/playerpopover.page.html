@@ -1,13 +1,15 @@
-<ion-header translucent>
-  <ion-toolbar>
-    <ion-title>Modal Content</ion-title>
+<ion-header  translucent>
+  <ion-toolbar color="primary">
+    <ion-title>Select Players</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="dismissModal()">Close</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content >
-  <p-listbox [options]="players" [(ngModel)]="selectedPlayers" [multiple]="true" [checkbox]="true" optionLabel="FirstName">
+  <p-listbox [options]="players" 
+    [(ngModel)]="selectedPlayers" [multiple]="true" 
+    [checkbox]="true" optionLabel="fullName">
     <p-header>
       Players
     </p-header>

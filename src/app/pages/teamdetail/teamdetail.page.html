@@ -59,9 +59,8 @@
         <ion-item (click)="showPlayer(item)">
           <ion-grid>
             <ion-row>
-              <ion-col>{{item?.FirstName}}</ion-col>
-              <ion-col>{{item?.LastName}}</ion-col>
-              <ion-col>{{item?.jersey}}</ion-col>
+              <ion-col>{{item?.FirstName}} {{item?.LastName}}</ion-col>
+              <ion-col class="ion-text-end">{{item?.jersey}}</ion-col>
             </ion-row>
           </ion-grid>
         </ion-item>
@@ -80,6 +79,6 @@
 <p-dialog (onHide)="close()" header="Edit Player" [(visible)]="displayPlayer">
   <ion-item *ngIf="selectedPlayer">
     <ion-label>Jersey:</ion-label>
-    <ion-input slot="end" [(ngModel)]="selectedPlayer.jersey" placeholder="placeholder" type="number"></ion-input>
+    <ion-input slot="end" [(ngModel)]="selectedPlayer.jersey" placeholder="Number" type="number"></ion-input>
   </ion-item>
 </p-dialog>
