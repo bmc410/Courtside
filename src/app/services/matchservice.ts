@@ -51,7 +51,7 @@ export class MatchService {
   match: Match[] = [];
   public Matches: BehaviorSubject<MatchWithId[]> = new BehaviorSubject<MatchWithId[]>([]);
   public Teams: BehaviorSubject<TeamWithId[]> = new BehaviorSubject<TeamWithId[]>([]);
- 
+  public TeamPlayers: BehaviorSubject<TeamPlayerWithID[]> = new BehaviorSubject<TeamPlayerWithID[]>([]);
 
   //mappedPos = new Array();
 
@@ -100,7 +100,7 @@ export class MatchService {
       object.destroy().then((response) => {
         var json = JSON.stringify(response);
         var d = JSON.parse(json);
-       this.getAllGameForMatch(mId).then(result => {
+        this.getAllGameForMatch(mId).then(result => {
           var json = JSON.stringify(result);
           var d = JSON.parse(json);
           d.forEach(element => {
@@ -260,22 +260,7 @@ export class MatchService {
     const query = new Parse.Query(Players);
     return query.find();
   }
-  getPlayersByTeamId(teamId: string) {
-    const Teams = Parse.Object.extend('TeamPlayers')
-    const query = new Parse.Query(Teams);
-    query.equalTo("TeamId", teamId);
-    return query.find();
-
-  }
-  updatePlayerJersey(jersey: string, objectId: string) {
-    const TeamPlayers = Parse.Object.extend('TeamPlayers');
-    const query = new Parse.Query(TeamPlayers);
-    // here you put the objectId that you want to update
-    return from(query.get(objectId).then((object) => {
-      object.set('Jersey', jersey);
-      return object.save()
-    }))
-  }
+ 
   savePlayer(p: any) {
     if (!p.objectId) {
       return this.createPlayer(p)
@@ -316,7 +301,7 @@ export class MatchService {
 
   //#region ******* PlayByPlay  */
 
-  deletePBPById(pbpId){
+  deletePBPById(pbpId) {
     const PlayByPlay = Parse.Object.extend('PlayByPlay');
     const query = new Parse.Query(PlayByPlay);
     // here you put the objectId that you want to delete
@@ -543,13 +528,12 @@ export class MatchService {
   //#endregion
 
   //#region ******* Teams  */
-
   deleteTeam(teamId) {
     const Teams = Parse.Object.extend('Teams');
     const query = new Parse.Query(Teams);
     // here you put the objectId that you want to delete
     return query.get(teamId).then((object) => {
-      object.destroy()
+      return object.destroy()
     });
   }
 
@@ -561,11 +545,7 @@ export class MatchService {
     })
   }
 
-  getAllTeamPlayers() {
-    const Teams = Parse.Object.extend('TeamPlayers')
-    const query = new Parse.Query(Teams);
-    return query.find();
-  }
+ 
   getTeamsAsync() {
     return this.Teams.asObservable()
   }
@@ -597,6 +577,50 @@ export class MatchService {
     return from(newTeam.save()).pipe(map(result => result));;
 
   }
+ 
+  //#endregion
+
+  //#region ******* Teams Players  */
+  
+  getTeamPlayersAsync() {
+    return this.TeamPlayers.asObservable()
+  }
+
+  getPlayersByTeamId(teamId: string) {
+    const Teams = Parse.Object.extend('TeamPlayers')
+    const query = new Parse.Query(Teams);
+    query.equalTo("TeamId", teamId);
+    return query.find();
+
+  }
+  updatePlayerJersey(jersey: string, objectId: string) {
+    const TeamPlayers = Parse.Object.extend('TeamPlayers');
+    const query = new Parse.Query(TeamPlayers);
+    // here you put the objectId that you want to update
+    return from(query.get(objectId).then((object) => {
+      object.set('Jersey', jersey);
+      return object.save()
+    }))
+  }
+
+  loadTeamPlayers(teamId) {
+    this.TeamPlayers.next(null)
+    const TeamPlayers = Parse.Object.extend('TeamPlayers');
+    const query = new Parse.Query(TeamPlayers);
+    query.equalTo("TeamId", teamId);
+    return query.find().then(result => {
+      this.TeamPlayers.next(result);
+    })
+  }
+
+  deleteTeamPlayer(id) {
+    const TeamPlayers = Parse.Object.extend('TeamPlayers');
+    const query = new Parse.Query(TeamPlayers);
+    // here you put the objectId that you want to delete
+    return query.get(id).then((object) => {
+      return object.destroy()
+    });
+  }
   addPlayersToTeam(players: PlayerWithId[], teamId: string): Observable<any[]> {
     var arrayOfResponses: Array<any> = [];
 
@@ -608,8 +632,13 @@ export class MatchService {
       var resp = from(myNewObject.save())
       arrayOfResponses.push(resp);
     });
-
     return forkJoin(arrayOfResponses);
+  }
+
+  getAllTeamPlayers() {
+    const Teams = Parse.Object.extend('TeamPlayers')
+    const query = new Parse.Query(Teams);
+    return query.find();
   }
   //#endregion
 

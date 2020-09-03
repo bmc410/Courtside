@@ -11,7 +11,7 @@ import {TableModule} from 'primeng/table';
 import {MenuModule} from 'primeng/menu';
 import {MenuItem} from 'primeng/api';
 import {DropdownModule} from 'primeng/dropdown';
-
+import {DialogModule} from 'primeng/dialog';
 @NgModule({
   imports: [
     CommonModule,
@@ -19,6 +19,7 @@ import {DropdownModule} from 'primeng/dropdown';
     ReactiveFormsModule,
     MenuModule,
     DropdownModule,
+    DialogModule,
     IonicModule,
     TableModule,
     TeamdetailPageRoutingModule

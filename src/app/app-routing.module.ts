@@ -67,6 +67,10 @@ const routes: Routes = [
   {
     path: 'playerpopover',
     loadChildren: () => import('./pages/playerpopover/playerpopover.module').then( m => m.PlayerpopoverPageModule)
+  },
+  {
+    path: 'teamplayerpopover',
+    loadChildren: () => import('./pages/teamplayerpopover/teamplayerpopover.module').then( m => m.TeamplayerpopoverPageModule)
   }
 ];
 

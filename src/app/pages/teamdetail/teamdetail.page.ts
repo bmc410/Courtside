@@ -27,8 +27,8 @@ export class TeamdetailPage implements OnInit {
   selectedclub:string;
   clubs: ClubWithId[] = [];
   param:string;
-  selectedTeam: TeamWithId;
-  selectedPlayer: Player;
+  selectedTeam: TeamWithId = new TeamWithId();
+  selectedPlayer: TeamPlayerWithID;
   selectedPlayers: PlayerWithId[];
   availablePlayers:  PlayerWithId[] = [];
   players: PlayerWithId[] = [];
@@ -37,6 +37,7 @@ export class TeamdetailPage implements OnInit {
   teamPlayerIDs: TeamPlayerWithID[] = []
   pickedPlayers: PlayerWithId[] = [];
   tdForm: FormGroup;
+  displayPlayer = false
   
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -71,10 +72,12 @@ export class TeamdetailPage implements OnInit {
       });
   
     }
-
-     // convenience getter for easy access to form fields
-
-    
+  
+  removeItem(item) {
+      this.matchService.deleteTeamPlayer(item.objectId).then(x => {
+        this.matchService.loadTeamPlayers(this.selectedTeam.objectId)
+      })
+  }
 
   async addPlayers() {
       const modal = await this.modalController.create({
@@ -87,25 +90,26 @@ export class TeamdetailPage implements OnInit {
       modal.onDidDismiss().then((dataReturned) => {
         this.matchService.addPlayersToTeam(dataReturned.data, this.selectedTeam.objectId).subscribe(x => {
           this.matchService.loadTeams()
-          this.getTeamPlayers()
+          this.matchService.loadTeamPlayers(this.selectedTeam.objectId)
+          //this.getTeamPlayers()
         })
         console.log(dataReturned)
       });
       return await modal.present();
   }
 
-    menuitems = [{
+  menuitems = [{
       label: 'Log out',
       icon: 'pi pi-fw pi-power-off',
       command: () => {
         this.logoff();
       }
-    }];
+  }];
     
-    logoff() {
+  logoff() {
         this.authenticationService.logout();
         this.router.navigate(['/login']);
-    }
+  }
 
 
   async getTeamPlayers() {
@@ -136,6 +140,25 @@ export class TeamdetailPage implements OnInit {
           this.teamPlayers.push(tp);
         });
       })
+  }
+
+  showPlayer(item) {
+    this.displayPlayer = true
+    let tp = new TeamPlayerWithID()
+    tp.FirstName = item.FirstName
+    tp.LastName = item.LastName
+    tp.objectId = item.objectId
+    tp.jersey = String(item.jersey)
+    this.selectedPlayer = tp
+    console.log(this.selectedPlayer)
+  }
+
+  close() {
+    this.matchService.updatePlayerJersey(String(this.selectedPlayer.jersey), 
+      this.selectedPlayer.objectId).subscribe(x => {
+        this.matchService.loadTeams()
+        this.matchService.loadTeamPlayers(this.selectedTeam.objectId)
+    })
   }
 
   async ngOnInit() {
@@ -186,7 +209,30 @@ export class TeamdetailPage implements OnInit {
           this.selectedyear = this.selectedTeam.Year;
           this.selectedclub = this.selectedTeam.ClubId;
           this.selectedteamname = this.selectedTeam.TeamName;
-          this.getTeamPlayers()
+          this.matchService.loadTeamPlayers(this.selectedTeam.objectId)
+          this.matchService.getTeamPlayersAsync().subscribe(x => {
+            var json = JSON.stringify(x);
+            var d = JSON.parse(json);
+            this.teamPlayers = []
+            if (d) {
+            d.forEach(p => {
+              var pl = this.selectedPlayers.filter(x => x.objectId == p.PlayerId)[0];
+              this.availablePlayers.forEach( (item, index) => {
+                if(item.objectId == pl.objectId) 
+                {
+                  this.availablePlayers.splice(index,1); 
+                }
+              });
+              let tp = new TeamPlayerWithID()
+              tp.FirstName = pl.FirstName
+              tp.LastName = pl.LastName
+              tp.objectId = p.objectId;
+              tp.jersey = p.Jersey
+              this.teamPlayers.push(tp);
+            });
+            console.log(d)
+            //this.teamPlayers = d
+          }})
         }
       });
     });

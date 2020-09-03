@@ -18,15 +18,15 @@
 
 <ion-content style="display: flex; flex-flow:column; height: 100%;">
   <ion-item lines="none">
-    <ion-title style="padding-left: 0px"  slot="start" >{{selectedteamname}}</ion-title>
-    <ion-button *ngIf="deletevisible == true" (click)="deleteTeam();" color="danger" slot="end" >
+    <ion-title style="padding-left: 0px" slot="start">{{selectedteamname}}</ion-title>
+    <ion-button *ngIf="deletevisible == true" (click)="deleteTeam();" color="danger" slot="end">
       <ion-icon name="trash-outline"></ion-icon>
     </ion-button>
   </ion-item>
-    <ion-item>
-      <ion-label class="ion-label" position="floating">Team Name</ion-label>
-      <ion-input placeholder="Enter team name" [(ngModel)]="selectedteamname"></ion-input>
-    </ion-item>
+  <ion-item>
+    <ion-label class="ion-label" position="floating">Team Name</ion-label>
+    <ion-input placeholder="Enter team name" [(ngModel)]="selectedteamname"></ion-input>
+  </ion-item>
   <ion-item>
     <ion-label class="ion-label">Club</ion-label>
     <ion-select [(ngModel)]="selectedclub" placeholder="Select club" interface="popover">
@@ -37,7 +37,7 @@
   </ion-item>
   <ion-item>
     <ion-label class="ion-label">Year</ion-label>
-    <ion-select [(ngModel)]="selectedyear" placeholder="Select club year"  interface="popover">
+    <ion-select [(ngModel)]="selectedyear" placeholder="Select club year" interface="popover">
       <ion-select-option *ngFor="let year of teamYears" [value]="year">
         {{year}}
       </ion-select-option>
@@ -54,32 +54,32 @@
     </ion-toolbar>
   </ion-list-header>
   <ion-item *ngIf="playersvisable === true">
-    <p-table dataKey="objectId" (onEditComplete)="onEditComplete($event)" (onRowSelect)="onTeamPlayerSelect($event)"
-      [value]="teamPlayers" selectionMode="single" [(selection)]="selectedPlayer">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>#</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-teamPlayer>
-        <tr [pSelectableRow]="teamPlayer">
-          <td pEditableColumn pEditableColumn="{{ teamPlayer.objectId }}"
-            pEditableColumnField="{{ teamPlayer.jersey }}">
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input style="color: black;" pInputText type="text" [(ngModel)]="teamPlayer.jersey">
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{ teamPlayer?.jersey }}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td>{{ teamPlayer.FirstName }}</td>
-          <td>{{ teamPlayer.LastName  }}</td>
-        </tr>
-      </ng-template>
-    </p-table>
+    <ion-list style="width: 100%;">
+      <ion-item-sliding  *ngFor="let item of teamPlayers">
+        <ion-item (click)="showPlayer(item)">
+          <ion-grid>
+            <ion-row>
+              <ion-col>{{item?.FirstName}}</ion-col>
+              <ion-col>{{item?.LastName}}</ion-col>
+              <ion-col>{{item?.jersey}}</ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+        <ion-item-options>
+          <ion-button color="danger" (click)="removeItem(item)">
+            <ion-icon name="person-remove-outline"></ion-icon>
+          </ion-button>
+        </ion-item-options>
+      </ion-item-sliding>
+
+    </ion-list>
+
   </ion-item>
 </ion-content>
+
+<p-dialog (onHide)="close()" header="Edit Player" [(visible)]="displayPlayer">
+  <ion-item *ngIf="selectedPlayer">
+    <ion-label>Jersey:</ion-label>
+    <ion-input slot="end" [(ngModel)]="selectedPlayer.jersey" placeholder="placeholder" type="number"></ion-input>
+  </ion-item>
+</p-dialog>
