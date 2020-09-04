@@ -52,6 +52,7 @@ export class MatchService {
   public Matches: BehaviorSubject<MatchWithId[]> = new BehaviorSubject<MatchWithId[]>([]);
   public Teams: BehaviorSubject<TeamWithId[]> = new BehaviorSubject<TeamWithId[]>([]);
   public TeamPlayers: BehaviorSubject<TeamPlayerWithID[]> = new BehaviorSubject<TeamPlayerWithID[]>([]);
+  public Players: BehaviorSubject<PlayerWithId[]> = new BehaviorSubject<PlayerWithId[]>([]);
 
   //mappedPos = new Array();
 
@@ -95,34 +96,36 @@ export class MatchService {
     const query = new Parse.Query(Matches);
     // here you put the objectId that you want to delete
     return query.get(mId).then((object) => {
-      var json = JSON.stringify(object);
-      var d = JSON.parse(json);
-      object.destroy().then((response) => {
-        var json = JSON.stringify(response);
-        var d = JSON.parse(json);
-        this.getAllGameForMatch(mId).then(result => {
-          var json = JSON.stringify(result);
-          var d = JSON.parse(json);
-          d.forEach(element => {
-            this.deleteGameById(element.objectId)
-            this.getPlayByPlay(element.objectId).then(result => {
-              var json = JSON.stringify(result);
-              var d = JSON.parse(json);
-              d.forEach(element => {
-                this.deletePBPById(element.objectId)
-              })
-              this.getstats(element.objectId).then(result => {
-                var json = JSON.stringify(result);
-                var d = JSON.parse(json);
-                d.forEach(element => {
-                  this.deleteStat(element.objectId)
-                })
-                this.loadMatches()
-              })
-            })
-          });
-        })
-      })
+      //var json = JSON.stringify(object);
+      //var d = JSON.parse(json);
+      return object.destroy()
+      
+      // .then((response) => {
+      //   var json = JSON.stringify(response);
+      //   var d = JSON.parse(json);
+      //   this.getAllGameForMatch(mId).then(result => {
+      //     var json = JSON.stringify(result);
+      //     var d = JSON.parse(json);
+      //     d.forEach(element => {
+      //       this.deleteGameById(element.objectId)
+      //       this.getPlayByPlay(element.objectId).then(result => {
+      //         var json = JSON.stringify(result);
+      //         var d = JSON.parse(json);
+      //         d.forEach(element => {
+      //           this.deletePBPById(element.objectId)
+      //         })
+      //         this.getstats(element.objectId).then(result => {
+      //           var json = JSON.stringify(result);
+      //           var d = JSON.parse(json);
+      //           d.forEach(element => {
+      //             this.deleteStat(element.objectId)
+      //           })
+      //           this.loadMatches()
+      //         })
+      //       })
+      //     });
+      //   })
+      // })
     });
   }
 
@@ -250,6 +253,19 @@ export class MatchService {
   //#endregion
 
   //#region ******* Players  */
+
+  loadPlayers() {
+    const players = Parse.Object.extend('Players');
+    const query = new Parse.Query(players);
+    return query.find().then(result => {
+      this.Players.next(result);
+    })
+  }
+
+  getPlayersAsync() {
+    return this.Players.asObservable()
+  }
+
   getPlayers() {
     const Players = Parse.Object.extend('Players');
     const query = new Parse.Query(Players);
@@ -289,12 +305,12 @@ export class MatchService {
 
   }
 
-  deletePlayer(p: any) {
+  deletePlayer(pId: any) {
     const Players = Parse.Object.extend('Players');
     const query = new Parse.Query(Players);
     // here you put the objectId that you want to delete
-    return query.get(p.objectId).then((object) => {
-      object.destroy()
+    return query.get(pId).then((object) => {
+      return object.destroy()
     })
   }
   //#endregion

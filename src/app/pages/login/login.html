@@ -4,13 +4,15 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen>
   <div style="margin-top: 5px;" class="login-logo">
     <img style="height: 25vh;" src="assets/img/appicon.svg" >
   </div>
 
+  <div style="margin-top: 5px;" class="login-logo">
+
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <ion-list>
+    <ion-list style="height: 100%;">
       <ion-item>
         <ion-label position="stacked" color="primary">Username</ion-label>
         <ion-input formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" ></ion-input>
@@ -25,12 +27,8 @@
       <ion-label style="margin-bottom: 0px; font-size: xx-small;" *ngIf="submitted && f.password.errors" color="danger">Password is required</ion-label>
     
     </ion-list>
-
-    <ion-row>
-      <ion-col>
-        <ion-button type="submit" expand="block">Login</ion-button>
-      </ion-col>
-    </ion-row>
+    <ion-button style="margin: 10px;" type="submit" expand="block">Login</ion-button>
   </form>
+</div>
 
 </ion-content>

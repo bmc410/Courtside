@@ -1,0 +1,34 @@
+<ion-header >
+  <ion-toolbar color="primary">
+    <ion-title>Players</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="addPlayer()" >
+        Add
+      </ion-button>
+      <ion-button (click)="menu.toggle($event)">
+        <ion-icon slot="icon-only" ios="ellipsis-vertical" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-list style="width: 100%;">
+    <ion-item-sliding  *ngFor="let item of players">
+      <ion-item (click)="showPlayer(item)">
+        <ion-grid>
+          <ion-row>
+            <ion-col>{{item?.FirstName}} {{item?.LastName}}</ion-col>
+            <ion-col class="ion-text-end">{{item?.jersey}}</ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item-options>
+        <ion-button color="danger" (click)="removeItem(item)">
+          <ion-icon name="person-remove-outline"></ion-icon>
+        </ion-button>
+      </ion-item-options>
+    </ion-item-sliding>
+
+  </ion-list>
+</ion-content>

@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{fullname}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="savePlayer()">
+        Save
+      </ion-button>
+      <ion-button (click)="menu.toggle($event)">
+        <ion-icon slot="icon-only" ios="ellipsis-vertical" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
+
+<ion-content>
+  <ion-item >
+    <ion-button *ngIf="deletevisible == true" (click)="deleteplayer();" color="danger" slot="end">
+      <ion-icon name="trash-outline"></ion-icon>
+    </ion-button>
+  </ion-item>
+  <ion-item>
+    <ion-label class="ion-label" position="floating">First Name</ion-label>
+    <ion-input placeholder="Enter first name" [(ngModel)]="firstname"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label class="ion-label" position="floating">Last Name</ion-label>
+    <ion-input placeholder="Enter last name" [(ngModel)]="lastname"></ion-input>
+  </ion-item>
+
+</ion-content>

@@ -26,7 +26,7 @@ export class Player {
   fullName?: string;
 
 
-  constructor(jersey: string, fname: string, lastname: string, libero: boolean,
+  constructor(jersey?: string, fname?: string, lastname?: string, libero?: boolean,
     playerId?: string) {
     this.jersey = jersey;
     this.FirstName = fname;
@@ -97,7 +97,7 @@ export class Game {
 }
 
 export class TeamPlayer{
-  playerId?: string;
+  playerId?: string
   jersey?: string;
   FirstName?: string;
   LastName?: string;

@@ -71,6 +71,22 @@ const routes: Routes = [
   {
     path: 'teamplayerpopover',
     loadChildren: () => import('./pages/teamplayerpopover/teamplayerpopover.module').then( m => m.TeamplayerpopoverPageModule)
+  },
+  {
+    path: 'playerlist',
+    loadChildren: () => import('./pages/playerlist/playerlist.module').then( m => m.PlayerlistPageModule)
+  },
+  {
+    path: 'playerdetail',
+    loadChildren: () => import('./pages/playerdetail/playerdetail.module').then( m => m.PlayerdetailPageModule)
+  },
+  {
+    path: 'matchdetail',
+    loadChildren: () => import('./pages/matchdetail/matchdetail.module').then( m => m.MatchdetailPageModule)
+  },
+  {
+    path: 'gameselect',
+    loadChildren: () => import('./pages/gameselect/gameselect.module').then( m => m.GameselectPageModule)
   }
 ];
 

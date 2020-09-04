@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Match</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="saveMatch()">
+        Save
+      </ion-button>
+      <ion-button (click)="menu.toggle($event)">
+        <ion-icon slot="icon-only" ios="ellipsis-vertical" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
+
+<ion-content>
+  <ion-item lines="none">
+    <ion-title style="padding-left: 0px" slot="start">{{matchtitle}}</ion-title>
+     <ion-button *ngIf="deletevisible == true" (click)="startMatch($event);" color="success" slot="end">
+      <ion-icon name="play-outline"></ion-icon>
+    </ion-button>
+    <ion-button style="margin-left: 10px" *ngIf="deletevisible == true" (click)="deleteMatch();" color="danger" slot="end">
+      <ion-icon name="trash-outline"></ion-icon>
+    </ion-button>
+  </ion-item>
+  <ion-item>
+    <ion-label color="primary" class="ion-label">Home Team</ion-label>
+    <ion-select [(ngModel)]="selectedTeamId" placeholder="Select team" interface="popover">
+      <ion-select-option *ngFor="let team of teams" value="{{team.objectId}}">
+        {{team?.TeamName}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label class="ion-label" color="primary">Opponent</ion-label>
+    <ion-input style="text-align: right;" slot="end" placeholder="Enter opponent" [(ngModel)]="opponent"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Match Date</ion-label>
+    <ion-datetime (ionChange)="newDate($event)" value="{{matchdate}}" placeholder="Select Date"></ion-datetime>
+  </ion-item>
+</ion-content>

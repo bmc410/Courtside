@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Add Team</ion-title>
+    <ion-title>Team</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="saveTeam(tdForm.value)">
         Save
@@ -45,7 +45,7 @@
   </ion-item>
   <ion-list-header *ngIf="playersvisable === true">
     <ion-toolbar>
-      <ion-label class="ion-label" style="font-weight: bold;">Players</ion-label>
+      <ion-label class="ion-label" style="font-weight: bold;">Players (click player to edit)</ion-label>
       <ion-buttons slot="end">
         <ion-button (click)="addPlayers()">
           Add

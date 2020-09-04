@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs-page';
-import { SchedulePage } from '../schedule/schedule';
 
 
 const routes: Routes = [
@@ -10,53 +9,41 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'schedule',
+        path: 'matches',
         children: [
           {
             path: '',
-            component: SchedulePage,
+            loadChildren: () => import('../matches/matches.module').then(m => m.MatchesPageModule)
           },
           {
-            path: 'session/:sessionId',
-            loadChildren: () => import('../session-detail/session-detail.module').then(m => m.SessionDetailModule)
+            path: 'matchdetail',
+            children: [
+              {
+                path: '',
+                loadChildren: () => import('../matchdetail/matchdetail.module').then(m => m.MatchdetailPageModule)                
+              },
+              {
+                path: 'match',
+                loadChildren: () => import('../match/match.module').then(m => m.MatchPageModule)                
+              }
+            ]
           }
         ]
       },
       {
-        path: 'speakers',
+        path: 'playerlist',
         children: [
           {
             path: '',
-            loadChildren: () => import('../speaker-list/speaker-list.module').then(m => m.SpeakerListModule)
+            loadChildren: () => import('../playerlist/playerlist.module').then(m => m.PlayerlistPageModule)
           },
           {
-            path: 'session/:sessionId',
-            loadChildren: () => import('../session-detail/session-detail.module').then(m => m.SessionDetailModule)
-          },
-          {
-            path: 'speaker-details/:speakerId',
-            loadChildren: () => import('../speaker-detail/speaker-detail.module').then(m => m.SpeakerDetailModule)
+            path: 'playerdetail',
+            loadChildren: () => import('../playerdetail/playerdetail.module').then(m => m.PlayerdetailPageModule)
           }
         ]
       },
-      {
-        path: 'map',
-        children: [
-          {
-            path: '',
-            loadChildren: () => import('../match/match.module').then(m => m.MatchPageModule)
-          }
-        ]
-      },
-      {
-        path: 'about',
-        children: [
-          {
-            path: '',
-            loadChildren: () => import('../about/about.module').then(m => m.AboutModule)
-          }
-        ]
-      },
+    
       {
         path: 'teams',
         children: [
@@ -71,34 +58,8 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'teamdetail',
-        children: [
-          {
-            path: '',
-            loadChildren: () => import('../teamdetail/teamdetail.module').then(m => m.TeamdetailPageModule)
-          },
-          {
-            path: 'teamdetail',
-            loadChildren: () => import('../teamdetail/teamdetail.module').then(m => m.TeamdetailPageModule)
-          }
-        ]
-      },
-      {
-        path: 'teamdetail/:id',
-        children: [
-          {
-            path: '',
-            loadChildren: () => import('../teamdetail/teamdetail.module').then(m => m.TeamdetailPageModule)
-          },
-          {
-            path: 'teamdetail',
-            loadChildren: () => import('../teamdetail/teamdetail.module').then(m => m.TeamdetailPageModule)
-          }
-        ]
-      },
-      {
         path: '',
-        redirectTo: '/app/tabs/schedule',
+        redirectTo: '/app/tabs/teams',
         pathMatch: 'full'
       }
     ]

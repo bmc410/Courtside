@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Select Game</ion-title>
+    <ion-button (click)="dismiss()" slot="end">
+      <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item (click)="startGame($event)">
+      1
+    </ion-item>
+    <ion-item (click)="startGame($event)">
+      2
+    </ion-item>
+    <ion-item (click)="startGame($event)">
+      3
+    </ion-item>
+    <ion-item (click)="startGame($event)">
+      4
+    </ion-item>
+    <ion-item (click)="startGame($event)">
+      5
+    </ion-item>
+  </ion-list>
+</ion-content>

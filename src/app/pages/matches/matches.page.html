@@ -1,9 +1,36 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>matches</ion-title>
+<ion-header >
+  <ion-toolbar color="primary">
+    <ion-title>Matches</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="addMatch()" >
+        Add
+      </ion-button>
+      <ion-button (click)="menu.toggle($event)">
+        <ion-icon slot="icon-only" ios="ellipsis-vertical" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 
+<ion-content>
+  <p-table [value]="matches" selectionMode="single" [(selection)]="selectedMatch"
+  (onRowSelect)="onRowSelect($event)" >
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Home</th>
+      <th>Opponent</th>
+      <th>Match Date</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-match>
+    <tr [pSelectableRow]="match">
+      <td>{{ match.Home }}</td>
+      <td>{{ match.Opponent }}</td>
+      <td>{{ match.MatchDate }}</td>
+    </tr>
+  </ng-template>
+  
+</p-table>
 </ion-content>
