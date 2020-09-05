@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatchService } from 'src/app/services/matchservice';
-import { ConnectionService } from 'ng-connection-service';
+// import { ConnectionService } from 'ng-connection-service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { OfflineService } from 'src/app/services/offline.service';
@@ -31,7 +31,7 @@ export class PlayerlistPage implements OnInit {
   
   constructor(private router: Router,
     private matchService: MatchService,
-    private connectionService: ConnectionService,
+    // private connectionService: ConnectionService,
     private _ngZone: NgZone,
     private authenticationService: AuthenticationService,
     private networkService: NetworkService,

@@ -3,14 +3,31 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title></ion-title>
+    <ion-title>{{title}}</ion-title>
     <ion-buttons slot="end">
+      <ion-button (click)="showscoreboard($event)">
+        <ion-icon name="keypad-outline"></ion-icon>
+      </ion-button>
       <ion-button (click)="menu.toggle($event)">
         <ion-icon slot="icon-only" ios="ellipsis-vertical" md="ellipsis-vertical"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
+<!-- scoreboard -->
+<p-dialog header="Scoreboard" position="top" [style]="{width: '80vw'}" styleClass="mydialog" [(visible)]="displayscoreboard">
+  <ion-item>
+    <ion-label>Home</ion-label>
+    <ion-input [(ngModel)]="this.match.Home"  type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Opponent</ion-label>
+    <ion-input [(ngModel)]="this.match.Opponent"  type="text"></ion-input>
+  </ion-item>
+
+</p-dialog> 
+
 <p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 <ion-content>
   <div style="display: flex; flex-flow: column; height: 100%;">
@@ -19,7 +36,10 @@
 
       <div class="outer">
         <div class="inner-title">
-          <ion-button color="warning" id="1" style="display: flex; flex-grow: 1;" (click)=showPopover($event) >{{playerPos1}}</ion-button>
+          <ion-button  color="warning" id="1" style="display: flex; flex-grow: 1;" (click)=showPopover($event) >
+            {{playerPositions[1].playerPos}}
+          </ion-button>
+          
           <!-- <ion-button style="display: flex; " (click)=showPopover($event)>
             <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical">
 
@@ -72,7 +92,9 @@
 
       <div class="outer">
         <div class="inner-title">
-          <ion-button color="warning" id="2"  style="display: flex; flex-grow: 1;" (click)=showPopover($event) >{{playerPos2}}</ion-button>
+          <ion-button color="warning" id="2"  style="display: flex; flex-grow: 1;" (click)=showPopover($event) >
+            {{playerPositions[2].playerPos}}
+          </ion-button>
           <!-- <ion-button style="display: flex; " (click)=showPopover($event)>
             <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical">
 
@@ -125,7 +147,9 @@
 
       <div class="outer">
         <div class="inner-title">
-          <ion-button color="warning"  id="3"  style="display: flex; flex-grow: 1;" (click)=showPopover($event) >{{playerPos3}}</ion-button>
+          <ion-button color="warning"  id="3"  style="display: flex; flex-grow: 1;" (click)=showPopover($event) >
+            {{playerPositions[3].playerPos}}
+          </ion-button>
           <!-- <ion-button style="display: flex; " (click)=showPopover($event)>
             <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical">
 
@@ -178,7 +202,9 @@
 
       <div class="outer">
         <div class="inner-title">
-          <ion-button color="warning" id="4"  style="display: flex; flex-grow: 1;" (click)=showPopover($event) >{{playerPos4}}</ion-button>
+          <ion-button color="warning" id="4"  style="display: flex; flex-grow: 1;" (click)=showPopover($event) >
+            {{playerPositions[4].playerPos}}
+          </ion-button>
           <!-- <ion-button style="display: flex; " (click)=showPopover($event)>
             <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical">
 
@@ -232,7 +258,9 @@
 
       <div class="outer">
         <div class="inner-title">
-          <ion-button color="warning"  id="5" style="display: flex; flex-grow: 1;" (click)=showPopover($event) >{{playerPos5}}</ion-button>
+          <ion-button color="warning"  id="5" style="display: flex; flex-grow: 1;" (click)=showPopover($event) >
+            {{playerPositions[5].playerPos}}
+          </ion-button>
           <!-- <ion-button style="display: flex; " (click)=showPopover($event)>
             <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical">
 
@@ -285,7 +313,9 @@
 
       <div class="outer">
         <div class="inner-title">
-          <ion-button color="warning" id="6"  style="display: flex; flex-grow: 1;" (click)=showPopover($event) >{{playerPos6}}</ion-button>
+          <ion-button color="warning" id="6"  style="display: flex; flex-grow: 1;" (click)=showPopover($event) >
+            {{playerPositions[6].playerPos}}
+          </ion-button>
           <!-- <ion-button style="display: flex; " (click)=showPopover($event)>
             <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical">
 

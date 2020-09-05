@@ -1,8 +1,8 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { PopoverController, ToastController } from '@ionic/angular';
+import { PopoverController, ToastController, NavParams } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { MatchService } from 'src/app/services/matchservice';
-import { ConnectionService } from 'ng-connection-service';
+// import { ConnectionService } from 'ng-connection-service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { OfflineService } from 'src/app/services/offline.service';
@@ -29,7 +29,8 @@ export class PlayerpickerPage implements OnInit {
   constructor(private popover:PopoverController,
     private router: Router,
     private matchService: MatchService,
-    private connectionService: ConnectionService,
+    private navParams: NavParams,
+    // private connectionService: ConnectionService,
     private _ngZone: NgZone,
     private authenticationService: AuthenticationService,
     private networkService: NetworkService,
@@ -40,10 +41,11 @@ export class PlayerpickerPage implements OnInit {
      }
 
   ngOnInit() {
-    this.matchService.getPlayersAsync().subscribe(data => {
-      var json = JSON.stringify(data);
-      var d = JSON.parse(json);
-      this.selectedPlayers = d
+    console.table(this.navParams.data.context);
+    // this.matchService.getPlayersAsync().subscribe(data => {
+      // var json = JSON.stringify(data);
+      // var d = JSON.parse(json);
+      this.selectedPlayers = this.navParams.data.context
 
       this.selectedPlayers = this.selectedPlayers.sort((t1, t2) => {
         const name1 = t1.LastName.toLowerCase();
@@ -65,13 +67,13 @@ export class PlayerpickerPage implements OnInit {
         const element = this.players[index];
         this.players[index].fullName = this.players[index].FirstName + " " + this.players[index].LastName
       }
-    });
+    // });
   }
 
   logoff() {
     this.authenticationService.logout();
     this.router.navigate(['/login']);
-}
+  }
 
   dismiss(item) {
     console.log(item)

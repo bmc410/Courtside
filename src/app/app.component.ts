@@ -14,7 +14,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { NetworkService } from './services/network.service';
 import { OfflineService } from './services/offline.service';
 import { MatchService } from './services/matchservice';
-import { ConnectionService } from 'ng-connection-service';
+// import { ConnectionService } from 'ng-connection-service';
 import { IPlayers } from './models/dexie-models';
 import { Guid } from 'guid-typescript';
 
@@ -61,7 +61,7 @@ export class AppComponent implements OnInit {
     private networkService: NetworkService,
     private offlineService: OfflineService,
     private matchService: MatchService,
-    private connectionService: ConnectionService,
+    // private connectionService: ConnectionService,
     private menu: MenuController,
     private platform: Platform,
     private router: Router,

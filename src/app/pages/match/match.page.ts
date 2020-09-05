@@ -13,6 +13,7 @@ import { OfflineService } from 'src/app/services/offline.service';
 import { CourtPosition, GameScore, GameWithId, PlayerWithId, Stat, statEntry } from 'src/app/models/appModels';
 import { async } from 'rxjs/internal/scheduler/async';
 import { PlayerpickerPage } from '../playerpicker/playerpicker.page';
+import { ScoreboardPage } from '../scoreboard/scoreboard.page';
 
 
 @Component({
@@ -43,6 +44,7 @@ export class MatchPage implements OnInit {
   liberoDisabled = false;
   mobile = false;
   startHidden = false;
+  displayscoreboard = false;
 
   compareFn = (o1, o2) => {
     return o1 && o2 ? o1.id === o2.id : o1 === o2;
@@ -57,6 +59,7 @@ export class MatchPage implements OnInit {
   playerPositions: CourtPosition[] = [];
   match: any;
   context: any;
+  title:any;
 
   constructor(
     private matchService: MatchService,
@@ -71,14 +74,14 @@ export class MatchPage implements OnInit {
   ngOnInit() {
     for (let index = 0; index < 7; index++) {
       const c = new CourtPosition();
-      c.playerPos = " Drop Player";
+      c.playerPos = "Select Player";
       c.posNo = index;
       this.playerPositions.push(c);
     }
 
     this.route.queryParams.subscribe(params => {
       this.match = JSON.parse(params['context']);
-
+      this.title = this.match.Home + ' vs ' + this.match.Opponent
     });
 
     this.game = new GameWithId()
@@ -94,6 +97,10 @@ export class MatchPage implements OnInit {
     //   this.router.navigate(['/app/tabs/matches']);
     //   return
     // }
+  }
+
+  async showscoreboard(ev) {
+    this.displayscoreboard = true;
   }
 
   async getPlayerData() {
@@ -207,9 +214,6 @@ export class MatchPage implements OnInit {
       this.router.navigate(['/login']);
   }
 
-
- 
-
   async showPopover(ev: any) {
     let id = ev.target.id
     const modal = await this.popover.create({
@@ -220,29 +224,52 @@ export class MatchPage implements OnInit {
     });
     modal.onDidDismiss().then((dataReturned) => {
       if (dataReturned !== null) {
+        if (this.playerPositions[id].playerPos != "Select Player") {
+          this.players.push(this.playerPositions[id].player)
+          console.log(this.playerPositions[id].playerPos)
+        }
         switch (id) {
           case "1":
-            this.playerPos1 = this.players.filter(x => x.objectId === dataReturned.data.objectId)[0].FirstName
+            // this.playerPos1 = this.players.filter(x => x.objectId === dataReturned.data.objectId)[0].FirstName
+            this.playerPositions[1].posNo = 1;
+            this.playerPositions[1].player = dataReturned.data;
+            this.playerPositions[1].playerPos =
+              dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
             break;
           case "2":
-            this.playerPos2 = this.players.filter(x => x.objectId === dataReturned.data.objectId)[0].FirstName
+            this.playerPositions[2].posNo = 2;
+            this.playerPositions[2].player = dataReturned.data;
+            this.playerPositions[2].playerPos =
+              dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
             break;
           case "3":
-            this.playerPos3 = this.players.filter(x => x.objectId === dataReturned.data.objectId)[0].FirstName
+            this.playerPositions[3].posNo = 3;
+            this.playerPositions[3].player = dataReturned.data;
+            this.playerPositions[3].playerPos =
+              dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
             break;
           case "4":
-            this.playerPos4 = this.players.filter(x => x.objectId === dataReturned.data.objectId)[0].FirstName
+            this.playerPositions[4].posNo = 4;
+            this.playerPositions[4].player = dataReturned.data;
+            this.playerPositions[4].playerPos =
+              dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
             break;
           case "5":
-            this.playerPos5 = this.players.filter(x => x.objectId === dataReturned.data.objectId)[0].FirstName
+            this.playerPositions[5].posNo = 5;
+            this.playerPositions[5].player = dataReturned.data;
+            this.playerPositions[5].playerPos =
+              dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
             break;
           case "6":
-            this.playerPos6 = this.players.filter(x => x.objectId === dataReturned.data.objectId)[0].FirstName
+            this.playerPositions[6].posNo = 6;
+            this.playerPositions[6].player = dataReturned.data;
+            this.playerPositions[6].playerPos =
+              dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
             break;
           default:
             break;
         }
-        this.allPlayers = this.players.filter(x => x.objectId != dataReturned.data.objectId)
+        this.players = this.players.filter(x => x.objectId != dataReturned.data.objectId)
         //console.log('Modal Sent Data :' + dataReturned.data.id);
       }
     });

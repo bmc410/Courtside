@@ -17,14 +17,18 @@
 <p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 
 <ion-content>
-  <ion-item lines="none">
+  <ion-item >
     <ion-title style="padding-left: 0px" slot="start">{{matchtitle}}</ion-title>
-     <ion-button *ngIf="deletevisible == true" (click)="startMatch($event);" color="success" slot="end">
-      <ion-icon name="play-outline"></ion-icon>
-    </ion-button>
-    <ion-button style="margin-left: 10px" *ngIf="deletevisible == true" (click)="deleteMatch();" color="danger" slot="end">
+    <button (click)="startMatch($event);" slot="end" pButton pRipple type="button" label="Start" class="p-button-rounded 
+    p-button-sm p-button-success"></button>
+    <button (click)="deleteMatch();"  slot="end" style="margin-left: 5px;" pButton pRipple type="button" label="Delete" class="p-button-rounded 
+    p-button-sm p-button-danger"></button>
+    <!-- <ion-button style="width: 5vw; height: 5vh;" *ngIf="deletevisible == true" (click)="startMatch($event);" color="success" slot="end">
+      <ion-icon  name="play-outline"></ion-icon>
+    </ion-button> -->
+    <!-- <ion-button style="width: 5vw; margin-left: 10px" *ngIf="deletevisible == true" (click)="deleteMatch();" color="danger" slot="end">
       <ion-icon name="trash-outline"></ion-icon>
-    </ion-button>
+    </ion-button> -->
   </ion-item>
   <ion-item>
     <ion-label color="primary" class="ion-label">Home Team</ion-label>

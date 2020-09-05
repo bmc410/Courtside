@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController, ToastController, PopoverController } from '@ionic/angular';
 import { MatchService } from 'src/app/services/matchservice';
-import { ConnectionService } from 'ng-connection-service';
+// import { ConnectionService } from 'ng-connection-service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NetworkService } from 'src/app/services/network.service';
 import { OfflineService } from 'src/app/services/offline.service';
@@ -66,7 +66,7 @@ export class MatchdetailPage implements OnInit {
     private router: Router,
     public modalController: ModalController,
     private matchService: MatchService,
-    private connectionService: ConnectionService,
+    // private connectionService: ConnectionService,
     private _ngZone: NgZone,
     private formBuilder: FormBuilder,
     private networkService: NetworkService,

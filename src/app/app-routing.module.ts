@@ -91,6 +91,10 @@ const routes: Routes = [
   {
     path: 'playerpicker',
     loadChildren: () => import('./pages/playerpicker/playerpicker.module').then( m => m.PlayerpickerPageModule)
+  },
+  {
+    path: 'scoreboard',
+    loadChildren: () => import('./pages/scoreboard/scoreboard.module').then( m => m.ScoreboardPageModule)
   }
 ];
 

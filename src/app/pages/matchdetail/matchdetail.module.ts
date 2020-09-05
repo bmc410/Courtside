@@ -13,10 +13,12 @@ import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import { GameselectPage } from '../gameselect/gameselect.page';
+import {ButtonModule} from 'primeng/button';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    ButtonModule,
     ReactiveFormsModule,
     MenuModule,
     DropdownModule,

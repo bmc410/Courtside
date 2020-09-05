@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { MatchWithId, PlayerWithId, Match } from 'src/app/models/appModels';
 import { MatchService } from 'src/app/services/matchservice';
 import { Router } from '@angular/router';
-import { ConnectionService } from 'ng-connection-service';
+// import { ConnectionService } from 'ng-connection-service';
 import { NetworkService } from 'src/app/services/network.service';
 import { OfflineService } from 'src/app/services/offline.service';
 import { MessageService } from 'primeng/api';
@@ -20,7 +20,7 @@ export class MatchesPage implements OnInit {
   selectedMatch: MatchWithId = {};
   constructor(private matchService: MatchService,
     private router: Router,
-    private connectionService: ConnectionService,
+    // private connectionService: ConnectionService,
     private _ngZone: NgZone,
     private authenticationService: AuthenticationService,
     private networkService: NetworkService,

@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Scoreboard</ion-title>
+    <ion-button (click)="close()" slot="end">
+      <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label color="primary" class="ion-label">Home Team</ion-label>
+    <!-- <ion-select [(ngModel)]="selectedTeamId" placeholder="Select team" interface="popover">
+      <ion-select-option *ngFor="let team of teams" value="{{team.objectId}}">
+        {{team?.TeamName}}
+      </ion-select-option>
+    </ion-select> -->
+  </ion-item>
+  <ion-item>
+    <ion-label class="ion-label" color="primary">Opponent</ion-label>
+    <ion-input style="text-align: right;" slot="end" placeholder="Enter opponent" [(ngModel)]="opponent"></ion-input>
+  </ion-item>
+  <!-- <ion-item>
+    <ion-label>Match Date</ion-label>
+    <ion-datetime (ionChange)="newDate($event)" value="{{matchdate}}" placeholder="Select Date"></ion-datetime>
+  </ion-item> -->
+</ion-content>
