@@ -87,6 +87,10 @@ const routes: Routes = [
   {
     path: 'gameselect',
     loadChildren: () => import('./pages/gameselect/gameselect.module').then( m => m.GameselectPageModule)
+  },
+  {
+    path: 'playerpicker',
+    loadChildren: () => import('./pages/playerpicker/playerpicker.module').then( m => m.PlayerpickerPageModule)
   }
 ];
 

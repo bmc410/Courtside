@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavParams } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { TableModule } from 'primeng/table';
@@ -56,7 +56,7 @@ import { MessageService } from 'primeng/api';
     MatInputModule,
   ],
   declarations: [AppComponent],
-  providers: [InAppBrowser, SplashScreen, StatusBar,AuthenticateService,AuthguardService,
+  providers: [InAppBrowser, SplashScreen, StatusBar,AuthenticateService,AuthguardService,NavParams,
     MatchService, OfflineService, MessageService, AngularFirestore, AppStateService,AuthenticationService,NetworkService],
   bootstrap: [AppComponent]
 })

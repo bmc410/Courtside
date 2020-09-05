@@ -89,10 +89,7 @@ export class MatchdetailPage implements OnInit {
       }
     });
   }
-  selectGame() {
-
-  }
-
+  
  ngOnInit() {
     this.matchService.getTeamsAsync().subscribe(data => {
       var json = JSON.stringify(data);
@@ -150,8 +147,15 @@ export class MatchdetailPage implements OnInit {
     this.currentPopover = this.popover;
     popover.onDidDismiss().then((dataReturned) => {
       const item = null
-      this.router.navigate(['/app/tabs/matches/matchdetail/match'], { queryParams: { context: JSON.stringify(item) } });
-      console.log(dataReturned.data)
+      let gm = new gameMatch();
+      gm.gameNumber = dataReturned.data;
+      gm.Home = this.teams.filter(x => x.objectId === this.selectedTeamId)[0]?.TeamName;
+      gm.MatchDate = this.matchdate;
+      gm.objectId = this.matchid;
+      gm.Opponent = this.opponent;
+      gm.HomeTeamId = this.selectedTeamId;
+      this.router.navigate(['/app/tabs/matches/matchdetail/match'], { queryParams: { context: JSON.stringify(gm) } });
+      //console.log(dataReturned.data)
     });
     return popover.present()
     // let gm = new gameMatch();

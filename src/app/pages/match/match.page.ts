@@ -6,7 +6,13 @@ import { FormControl } from '@angular/forms';
 import { PopoverController } from '@ionic/angular';
 import { PlayerpopoverPage } from '../playerpopover/playerpopover.page';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MatchService } from 'src/app/services/matchservice';
+import { NetworkService } from 'src/app/services/network.service';
+import { OfflineService } from 'src/app/services/offline.service';
+import { CourtPosition, GameScore, GameWithId, PlayerWithId, Stat, statEntry } from 'src/app/models/appModels';
+import { async } from 'rxjs/internal/scheduler/async';
+import { PlayerpickerPage } from '../playerpicker/playerpicker.page';
 
 
 @Component({
@@ -25,7 +31,18 @@ export class MatchPage implements OnInit {
   playerPos4 = "Select Player";
   playerPos5 = "Select Player";
   playerPos6 = "Select Player";
-
+  gameNumber = 1;
+  gameScore: GameScore;
+  games: GameWithId[] = [];
+  game: GameWithId;
+  players: PlayerWithId[] = [];
+  allPlayers: PlayerWithId[] = [];
+  matchStats: Stat[] = [];
+  stats: statEntry[] = [];
+  stat: Stat;
+  liberoDisabled = false;
+  mobile = false;
+  startHidden = false;
 
   compareFn = (o1, o2) => {
     return o1 && o2 ? o1.id === o2.id : o1 === o2;
@@ -37,67 +54,135 @@ export class MatchPage implements OnInit {
 
   users: MatchUser[] = [];
   allUsers: MatchUser[] = [];
+  playerPositions: CourtPosition[] = [];
+  match: any;
+  context: any;
 
   constructor(
-    @Inject(DOCUMENT) private doc: Document,
-    public confData: ConferenceData,
+    private matchService: MatchService,
+    private route: ActivatedRoute,
+    private networkService: NetworkService,
+    private offlineservice: OfflineService,
     public platform: Platform,
     private router: Router,
     private authenticationService: AuthenticationService,
     private popover: PopoverController) { }
 
   ngOnInit() {
-    this.users = [
-    {
-      id: 1,
-      first: 'Alice',
-      last: 'Fraggle',
-    },
-    {
-      id: 2,
-      first: 'Bob',
-      last: 'Deremer',
-    },
-    {
-      id: 3,
-      first: 'Charlie',
-      last: 'Rosenburg',
-    },
-    {
-      id: 4,
-      first: 'Ted',
-      last: 'Allo',
-    },
-    {
-      id: 5,
-      first: 'Bill',
-      last: 'McCoy',
-    },
-    {
-      id: 6,
-      first: 'Dave',
-      last: 'Smith',
-    },
-    {
-      id: 7,
-      first: 'Willow',
-      last: 'Remrert',
-    },
-    {
-      id: 8,
-      first: 'Syd',
-      last: 'Golith',
-    },
-    {
-      id: 9,
-      first: 'Alex',
-      last: 'Futile',
+    for (let index = 0; index < 7; index++) {
+      const c = new CourtPosition();
+      c.playerPos = " Drop Player";
+      c.posNo = index;
+      this.playerPositions.push(c);
     }
-  
-  
-  ]
-    this.allUsers = this.users.slice()
 
+    this.route.queryParams.subscribe(params => {
+      this.match = JSON.parse(params['context']);
+
+    });
+
+    this.game = new GameWithId()
+    this.gameScore = new GameScore();
+    this.gameNumber = Number(this.match.gameNumber);
+    this.game.subs = 0;
+
+    this.getPlayerData()
+
+    // if (this.route.snapshot.params.objectId != undefined)
+    //   this.match = this.route.snapshot.params;
+    // else {
+    //   this.router.navigate(['/app/tabs/matches']);
+    //   return
+    // }
+  }
+
+  async getPlayerData() {
+    var _this = this;
+    await this.matchService.getPlayers().then(async allPlayers => {
+      var json = JSON.stringify(allPlayers);
+      var tpData = JSON.parse(json);
+      await this.matchService.getPlayersByTeamId(this.match.HomeTeamId).then(async teamPlayers => {
+        var json1 = JSON.stringify(teamPlayers);
+        var tpData1 = JSON.parse(json1);
+        tpData1.forEach(p => {
+          var player = tpData.filter(x => x.objectId == p.PlayerId)[0]
+          player.jersey = tpData1.filter(x => x.PlayerId == player.objectId)[0].Jersey
+          this.players.push(player);
+        });
+
+        this.allPlayers = this.players.slice();
+  
+        await this.matchService.getGameForMatchByNumber(this.match.objectId, this.match.gameNumber).then(async result => {
+          var json = JSON.stringify(result);
+          var game = JSON.parse(json);
+          if (game.length == 0) {
+                let g = new GameWithId()
+                g.gamenumber = this.gameNumber
+                g.matchid = this.match.objectId
+                g.OpponentScore = 0
+                g.HomeScore = 0
+                g.subs = 0
+                this.matchService.createGame(g).subscribe(result => {
+                  this.matchService.getGameForMatchByNumber(this.match.objectId, this.gameNumber).then(result => {
+                    var j = JSON.stringify(result);
+                    var game = JSON.parse(j);
+                    this.game.objectId = game[0].objectId;
+                    this.game.HomeScore = 0;
+                    this.game.OpponentScore = 0;
+                    this.game.subs = 0;
+                    this.game.gamenumber = this.gameNumber;
+                  })
+                })
+          }
+          
+          else {
+            this.game = game[0];
+            await this.matchService.getstats(this.game.objectId).then(data => {
+              var j = JSON.stringify(data);
+              var stats = JSON.parse(j);
+              stats.forEach(function (s) {
+                var rotation = JSON.parse(s.Rotation);
+                let stat = {
+                  statid: s.GameId,
+                  homescore: s.HomeScore,
+                  matchid: s.OpponentScore,
+                  gamenumber: _this.match.gameNumber,
+                  stattype: s.StatType,
+                  playerid: s.PlayerId,
+                  statdate: s.createdAt,
+                  //pos: Map<any,any>,
+                  id: s.objectId,
+                  opponentscore: s.OpponentScore,
+                  rotation: rotation,
+                  subs: s.Subs
+                }
+                _this.stats.push(stat); 
+              });
+      
+              if (this.stats && this.stats.length > 0) {
+                this.startMatch();
+                var r = this.stats[this.stats.length-1]
+                this.game.HomeScore = r.homescore;
+                this.game.OpponentScore = r.opponentscore;
+                this.game.subs = r.subs;
+                var pos = r.rotation
+                for (let i = 0; i < 6; i++) {
+                  var p1 = this.allPlayers.filter(p => p.objectId == pos[i].objectId)[0]
+                  this.playerPositions[i + 1].posNo = pos[i].posNo;
+                  this.playerPositions[i + 1].player = p1;
+                  this.playerPositions[i + 1].playerPos =
+                    p1.FirstName + " - " + p1.jersey;
+                  this.players = this.players.filter(x => x.objectId != p1.objectId)
+                }
+              }
+            });
+            this.game.gamenumber = this.match.gameNumber;
+            this.game.objectId = game[0].objectId;
+            this.game.subs = game[0].Subs;
+            }
+          })  
+        })
+    })
   }
 
   menuitems = [{
@@ -107,6 +192,15 @@ export class MatchPage implements OnInit {
       this.logoff();
     }
   }];
+
+  startMatch() {
+    this.liberoDisabled = true;
+    this.startHidden = true;
+    const cp  = Object.assign([], this.playerPositions);
+    if (this.stats.length == 0) {
+        this.matchService.addPlayByPlay(this.game,cp,"start",null)
+    }
+  }
   
   logoff() {
       this.authenticationService.logout();
@@ -114,47 +208,41 @@ export class MatchPage implements OnInit {
   }
 
 
-  async ngAfterViewInit() {
-    const appEl = this.doc.querySelector('ion-app');
-    let isDark = false;
-    let style = [];
-
-
-  }
+ 
 
   async showPopover(ev: any) {
     let id = ev.target.id
     const modal = await this.popover.create({
-      component: PlayerpopoverPage,
+      component: PlayerpickerPage,
       event: ev,
       translucent: true,
-      componentProps: { data: this.users }
+      componentProps: { context: this.players }
     });
     modal.onDidDismiss().then((dataReturned) => {
       if (dataReturned !== null) {
         switch (id) {
           case "1":
-            this.playerPos1 = this.allUsers.filter(x => x.id == dataReturned.data.id)[0].first
+            this.playerPos1 = this.players.filter(x => x.objectId === dataReturned.data.objectId)[0].FirstName
             break;
           case "2":
-            this.playerPos2 = this.allUsers.filter(x => x.id == dataReturned.data.id)[0].first
+            this.playerPos2 = this.players.filter(x => x.objectId === dataReturned.data.objectId)[0].FirstName
             break;
           case "3":
-            this.playerPos3 = this.allUsers.filter(x => x.id == dataReturned.data.id)[0].first
+            this.playerPos3 = this.players.filter(x => x.objectId === dataReturned.data.objectId)[0].FirstName
             break;
           case "4":
-            this.playerPos4 = this.allUsers.filter(x => x.id == dataReturned.data.id)[0].first
+            this.playerPos4 = this.players.filter(x => x.objectId === dataReturned.data.objectId)[0].FirstName
             break;
           case "5":
-            this.playerPos5 = this.allUsers.filter(x => x.id == dataReturned.data.id)[0].first
+            this.playerPos5 = this.players.filter(x => x.objectId === dataReturned.data.objectId)[0].FirstName
             break;
           case "6":
-            this.playerPos6 = this.allUsers.filter(x => x.id == dataReturned.data.id)[0].first
+            this.playerPos6 = this.players.filter(x => x.objectId === dataReturned.data.objectId)[0].FirstName
             break;
           default:
             break;
         }
-        this.users = this.allUsers.filter(x => x.id != dataReturned.data.id)
+        this.allPlayers = this.players.filter(x => x.objectId != dataReturned.data.objectId)
         //console.log('Modal Sent Data :' + dataReturned.data.id);
       }
     });

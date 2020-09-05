@@ -25,6 +25,10 @@ const routes: Routes = [
               {
                 path: 'match',
                 loadChildren: () => import('../match/match.module').then(m => m.MatchPageModule)                
+              },
+              {
+                path: 'match/:id',
+                loadChildren: () => import('../match/match.module').then(m => m.MatchPageModule)                
               }
             ]
           }
