@@ -11,7 +11,7 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
+<p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 <ion-content fullscreen>
   <ion-list style="width: 100%;">
     <ion-item-sliding  *ngFor="let item of players">

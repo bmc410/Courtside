@@ -21,6 +21,6 @@ import { PlayerpickerPage } from '../playerpicker/playerpicker.page';
     MatchPageRoutingModule,
     MatSelectModule
   ],
-  declarations: [MatchPage, PlayerpickerPage]
+  declarations: [MatchPage]
 })
 export class MatchPageModule {}

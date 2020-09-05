@@ -78,4 +78,8 @@ export class PlayerpickerPage implements OnInit {
     this.popover.dismiss(item);
   }
 
+  close() {
+    this.popover.dismiss()
+  }
+
 }
