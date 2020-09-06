@@ -14,15 +14,15 @@
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <ion-list style="height: 100%;">
       <ion-item>
-        <ion-label position="stacked" color="primary">Username</ion-label>
-        <ion-input formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" ></ion-input>
+        <ion-label position="fixed" color="primary">Username:</ion-label>
+        <ion-input style="border: 0px;"  formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" ></ion-input>
       </ion-item>
       <ion-label style="margin-bottom: 0px; font-size: xx-small;" *ngIf="submitted && f.username.errors" color="danger">Username is required</ion-label>
         
     
       <ion-item>
-        <ion-label position="stacked" color="primary">Password</ion-label>
-        <ion-input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" ></ion-input>
+        <ion-label position="fixed" color="primary">Password:</ion-label>
+        <ion-input style="border: 0px;" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" ></ion-input>
       </ion-item>
       <ion-label style="margin-bottom: 0px; font-size: xx-small;" *ngIf="submitted && f.password.errors" color="danger">Password is required</ion-label>
     

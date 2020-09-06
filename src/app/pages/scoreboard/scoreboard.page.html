@@ -1,27 +1,68 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Scoreboard</ion-title>
-    <ion-button (click)="close()" slot="end">
+  <ion-toolbar mode="md" color="primary">
+    <ion-title slot="start">Scoreboard</ion-title>
+    <ion-button color="danger" style="margin-right: 10px;" (click)="close()" slot="end">
       <ion-icon slot="icon-only" name="close-outline"></ion-icon>
     </ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    <ion-label color="primary" class="ion-label">Home Team</ion-label>
-    <!-- <ion-select [(ngModel)]="selectedTeamId" placeholder="Select team" interface="popover">
-      <ion-select-option *ngFor="let team of teams" value="{{team.objectId}}">
-        {{team?.TeamName}}
-      </ion-select-option>
-    </ion-select> -->
-  </ion-item>
-  <ion-item>
-    <ion-label class="ion-label" color="primary">Opponent</ion-label>
-    <ion-input style="text-align: right;" slot="end" placeholder="Enter opponent" [(ngModel)]="opponent"></ion-input>
-  </ion-item>
-  <!-- <ion-item>
-    <ion-label>Match Date</ion-label>
-    <ion-datetime (ionChange)="newDate($event)" value="{{matchdate}}" placeholder="Select Date"></ion-datetime>
-  </ion-item> -->
+  <div style="margin-left: 0px; margin-right: 0px; margin-top: 5px; margin-bottom: 15px;"
+    class="row d-flex align-items-center">
+    <div class="col-6">
+      <ion-label color="primary" class="ion-label">{{hometeam}}</ion-label>
+    </div>
+    <div class="col-2 d-flex justify-content-end" style="padding: 0px;">
+      <ion-button size="small">
+        <ion-icon name="remove-outline"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="col-2 d-flex justify-content-center" style="padding: 0px;">
+      <ion-label color="primary" class="ion-label">{{homescore}}</ion-label>
+    </div>
+    <div class="col-2  d-flex justify-content-start" style="padding: 0px;">
+      <ion-button size="small">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+  <div style="margin-left: 0px; margin-right: 0px; margin-top: 5px; margin-bottom: 15px;"
+    class="row d-flex align-items-center">
+    <div class="col-6">
+      <ion-label color="primary" class="ion-label">{{opponentteam}}</ion-label>
+    </div>
+    <div class="col-2 d-flex justify-content-end" style="padding: 0px;">
+      <ion-button size="small">
+        <ion-icon name="remove-outline"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="col-2 d-flex justify-content-center" style="padding: 0px;">
+      <ion-label color="primary" class="ion-label">{{opponentscore}}</ion-label>
+    </div>
+    <div class="col-2  d-flex justify-content-start" style="padding: 0px;">
+      <ion-button size="small">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+  <div style="margin-left: 0px; margin-right: 0px; margin-top: 5px; margin-bottom: 5px;"
+    class="row d-flex align-items-center">
+    <div class="col-6">
+      <ion-label color="primary" class="ion-label">Subs</ion-label>
+    </div>
+    <div class="col-2 d-flex justify-content-end" style="padding: 0px;">
+      <ion-button size="small">
+        <ion-icon name="remove-outline"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="col-2 d-flex justify-content-center" style="padding: 0px;">
+      <ion-label color="primary" class="ion-label">{{subs}}</ion-label>
+    </div>
+    <div class="col-2  d-flex justify-content-start" style="padding: 0px;">
+      <ion-button size="small">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
 </ion-content>

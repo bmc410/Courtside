@@ -157,6 +157,7 @@ export class MatchdetailPage implements OnInit {
       this.router.navigate(['/app/tabs/matches/matchdetail/match'], { queryParams: { context: JSON.stringify(gm) } });
       //console.log(dataReturned.data)
     });
+    popover.style.cssText = '--width: 80vw';
     return popover.present()
     // let gm = new gameMatch();
     // gm.gameNumber = this.game;

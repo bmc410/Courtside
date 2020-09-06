@@ -16,7 +16,12 @@ import { MessageService } from 'primeng/api';
 export class ScoreboardPage implements OnInit {
   deletevisible = false;
   opponent:any
-  
+  homescore = 23
+  hometeam = "Bill's Team"
+  opponentscore = 21
+  opponentteam = "Ballyhoo"
+
+  subs = 2
 
 
 

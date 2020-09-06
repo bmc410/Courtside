@@ -7,6 +7,7 @@ import { NetworkService } from 'src/app/services/network.service';
 import { OfflineService } from 'src/app/services/offline.service';
 import { MessageService } from 'primeng/api';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-matches',
@@ -18,6 +19,9 @@ export class MatchesPage implements OnInit {
   player: PlayerWithId = {};
   matches: MatchWithId[] = [];
   selectedMatch: MatchWithId = {};
+  displayedColumns = ['Home', 'Opponent', 'MatchDate'];
+  dataSource = new MatTableDataSource<MatchWithId>(this.matches);
+  
   constructor(private matchService: MatchService,
     private router: Router,
     // private connectionService: ConnectionService,
@@ -53,7 +57,7 @@ export class MatchesPage implements OnInit {
   }
 
   onRowSelect(item) {
-    this.router.navigate(['/app/tabs/matches/matchdetail'], { queryParams: { context: JSON.stringify(item.data) } });
+    this.router.navigate(['/app/tabs/matches/matchdetail'], { queryParams: { context: JSON.stringify(item) } });
   }
 
 

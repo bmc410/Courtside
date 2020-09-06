@@ -1,6 +1,6 @@
 <ion-header >
   <ion-toolbar color="primary">
-    <ion-title>Matches</ion-title>
+    <ion-title mode="md">Matches</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="addMatch()" >
         Add
@@ -15,7 +15,35 @@
 <p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 
 <ion-content>
-  <p-table [value]="matches" selectionMode="single" [(selection)]="selectedMatch"
+  <mat-table #table [dataSource]="matches">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="Home">
+      <mat-header-cell *matHeaderCellDef>Home</mat-header-cell>
+      <mat-cell *matCellDef="let match"> {{match.Home}} </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="Opponent">
+      <mat-header-cell *matHeaderCellDef> Opponent </mat-header-cell>
+      <mat-cell *matCellDef="let match"> {{match.Opponent}} </mat-cell>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="MatchDate">
+      <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+      <mat-cell *matCellDef="let match"> {{match.MatchDate}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row (click)="onRowSelect(row)" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+
+  <!-- <p-table [value]="matches" selectionMode="single" [(selection)]="selectedMatch"
   (onRowSelect)="onRowSelect($event)" >
   <ng-template pTemplate="header">
     <tr>
@@ -32,5 +60,5 @@
     </tr>
   </ng-template>
   
-</p-table>
+</p-table> -->
 </ion-content>

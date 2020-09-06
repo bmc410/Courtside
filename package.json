@@ -43,6 +43,7 @@
     "guid-typescript": "^1.0.9",
     "ionic-native": "^2.9.0",
     "jquery": "^1.9.1",
+    "ng-number-picker": "^1.1.9",
     "parse": "^2.15.0",
     "popper.js": "^1.16.1",
     "primeicons": "^4.0.0",

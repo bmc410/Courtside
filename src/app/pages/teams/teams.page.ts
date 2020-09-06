@@ -8,6 +8,7 @@ import { MessageService } from 'primeng/api';
 import { ClubWithId, TeamWithId } from 'src/app/models/appModels';
 import { ToastController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-teams',
@@ -18,6 +19,8 @@ export class TeamsPage implements OnInit {
   clubs: ClubWithId[] = [];
   teams: TeamWithId[] = [];
   team: TeamWithId;
+  displayedColumns = ['TeamName', 'Opponent', 'Year'];
+  dataSource = new MatTableDataSource<TeamWithId>(this.teams);
   
   constructor(private router: Router,
     private matchService: MatchService,
@@ -67,7 +70,7 @@ export class TeamsPage implements OnInit {
   }
 
   itemSelected(item) {
-    this.router.navigate(['/app/tabs/teams/teamdetail'], { queryParams: { context: JSON.stringify(item.data) } });
+    this.router.navigate(['/app/tabs/teams/teamdetail'], { queryParams: { context: JSON.stringify(item) } });
   }
 
   getClubNameById(id: string) {

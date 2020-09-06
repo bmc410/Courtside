@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Match</ion-title>
+    <ion-title mode="md">Match</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="saveMatch()">
         Save
@@ -17,19 +17,33 @@
 <p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 
 <ion-content>
-  <ion-item >
-    <ion-title style="padding-left: 0px" slot="start">{{matchtitle}}</ion-title>
-    <button (click)="startMatch($event);" slot="end" pButton pRipple type="button" label="Start" class="p-button-rounded 
-    p-button-sm p-button-success"></button>
-    <button (click)="deleteMatch();"  slot="end" style="margin-left: 5px;" pButton pRipple type="button" label="Delete" class="p-button-rounded 
-    p-button-sm p-button-danger"></button>
-    <!-- <ion-button style="width: 5vw; height: 5vh;" *ngIf="deletevisible == true" (click)="startMatch($event);" color="success" slot="end">
-      <ion-icon  name="play-outline"></ion-icon>
-    </ion-button> -->
-    <!-- <ion-button style="width: 5vw; margin-left: 10px" *ngIf="deletevisible == true" (click)="deleteMatch();" color="danger" slot="end">
-      <ion-icon name="trash-outline"></ion-icon>
-    </ion-button> -->
-  </ion-item>
+  <div style="margin-left: 0px; margin-right: 0px; margin-top: 5px; margin-bottom: 15px;"
+    class="row d-flex align-items-center">
+    <div class="col-8">
+      <ion-label color="primary" class="ion-label">{{matchtitle}}</ion-label>
+    </div>
+   
+    <div class="col-4  d-flex justify-content-end" style="padding: 5px;">
+      <ion-button (click)="startMatch($event);" color="success" size="default">
+        <ion-icon name="play-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="deleteMatch();" color="danger" size="default">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+  <!-- <ion-toolbar >
+    <ion-title mode="md" style="padding-left: 0px" slot="start">{{matchtitle}}</ion-title>
+    <ion-item style="margin-bottom: 10px" lines="none">
+      <ion-button *ngIf="deletevisible == true" (click)="startMatch($event);" color="success" slot="end"   >
+        <ion-icon name="play-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="deletevisible == true" (click)="deleteMatch();" color="danger" slot="end" >
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-toolbar> -->
+  
   <ion-item>
     <ion-label color="primary" class="ion-label">Home Team</ion-label>
     <ion-select [(ngModel)]="selectedTeamId" placeholder="Select team" interface="popover">

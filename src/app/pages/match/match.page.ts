@@ -45,6 +45,7 @@ export class MatchPage implements OnInit {
   mobile = false;
   startHidden = false;
   displayscoreboard = false;
+  value18: number = 10;
 
   compareFn = (o1, o2) => {
     return o1 && o2 ? o1.id === o2.id : o1 === o2;
@@ -100,7 +101,16 @@ export class MatchPage implements OnInit {
   }
 
   async showscoreboard(ev) {
-    this.displayscoreboard = true;
+    // this.displayscoreboard = true;
+    const modal = await this.popover.create({
+      component: ScoreboardPage,
+      event: ev,
+      translucent: true,
+      componentProps: { context: this.players }
+    });
+    modal.style.cssText = '--width: 99vw';
+
+    return await modal.present();
   }
 
   async getPlayerData() {
@@ -218,7 +228,7 @@ export class MatchPage implements OnInit {
     let id = ev.target.id
     const modal = await this.popover.create({
       component: PlayerpickerPage,
-      event: ev,
+      // event: ev,
       translucent: true,
       componentProps: { context: this.players }
     });

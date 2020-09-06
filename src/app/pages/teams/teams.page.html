@@ -1,6 +1,6 @@
 <ion-header >
   <ion-toolbar color="primary">
-    <ion-title>My Teams</ion-title>
+    <ion-title mode="md">My Teams</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="addTeam()" >
         Add
@@ -15,7 +15,33 @@
 <p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 
 <ion-content>
-  <p-table [value]="teams" selectionMode="single" [(selection)]="team" (onRowSelect)="itemSelected($event)">
+  <mat-table #table [dataSource]="teams">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="TeamName">
+      <mat-header-cell *matHeaderCellDef>Home</mat-header-cell>
+      <mat-cell *matCellDef="let team"> {{team.TeamName}} </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="Opponent">
+      <mat-header-cell *matHeaderCellDef>Club</mat-header-cell>
+      <mat-cell *matCellDef="let team"> {{getClubNameById(team.ClubId)}} </mat-cell>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="Year">
+      <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+      <mat-cell *matCellDef="let team"> {{team.Year}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row (click)="itemSelected(row)" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <!-- <p-table [value]="teams" selectionMode="single" [(selection)]="team" (onRowSelect)="itemSelected($event)">
     <ng-template pTemplate="header">
       <tr>
         <th>Team</th>
@@ -31,7 +57,7 @@
       </tr>
     </ng-template>
    
-  </p-table>
+  </p-table> -->
   <!-- <ion-list>
     <ion-item *ngFor="let team of teams" (click)="itemSelected(team)">
       <ion-label>{{team.TeamName}}</ion-label>

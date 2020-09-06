@@ -8,6 +8,7 @@ import {TableModule} from 'primeng/table';
 import {MatMenuModule} from '@angular/material/menu';
 import {MenuModule} from 'primeng/menu';
 import {MenuItem} from 'primeng/api';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import {MenuItem} from 'primeng/api';
     FormsModule,
     IonicModule,
     TableModule,
+    MatTableModule,
     TeamsPageRoutingModule
   ],
   declarations: [TeamsPage]

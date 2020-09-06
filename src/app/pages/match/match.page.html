@@ -1,12 +1,18 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar mode="md" color="primary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>{{title}}</ion-title>
+    <ion-title mode="md">{{title}}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="showscoreboard($event)">
         <ion-icon name="keypad-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="showscoreboard($event)">
+        <ion-icon name="swap-horizontal-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="showscoreboard($event)">
+        <ion-icon name="play-outline"></ion-icon>
       </ion-button>
       <ion-button (click)="menu.toggle($event)">
         <ion-icon slot="icon-only" ios="ellipsis-vertical" md="ellipsis-vertical"></ion-icon>
@@ -16,16 +22,42 @@
 </ion-header>
 
 <!-- scoreboard -->
-<p-dialog header="Scoreboard" position="top" [style]="{width: '80vw'}" styleClass="mydialog" [(visible)]="displayscoreboard">
-  <ion-item>
-    <ion-label>Home</ion-label>
-    <ion-input [(ngModel)]="this.match.Home"  type="text"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Opponent</ion-label>
-    <ion-input [(ngModel)]="this.match.Opponent"  type="text"></ion-input>
-  </ion-item>
-
+<p-dialog header="Scoreboard" position="top"  styleClass="mydialog" [(visible)]="displayscoreboard">
+    <div class="d-flex align-items-center" >
+      <div class="row">
+        <div class="col-6">
+          <ion-label class="align-self-center" style="font-size: 1.5em;" color="primary">{{match.Home}}</ion-label>
+        </div>
+        <div  class="col-6">
+          <ng-number-picker
+          [(value)]="value"
+          [min]="'0'"
+          [max]="'50'"
+          [step]="'1'"
+          [pickStartAfter]="'500'"
+          [pickTimer]="'100'"
+          [buttonsOrientation]="'h'"
+          [size]="'sm'"
+          [showDownButton]="true"
+          [showUpButton]="true"
+          [inputReadOnly]="false"
+          [mouseWheel]="true"
+          [arrowKeys]="true"
+          [customClass]="{'container': '', 'up': '', 'down': '', 'prefix': '', 'postfix': ''}"
+          (minReached)="onMinReached($event)"
+          (maxReached)="onMaxReached($event)"
+          (pickStarted)="onPickStarted($event)"
+          (pickStoped)="onPickStoped($event)"
+          (pickUpStarted)="onPickUpStarted($event)"
+          (pickDownStarted)="onPickDownStarted($event)"
+          (pickUpStoped)="onPickUpStoped($event)"
+          (pickDownStoped)="onPickDownStoped($event)">
+          </ng-number-picker>
+        </div>
+      </div>
+    </div>
+    
+   
 </p-dialog> 
 
 <p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
