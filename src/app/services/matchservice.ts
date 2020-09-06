@@ -34,6 +34,7 @@ import { MessageService } from 'primeng/api';
 import { Action } from 'rxjs/internal/scheduler/Action';
 import { Parse } from 'parse';
 import { OfflineService } from './offline.service';
+import { ToastController } from '@ionic/angular';
 //import { url } from 'inspector';
 
 
@@ -57,6 +58,7 @@ export class MatchService {
   //mappedPos = new Array();
 
   constructor(
+    public toastController: ToastController,
     private firestore: AngularFirestore,
     private http: HttpClient,
     private messageService: MessageService
@@ -452,7 +454,15 @@ export class MatchService {
       statdate: this.datetoepoch(new Date())
     };
     this.createStat(statObj, g);
-    this.messageService.add({ severity: 'success', summary: 'Service Message', detail: this.getActionFromStat(stat.stattype) + stat.player.FirstName });
+    const toast = await this.toastController.create({
+      color: 'dark',
+      duration: 2000,
+      message: this.getActionFromStat(stat.stattype) + stat.player.FirstName
+    });
+
+    await toast.present();
+
+    //this.messageService.add({ severity: 'success', summary: 'Service Message', detail: this.getActionFromStat(stat.stattype) + stat.player.FirstName });
     //this.stattable.add(statObj);
   }
   getstats(id: string) {
@@ -464,7 +474,7 @@ export class MatchService {
   }
   getActionFromStat(stat: string) {
     var action = ""
-    switch (stat) {
+    switch (stat.toLowerCase()) {
       case "k":
         action = "Kill by "
         break;

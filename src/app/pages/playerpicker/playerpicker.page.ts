@@ -41,7 +41,7 @@ export class PlayerpickerPage implements OnInit {
      }
 
   ngOnInit() {
-    console.table(this.navParams.data.context);
+    //console.table(this.navParams.data.context);
     // this.matchService.getPlayersAsync().subscribe(data => {
       // var json = JSON.stringify(data);
       // var d = JSON.parse(json);

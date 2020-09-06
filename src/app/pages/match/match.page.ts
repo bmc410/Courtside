@@ -10,7 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatchService } from 'src/app/services/matchservice';
 import { NetworkService } from 'src/app/services/network.service';
 import { OfflineService } from 'src/app/services/offline.service';
-import { CourtPosition, GameScore, GameWithId, PlayerWithId, Stat, statEntry } from 'src/app/models/appModels';
+import { CourtPosition, GameScore, GameWithId, PlayerWithId, Stat, statEntry, StatNib } from 'src/app/models/appModels';
 import { async } from 'rxjs/internal/scheduler/async';
 import { PlayerpickerPage } from '../playerpicker/playerpicker.page';
 import { ScoreboardPage } from '../scoreboard/scoreboard.page';
@@ -46,12 +46,19 @@ export class MatchPage implements OnInit {
   startHidden = false;
   displayscoreboard = false;
   value18: number = 10;
+  menuitems = [{
+    label: 'Log out',
+    icon: 'pi pi-fw pi-power-off',
+    command: () => {
+      this.logoff();
+    }
+  }];
 
-  compareFn = (o1, o2) => {
-    return o1 && o2 ? o1.id === o2.id : o1 === o2;
-  };
+  // compareFn = (o1, o2) => {
+  //   return o1 && o2 ? o1.id === o2.id : o1 === o2;
+  // };
 
-  compareWith = this.compareFn;
+  // compareWith = this.compareFn;
 
 
 
@@ -61,6 +68,11 @@ export class MatchPage implements OnInit {
   match: any;
   context: any;
   title:any;
+  homescore: number = 0;
+  opponentscore: number = 0;
+  statId: number;
+  homepointOptions = ["k", "sa", "b"];
+  opponentpointOptions = ["he", "be", "bhe", "sre", "se"];
 
   constructor(
     private matchService: MatchService,
@@ -99,6 +111,80 @@ export class MatchPage implements OnInit {
     //   return
     // }
   }
+
+  postStat(e, pos) {
+    let p = this.playerPositions[pos].player;
+    this.incrementStat(pos, p, e.target.innerText);
+    //console.log(e.target.innerText);
+  }
+
+  incrementStat(pos: number, player: PlayerWithId, stat: string) {
+    var affectedPlayer: PlayerWithId[] = [];
+    const s = new Stat();
+    s.gamenumber = this.gameNumber;
+    s.homeScore = this.homescore;
+    s.matchid = this.match.objectId;
+    s.opponentScore = this.opponentscore;
+    s.player = player;
+    s.pos = pos;
+    s.positions = this.playerPositions;
+    s.statid = this.statId + 1;
+    affectedPlayer.push(player);
+    //s.stattime = new Date();
+    s.stattype = stat;
+    if (this.homepointOptions.indexOf(stat.toLowerCase()) > -1) {
+      this.updateGame("home", "a", stat, affectedPlayer)
+      //this.matchService.updateGame(this.game)
+    } else if (this.opponentpointOptions.indexOf(stat.toLowerCase()) > -1) {
+      this.updateGame("opponent", "a", stat, affectedPlayer)
+      //this.matchService.updateGame(this.game)
+    }
+
+      this.matchService.incrementStat(s, this.game);
+    
+
+    //this.game.homescore = this.homescore;
+    //this.game.opponentscore = this.opponentscore;
+    //this.matchService.updateGame(this.game.gameid, this.game);
+  }
+
+
+  updateGame(team: string, action: any, stat: string, players: PlayerWithId[]) {
+
+
+    if (team === "home") {
+      if (action === "a"){
+        this.game.HomeScore = this.game.HomeScore + 1
+      }
+      else {
+        this.game.HomeScore = this.game.HomeScore - 1
+      }
+    }
+    else if (team === "opponent") {
+      if (action === "a") {
+        this.game.OpponentScore = this.game.OpponentScore + 1
+      }
+      else {
+        this.game.OpponentScore = this.game.OpponentScore - 1
+      }
+    }
+    else {
+        stat = "sub"
+        if (action === "a")
+          this.game.subs = this.game.subs + 1
+        else
+          this.game.subs = this.game.subs - 1
+    }
+
+
+    const myClonedArray = []; 
+
+      this.matchService.updateGame(this.game)
+      this.playerPositions.forEach(val => myClonedArray.push(Object.assign({}, val)));
+      this.matchService.addPlayByPlay(this.game,myClonedArray,stat,
+        players, "")
+  }
+
 
   async showscoreboard(ev) {
     // this.displayscoreboard = true;
@@ -202,13 +288,7 @@ export class MatchPage implements OnInit {
     })
   }
 
-  menuitems = [{
-    label: 'Log out',
-    icon: 'pi pi-fw pi-power-off',
-    command: () => {
-      this.logoff();
-    }
-  }];
+  
 
   startMatch() {
     this.liberoDisabled = true;
@@ -286,7 +366,27 @@ export class MatchPage implements OnInit {
     return await modal.present();
   }
 
+  rotate() {
+    let positionsFilled = true;
+    for (let index = 1; index < 7; index++) {
+      if (!this.playerPositions[index]) {
+        positionsFilled = false;
+        break;
+      }
+    }
 
+    if (!positionsFilled) {
+      return;
+    }
+
+    const tempPlayer = this.playerPositions[1];
+    this.playerPositions[1] = this.playerPositions[2];
+    this.playerPositions[2] = this.playerPositions[3];
+    this.playerPositions[3] = this.playerPositions[4];
+    this.playerPositions[4] = this.playerPositions[5];
+    this.playerPositions[5] = this.playerPositions[6];
+    this.playerPositions[6] = tempPlayer;
+  }
 
 
 

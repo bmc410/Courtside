@@ -67,6 +67,13 @@ export class PlayerlistPage implements OnInit {
         const element = this.players[index];
         this.players[index].fullName = this.players[index].FirstName + " " + this.players[index].LastName
       }
+
+      var sortedArray = this.players.sort(function(a,b){
+        return a.LastName >b.LastName?1:a.LastName <b.LastName?-1:0
+      })
+
+      this.players = sortedArray.slice()
+
     });
   }
 
