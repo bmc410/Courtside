@@ -22,7 +22,7 @@
 </ion-header>
 
 <!-- scoreboard -->
-<p-dialog header="Scoreboard" position="top"  styleClass="mydialog" [(visible)]="displayscoreboard">
+<!-- <p-dialog header="Scoreboard" position="top"  styleClass="mydialog" [(visible)]="displayscoreboard">
     <div class="d-flex align-items-center" >
       <div class="row">
         <div class="col-6">
@@ -58,7 +58,7 @@
     </div>
     
    
-</p-dialog> 
+</p-dialog>  -->
 
 <p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 <ion-content>
@@ -68,49 +68,85 @@
 
       <div class="outer">
         <div class="inner-title">
-          <ion-button color="warning" id="1" style="display: flex; flex-grow: 1;" (click)=showPopover($event) >
-            {{playerPositions[1].playerPos}}
-          </ion-button>
-          
-          <!-- <ion-button style="display: flex; " (click)=showPopover($event)>
-            <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical">
-
-            </ion-icon>
-          </ion-button> -->
-          <!-- <ion-select (ionChange)="pickUser($event)" interface="popover" [value]="user" [compareWith]="compareFn">
-            <ion-select-option *ngFor="let user of users" [value]="user">
-              {{user.first}}
-            </ion-select-option>
-          </ion-select> -->
+            <ion-button  slot="start" color="warning" id="1" style="display: flex; flex-grow: 1;" (click)=showPopover($event) >
+              <ion-label style="display: flex; flex-grow: 1;" slot="start"> {{playerPositions[1].playerPos}}</ion-label>
+              <ion-label slot="end">Pos 1</ion-label>
+            </ion-button>
         </div>
         <div class="inner-content">
           <div style="display: flex; flex-direction: row; flex-wrap: wrap; width: 100%; height: 100%;">
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 1)" color="success" expand="block">A</ion-button>
+              <ion-button (click)="postStat($event, 1)" color="success" expand="block">K</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 1)"  color="dark" expand="block">AS</ion-button>
+              <ion-button (click)="postStat($event, 1)"  color="primary" expand="block">H</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 1)"  color="medium" expand="block">H</ion-button>
+              <ion-button (click)="postStat($event, 1)"  color="danger" expand="block">HE</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 1)"  color="success" expand="block">K</ion-button>
-            </div>
-            <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 1)"  color="dark" expand="block">BE</ion-button>
+              <ion-button (click)="postStat($event, 1)"  color="success" expand="block">A</ion-button>
             </div>
             <div cstyle="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 1)"  color="danger" expand="block">S</ion-button>
+              <ion-button (click)="postStat($event, 1)"  color="success" expand="block">D</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 1)"  color="medium" expand="block">BHE</ion-button>
+              <ion-button (click)="postStat($event, 1)"  color="danger" expand="block">BHE</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 1)"  color="success" expand="block">SR</ion-button>
+              <ion-button (click)="postStat($event, 1)"  color="success" expand="block">SA</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 1)"  color="tertiary" expand="block">BT</ion-button>
+              <ion-button (click)="postStat($event, 1)"  color="danger" expand="block">SRE</ion-button>
+            </div>
+            <div style="flex-grow: 1;">
+              <ion-button (click)="postStat($event, 1)"  color="danger" expand="block">SE</ion-button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div style="display: flex; flex-grow: 1;">
+
+      <div class="outer">
+        <div class="inner-title">
+          <ion-button  slot="start" color="warning" id="1" style="display: flex; flex-grow: 1;" (click)=showPopover($event) >
+            <ion-label style="display: flex; flex-grow: 1;" slot="start"> {{playerPositions[2].playerPos}}</ion-label>
+            <ion-label slot="end">Pos 2</ion-label>
+          </ion-button>
+
+        </div>
+        <div class="inner-content">
+          <div style="display: flex; flex-direction: row; flex-wrap: wrap; width: 100%; height: 100%;">
+            <div style="flex-grow: 1;">
+              <ion-button (click)="postStat($event, 2)"  color="success" expand="block">K</ion-button>
+            </div>
+            <div style="flex-grow: 1;">
+              <ion-button (click)="postStat($event, 2)"   color="primary" expand="block">H</ion-button>
+            </div>
+            <div style="flex-grow: 1;">
+              <ion-button (click)="postStat($event, 2)"   color="danger" expand="block">HE</ion-button>
+            </div>
+            <div style="flex-grow: 1;">
+              <ion-button (click)="postStat($event, 2)"   color="success" expand="block">B</ion-button>
+            </div>
+            <div style="flex-grow: 1;">
+              <ion-button (click)="postStat($event, 2)"   (click)="postStat($event, 2)"   color="primary" expand="block">BT</ion-button>
+            </div>
+            <div cstyle="flex-grow: 1;">
+              <ion-button (click)="postStat($event, 2)"   color="danger" expand="block">BE</ion-button>
+            </div>
+            <div style="flex-grow: 1;">
+              <ion-button (click)="postStat($event, 2)"   color="success" expand="block">A</ion-button>
+            </div>
+            <div style="flex-grow: 1;">
+              <ion-button (click)="postStat($event, 2)"   color="success" expand="block">D</ion-button>
+            </div>
+            <div style="flex-grow: 1;">
+              <ion-button (click)="postStat($event, 2)"   color="danger" expand="block">BHE</ion-button>
             </div>
 
           </div>
@@ -124,103 +160,40 @@
 
       <div class="outer">
         <div class="inner-title">
-          <ion-button color="warning" id="2"  style="display: flex; flex-grow: 1;" (click)=showPopover($event) >
-            {{playerPositions[2].playerPos}}
+          <ion-button  slot="start" color="warning" id="1" style="display: flex; flex-grow: 1;" (click)=showPopover($event) >
+            <ion-label style="display: flex; flex-grow: 1;" slot="start"> {{playerPositions[3].playerPos}}</ion-label>
+            <ion-label slot="end">Pos 3</ion-label>
           </ion-button>
-          <!-- <ion-button style="display: flex; " (click)=showPopover($event)>
-            <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical">
 
-            </ion-icon>
-          </ion-button> -->
-          <!-- <ion-select (ionChange)="pickUser($event)" interface="popover" [value]="user" [compareWith]="compareFn">
-            <ion-select-option *ngFor="let user of users" [value]="user">
-              {{user.first}}
-            </ion-select-option>
-          </ion-select> -->
         </div>
         <div class="inner-content">
           <div style="display: flex; flex-direction: row; flex-wrap: wrap; width: 100%; height: 100%;">
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 2)"  color="success" expand="block">A</ion-button>
+              <ion-button (click)="postStat($event, 3)"  color="success" expand="block">K</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 2)"   color="dark" expand="block">AS</ion-button>
+              <ion-button (click)="postStat($event, 3)"   color="primary" expand="block">H</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 2)"   color="medium" expand="block">H</ion-button>
+              <ion-button (click)="postStat($event, 3)"   color="danger" expand="block">HE</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 2)"   color="success" expand="block">K</ion-button>
+              <ion-button (click)="postStat($event, 3)"   color="success" expand="block">B</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 2)"   (click)="postStat($event, 2)"   color="dark" expand="block">BE</ion-button>
+              <ion-button (click)="postStat($event, 3)"   (click)="postStat($event, 2)"   color="primary" expand="block">BT</ion-button>
             </div>
             <div cstyle="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 2)"   color="danger" expand="block">S</ion-button>
+              <ion-button (click)="postStat($event, 3)"   color="danger" expand="block">BE</ion-button>
             </div>
-            <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 2)"   color="medium" expand="block">BHE</ion-button>
-            </div>
-            <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 2)"   color="success" expand="block">SR</ion-button>
-            </div>
-            <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 2)"   color="tertiary" expand="block">BT</ion-button>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-
-    </div>
-
-    <div style="display: flex; flex-grow: 1;">
-
-      <div class="outer">
-        <div class="inner-title">
-          <ion-button color="warning"  id="3"  style="display: flex; flex-grow: 1;" (click)=showPopover($event) >
-            {{playerPositions[3].playerPos}}
-          </ion-button>
-          <!-- <ion-button style="display: flex; " (click)=showPopover($event)>
-            <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical">
-
-            </ion-icon>
-          </ion-button> -->
-          <!-- <ion-select (ionChange)="pickUser($event)" interface="popover" [value]="user" [compareWith]="compareFn">
-            <ion-select-option *ngFor="let user of users" [value]="user">
-              {{user.first}}
-            </ion-select-option>
-          </ion-select> -->
-        </div>
-        <div class="inner-content">
-          <div style="display: flex; flex-direction: row; flex-wrap: wrap; width: 100%; height: 100%;">
             <div style="flex-grow: 1;">
               <ion-button (click)="postStat($event, 3)"   color="success" expand="block">A</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 3)" color="dark" expand="block">AS</ion-button>
+              <ion-button (click)="postStat($event, 3)"   color="success" expand="block">D</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 3)" color="medium" expand="block">H</ion-button>
-            </div>
-            <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 3)" color="success" expand="block">K</ion-button>
-            </div>
-            <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 3)" color="dark" expand="block">BE</ion-button>
-            </div>
-            <div cstyle="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 3)" color="danger" expand="block">S</ion-button>
-            </div>
-            <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 3)" color="medium" expand="block">BHE</ion-button>
-            </div>
-            <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 3)" color="success" expand="block">SR</ion-button>
-            </div>
-            <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 3)" color="tertiary" expand="block">BT</ion-button>
+              <ion-button (click)="postStat($event, 3)"   color="danger" expand="block">BHE</ion-button>
             </div>
 
           </div>
@@ -234,48 +207,40 @@
 
       <div class="outer">
         <div class="inner-title">
-          <ion-button color="warning" id="4"  style="display: flex; flex-grow: 1;" (click)=showPopover($event) >
-            {{playerPositions[4].playerPos}}
+          <ion-button  slot="start" color="warning" id="1" style="display: flex; flex-grow: 1;" (click)=showPopover($event) >
+            <ion-label style="display: flex; flex-grow: 1;" slot="start"> {{playerPositions[4].playerPos}}</ion-label>
+            <ion-label slot="end">Pos 4</ion-label>
           </ion-button>
-          <!-- <ion-button style="display: flex; " (click)=showPopover($event)>
-            <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical">
 
-            </ion-icon>
-          </ion-button> -->
-          <!-- <ion-select (ionChange)="pickUser($event)" interface="popover" [value]="user" [compareWith]="compareFn">
-            <ion-select-option *ngFor="let user of users" [value]="user">
-              {{user.first}}
-            </ion-select-option>
-          </ion-select> -->
         </div>
         <div class="inner-content">
           <div style="display: flex; flex-direction: row; flex-wrap: wrap; width: 100%; height: 100%;">
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 4)" color="success" expand="block">A</ion-button>
+              <ion-button (click)="postStat($event, 4)"  color="success" expand="block">K</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 4)" color="dark" expand="block">AS</ion-button>
+              <ion-button (click)="postStat($event, 4)"   color="primary" expand="block">H</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 4)" color="medium" expand="block">H</ion-button>
+              <ion-button (click)="postStat($event, 4)"   color="danger" expand="block">HE</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 4)" color="success" expand="block">K</ion-button>
+              <ion-button (click)="postStat($event, 4)"   color="success" expand="block">B</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 4)" color="dark" expand="block">BE</ion-button>
+              <ion-button (click)="postStat($event, 4)"   (click)="postStat($event, 2)"   color="primary" expand="block">BT</ion-button>
             </div>
             <div cstyle="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 4)" color="danger" expand="block">S</ion-button>
+              <ion-button (click)="postStat($event, 4)"   color="danger" expand="block">BE</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 4)" color="medium" expand="block">BHE</ion-button>
+              <ion-button (click)="postStat($event, 4)"   color="success" expand="block">A</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 4)" color="success" expand="block">SR</ion-button>
+              <ion-button (click)="postStat($event, 4)"   color="success" expand="block">D</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button color="tertiary" expand="block">BT</ion-button>
+              <ion-button (click)="postStat($event, 4)"   color="danger" expand="block">BHE</ion-button>
             </div>
 
           </div>
@@ -290,50 +255,35 @@
 
       <div class="outer">
         <div class="inner-title">
-          <ion-button color="warning"  id="5" style="display: flex; flex-grow: 1;" (click)=showPopover($event) >
-            {{playerPositions[5].playerPos}}
+          <ion-button  slot="start" color="warning" id="1" style="display: flex; flex-grow: 1;" (click)=showPopover($event) >
+            <ion-label style="display: flex; flex-grow: 1;" slot="start"> {{playerPositions[5].playerPos}}</ion-label>
+            <ion-label slot="end">Pos 5</ion-label>
           </ion-button>
-          <!-- <ion-button style="display: flex; " (click)=showPopover($event)>
-            <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical">
 
-            </ion-icon>
-          </ion-button> -->
-          <!-- <ion-select (ionChange)="pickUser($event)" interface="popover" [value]="user" [compareWith]="compareFn">
-            <ion-select-option *ngFor="let user of users" [value]="user">
-              {{user.first}}
-            </ion-select-option>
-          </ion-select> -->
         </div>
         <div class="inner-content">
           <div style="display: flex; flex-direction: row; flex-wrap: wrap; width: 100%; height: 100%;">
-            <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 5)" color="success" expand="block">A</ion-button>
-            </div>
-            <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 5)" color="dark" expand="block">AS</ion-button>
-            </div>
-            <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 5)" color="medium" expand="block">H</ion-button>
-            </div>
             <div style="flex-grow: 1;">
               <ion-button (click)="postStat($event, 5)" color="success" expand="block">K</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 5)" color="dark" expand="block">BE</ion-button>
+              <ion-button (click)="postStat($event, 5)" color="primary" expand="block">H</ion-button>
+            </div>
+            <div style="flex-grow: 1;">
+              <ion-button (click)="postStat($event, 5)" color="danger" expand="block">HE</ion-button>
+            </div>
+            <div style="flex-grow: 1;">
+              <ion-button (click)="postStat($event, 5)" color="success" expand="block">A</ion-button>
             </div>
             <div cstyle="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 5)" color="danger" expand="block">S</ion-button>
+              <ion-button (click)="postStat($event, 5)" color="success" expand="block">D</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 5)" color="medium" expand="block">BHE</ion-button>
+              <ion-button (click)="postStat($event, 5)" color="danger" expand="block">BHE</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 5)" color="success" expand="block">SR</ion-button>
+              <ion-button (click)="postStat($event, 5)" color="danger" expand="block">SRE</ion-button>
             </div>
-            <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 5)" color="tertiary" expand="block">BT</ion-button>
-            </div>
-
           </div>
         </div>
       </div>
@@ -345,50 +295,35 @@
 
       <div class="outer">
         <div class="inner-title">
-          <ion-button color="warning" id="6"  style="display: flex; flex-grow: 1;" (click)=showPopover($event) >
-            {{playerPositions[6].playerPos}}
+          <ion-button  slot="start" color="warning" id="1" style="display: flex; flex-grow: 1;" (click)=showPopover($event) >
+            <ion-label style="display: flex; flex-grow: 1;" slot="start"> {{playerPositions[6].playerPos}}</ion-label>
+            <ion-label slot="end">Pos 6</ion-label>
           </ion-button>
-          <!-- <ion-button style="display: flex; " (click)=showPopover($event)>
-            <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical">
 
-            </ion-icon>
-          </ion-button> -->
-          <!-- <ion-select (ionChange)="pickUser($event)" interface="popover" [value]="user" [compareWith]="compareFn">
-            <ion-select-option *ngFor="let user of users" [value]="user">
-              {{user.first}}
-            </ion-select-option>
-          </ion-select> -->
         </div>
         <div class="inner-content">
           <div style="display: flex; flex-direction: row; flex-wrap: wrap; width: 100%; height: 100%;">
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 6)" color="success" expand="block">A</ion-button>
-            </div>
-            <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 6)" color="dark" expand="block">AS</ion-button>
-            </div>
-            <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 6)" color="medium" expand="block">H</ion-button>
-            </div>
-            <div style="flex-grow: 1;">
               <ion-button (click)="postStat($event, 6)" color="success" expand="block">K</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 6)" color="dark" expand="block">BE</ion-button>
+              <ion-button (click)="postStat($event, 6)" color="primary" expand="block">H</ion-button>
+            </div>
+            <div style="flex-grow: 1;">
+              <ion-button (click)="postStat($event, 6)" color="danger" expand="block">HE</ion-button>
+            </div>
+            <div style="flex-grow: 1;">
+              <ion-button (click)="postStat($event, 6)" color="success" expand="block">A</ion-button>
             </div>
             <div cstyle="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 6)" color="danger" expand="block">S</ion-button>
+              <ion-button (click)="postStat($event, 6)" color="success" expand="block">D</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 6)" color="medium" expand="block">BHE</ion-button>
+              <ion-button (click)="postStat($event, 6)" color="danger" expand="block">BHE</ion-button>
             </div>
             <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 6)" color="success" expand="block">SR</ion-button>
+              <ion-button (click)="postStat($event, 6)" color="danger" expand="block">SRE</ion-button>
             </div>
-            <div style="flex-grow: 1;">
-              <ion-button (click)="postStat($event, 6)" color="tertiary" expand="block">BT</ion-button>
-            </div>
-
           </div>
         </div>
       </div>
