@@ -13,6 +13,9 @@
 </ion-header>
 <p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 <ion-content >
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list style="width: 100%; margin-top: 10px;">
     <ion-item-sliding  *ngFor="let item of players">
       <ion-item (click)="showPlayer(item)">

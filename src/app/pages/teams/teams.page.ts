@@ -50,19 +50,32 @@ export class TeamsPage implements OnInit {
       this.router.navigate(['/login']);
   }
 
-  async ngOnInit() {
-    await this.matchService.getClubs().then(data => {
+  async getClubsAndTeams(event) {
+    await this.matchService.getClubs().then(async data => {
       var json = JSON.stringify(data);
       this.clubs = JSON.parse(json);
+      await this.matchService.getTeamsAsync().subscribe(data => {
+        var json = JSON.stringify(data);
+        this.teams = JSON.parse(json);
+      });
+      if(event) {
+        setTimeout(() => {
+          //console.log('Async operation has ended');
+          event.target.complete();
+        }, 0);
+      }
     });
 
-    await this.matchService.getTeamsAsync().subscribe(data => {
-      var json = JSON.stringify(data);
-      this.teams = JSON.parse(json);
-    });
-
+   
   }
 
+  async ngOnInit() {
+    this.getClubsAndTeams(event)
+  }
+
+  doRefresh(event) {
+    this.getClubsAndTeams(event)
+  }
   
 
   addTeam() {

@@ -188,13 +188,35 @@ export class MatchPage implements OnInit {
 
   async showscoreboard(ev) {
     // this.displayscoreboard = true;
+    var sbData = {
+      match: {...this.match},
+      game: {...this.game}
+    }
     const modal = await this.popover.create({
       component: ScoreboardPage,
       event: ev,
       translucent: true,
-      componentProps: { context: this.players }
+      componentProps: { context: sbData }
     });
     modal.style.cssText = '--width: 99vw';
+    var needsUpdate = false;
+    modal.onDidDismiss().then((d) => {
+      if (d.data) {
+        if(d.data && d.data.game.HomeScore != this.game.HomeScore || 
+          d.data.game.OpponentScore != this.game.OpponentScore || 
+          d.data.game.subs != this.game.subs) {
+            this.game.HomeScore = d.data.game.HomeScore;
+            this.game.OpponentScore = d.data.game.OpponentScore;
+            this.game.subs = d.data.game.subs;
+            let g = new GameWithId();
+            g.objectId = this.game.objectId;
+            g.HomeScore = this.game.HomeScore;
+            g.OpponentScore = this.opponentscore
+            g.subs = this.game.subs
+            this.matchService.updateGame(g);
+        }
+      }
+    })
 
     return await modal.present();
   }
@@ -273,7 +295,7 @@ export class MatchPage implements OnInit {
                   var p1 = this.allPlayers.filter(p => p.objectId == pos[i].objectId)[0]
                   this.playerPositions[i + 1].posNo = pos[i].posNo;
                   this.playerPositions[i + 1].player = p1;
-                  this.playerPositions[i + 1].playerPos =
+                  this.playerPositions[i + 1].playerPos = this.playerDisplay(p1)
                     p1.FirstName + " - " + p1.jersey;
                   this.players = this.players.filter(x => x.objectId != p1.objectId)
                 }
@@ -304,8 +326,17 @@ export class MatchPage implements OnInit {
       this.router.navigate(['/login']);
   }
 
+  playerDisplay(dataReturned) {
+    if(dataReturned.jersey) {
+      return dataReturned.FirstName + " - " + dataReturned.jersey;
+    }
+    else {
+      return dataReturned.FirstName
+    }
+  }
+
   async showPopover(ev: any) {
-    let id = ev.target.id
+    let id = ev.target.parentNode.id
     const modal = await this.popover.create({
       component: PlayerpickerPage,
       // event: ev,
@@ -323,38 +354,38 @@ export class MatchPage implements OnInit {
             // this.playerPos1 = this.players.filter(x => x.objectId === dataReturned.data.objectId)[0].FirstName
             this.playerPositions[1].posNo = 1;
             this.playerPositions[1].player = dataReturned.data;
-            this.playerPositions[1].playerPos =
-              dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
+            this.playerPositions[1].playerPos = this.playerDisplay(dataReturned.data)
+              //dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
             break;
           case "2":
             this.playerPositions[2].posNo = 2;
             this.playerPositions[2].player = dataReturned.data;
-            this.playerPositions[2].playerPos =
-              dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
+            this.playerPositions[2].playerPos = this.playerDisplay(dataReturned.data)
+              //dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
             break;
           case "3":
             this.playerPositions[3].posNo = 3;
             this.playerPositions[3].player = dataReturned.data;
-            this.playerPositions[3].playerPos =
-              dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
+            this.playerPositions[3].playerPos = this.playerDisplay(dataReturned.data)
+              //dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
             break;
           case "4":
             this.playerPositions[4].posNo = 4;
             this.playerPositions[4].player = dataReturned.data;
-            this.playerPositions[4].playerPos =
-              dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
+            this.playerPositions[4].playerPos = this.playerDisplay(dataReturned.data)
+              //dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
             break;
           case "5":
             this.playerPositions[5].posNo = 5;
             this.playerPositions[5].player = dataReturned.data;
-            this.playerPositions[5].playerPos =
-              dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
+            this.playerPositions[5].playerPos = this.playerDisplay(dataReturned.data)
+              //dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
             break;
           case "6":
             this.playerPositions[6].posNo = 6;
             this.playerPositions[6].player = dataReturned.data;
-            this.playerPositions[6].playerPos =
-              dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
+            this.playerPositions[6].playerPos = this.playerDisplay(dataReturned.data)
+              //dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
             break;
           default:
             break;

@@ -6,7 +6,7 @@ import { NetworkService } from 'src/app/services/network.service';
 import { OfflineService } from 'src/app/services/offline.service';
 import { MessageService } from 'primeng/api';
 import { ClubWithId, TeamWithId, Player, PlayerWithId, TeamPlayerWithID } from 'src/app/models/appModels';
-import { ToastController, ModalController } from '@ionic/angular';
+import { ToastController, ModalController, LoadingController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { FormGroup, Validators, FormBuilder, NgForm } from '@angular/forms';
 import { PlayerpopoverPage } from '../playerpopover/playerpopover.page';
@@ -38,6 +38,7 @@ export class TeamdetailPage implements OnInit {
   pickedPlayers: PlayerWithId[] = [];
   tdForm: FormGroup;
   displayPlayer = false
+  loading: any
   menuitems = [{
       label: 'Log out',
       icon: 'pi pi-fw pi-power-off',
@@ -47,6 +48,7 @@ export class TeamdetailPage implements OnInit {
   }];
   
   constructor(private route: ActivatedRoute,
+    public loadingController: LoadingController,
     private router: Router,
     public modalController: ModalController,
     private matchService: MatchService,
@@ -78,6 +80,15 @@ export class TeamdetailPage implements OnInit {
         }
       });
   
+  }
+
+  async presentLoading() {
+    this.loading = await this.loadingController.create({
+      message: 'Please wait...',
+      //duration: 3000
+    });
+
+    await this.loading.present();
   }
   
   removeItem(item) {
@@ -162,6 +173,7 @@ export class TeamdetailPage implements OnInit {
 
   async ngOnInit() {
     
+    this.presentLoading()
     this.tdForm = this.formBuilder.group({
       teamname: ['', Validators.required]
     });
@@ -230,9 +242,13 @@ export class TeamdetailPage implements OnInit {
               tp.jersey = p.Jersey
               this.teamPlayers.push(tp);
             });
+            this.loading.dismiss()
             //console.log(d)
             //this.teamPlayers = d
           }})
+        }
+        else {
+          this.loading.dismiss()
         }
       });
     });

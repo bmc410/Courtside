@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { PopoverController, ToastController } from '@ionic/angular';
+import { PopoverController, ToastController, NavParams } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { MatchService } from 'src/app/services/matchservice';
 // import { ConnectionService } from 'ng-connection-service';
@@ -15,18 +15,19 @@ import { MessageService } from 'primeng/api';
 })
 export class ScoreboardPage implements OnInit {
   deletevisible = false;
-  opponent:any
-  homescore = 23
-  hometeam = "Bill's Team"
-  opponentscore = 21
-  opponentteam = "Ballyhoo"
+  opponent: any
+  homescore = 0
+  hometeam = ""
+  opponentscore = 0
+  opponentteam = ""
+  matchcontext: any;
+  subs = 0
 
-  subs = 2
 
 
-
-  constructor(private popover:PopoverController,
+  constructor(private popover: PopoverController,
     private router: Router,
+    public navParams: NavParams,
     private matchService: MatchService,
     // private connectionService: ConnectionService,
     private _ngZone: NgZone,
@@ -37,7 +38,40 @@ export class ScoreboardPage implements OnInit {
     public toastController: ToastController) { }
 
   ngOnInit() {
+    this.matchcontext = this.navParams.data.context;
+    this.homescore = this.matchcontext.game.HomeScore
+    this.opponentscore = this.matchcontext.game.OpponentScore
+    this.subs = this.matchcontext.game.subs
+    this.hometeam = this.matchcontext.match.Home
+    this.opponentteam = this.matchcontext.match.Opponent
   }
+
+  update(e) {
+    switch (e.target.id) {
+      case 'hr':
+        this.matchcontext.game.HomeScore -= 1;
+        break;
+      case 'ha':
+        this.matchcontext.game.HomeScore += 1;
+        break;
+      case 'or':
+        this.matchcontext.game.OpponentScore -= 1;
+        break;
+      case 'oa':
+        this.matchcontext.game.OpponentScore += 1;
+        break;
+        case 'sr':
+        this.matchcontext.game.subs -= 1;
+        break;
+      case 'sa':
+        this.matchcontext.game.subs += 1;
+        break;
+
+      default:
+        break;
+    }
+  }
+
 
   logoff() {
     this.authenticationService.logout();
@@ -45,12 +79,11 @@ export class ScoreboardPage implements OnInit {
   }
 
   dismiss(item) {
-    console.log(item)
     this.popover.dismiss(item);
   }
 
   close() {
-    this.popover.dismiss()
+    this.popover.dismiss(this.matchcontext)
   }
 
 }

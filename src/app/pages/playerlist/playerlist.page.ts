@@ -42,6 +42,10 @@ export class PlayerlistPage implements OnInit {
     }
 
   ngOnInit() {
+    this.getPlayers(event)
+  }
+
+  getPlayers(event) {
     this.matchService.getPlayersAsync().subscribe(data => {
       var json = JSON.stringify(data);
       var d = JSON.parse(json);
@@ -73,6 +77,13 @@ export class PlayerlistPage implements OnInit {
       })
 
       this.players = sortedArray.slice()
+      if(event) {
+        setTimeout(() => {
+          //console.log('Async operation has ended');
+          event.target.complete();
+        }, 0);
+      }
+     
 
     });
   }
@@ -107,6 +118,10 @@ export class PlayerlistPage implements OnInit {
 
     await toast.present();
     
+  }
+
+  doRefresh(event) {
+    this.getPlayers(event)
   }
   
 }

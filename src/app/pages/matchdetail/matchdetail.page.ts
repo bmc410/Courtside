@@ -100,12 +100,13 @@ export class MatchdetailPage implements OnInit {
       this.opponent = this.context.Opponent
       this.matchdate = this.context.MatchDate
       this.matchid = this.context.objectId
-      this.deletevisible = true
-      if (this.matchid != "") {
+      if (this.matchid) {
+        this.deletevisible = true
         this.matchtitle = this.teams.filter(x => x.objectId === this.selectedTeamId)[0]?.TeamName +
         " vs " + this.opponent
       }
       else {
+        this.deletevisible = false
         this.matchtitle = "Add Teams"
       }
 

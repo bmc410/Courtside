@@ -33,9 +33,19 @@ export class MatchesPage implements OnInit {
 
   async ngOnInit() {
     this.matchService.loadMatches();
+    this.getMatchesAsync(null)
+  }
+
+  async getMatchesAsync(event) {
     await this.matchService.getMatchesAsync().subscribe(result => {
       var json = JSON.stringify(result);
       this.matches = JSON.parse(json);
+      if(event) {
+        setTimeout(() => {
+          //console.log('Async operation has ended');
+          event.target.complete();
+        }, 0);
+      }
     });
   }
 
@@ -60,5 +70,8 @@ export class MatchesPage implements OnInit {
     this.router.navigate(['/app/tabs/matches/matchdetail'], { queryParams: { context: JSON.stringify(item) } });
   }
 
+  doRefresh(event) {
+    this.getMatchesAsync(event)
+  }
 
 }

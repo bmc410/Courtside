@@ -76,7 +76,7 @@ export class PlayerpickerPage implements OnInit {
   }
 
   dismiss(item) {
-    console.log(item)
+    //console.log(item)
     this.popover.dismiss(item);
   }
 

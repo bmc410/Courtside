@@ -6,29 +6,33 @@
 
 <ion-content fullscreen>
   <div style="margin-top: 5px;" class="login-logo">
-    <img style="height: 25vh;" src="assets/img/appicon.svg" >
+    <img style="height: 25vh;" src="assets/img/appicon.svg">
   </div>
 
-  <div style="margin-top: 5px;" class="login-logo">
+  <div style="margin-top: 5px; display: flex; flex-direction: column; align-items: center;" class="login-logo">
 
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <ion-list style="height: 100%;">
-      <ion-item>
-        <ion-label position="fixed" color="primary">Username:</ion-label>
-        <ion-input style="border: 0px;"  formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" ></ion-input>
-      </ion-item>
-      <ion-label style="margin-bottom: 0px; font-size: xx-small;" *ngIf="submitted && f.username.errors" color="danger">Username is required</ion-label>
-        
-    
-      <ion-item>
-        <ion-label position="fixed" color="primary">Password:</ion-label>
-        <ion-input style="border: 0px;" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" ></ion-input>
-      </ion-item>
-      <ion-label style="margin-bottom: 0px; font-size: xx-small;" *ngIf="submitted && f.password.errors" color="danger">Password is required</ion-label>
-    
-    </ion-list>
-    <ion-button style="margin: 10px;" type="submit" expand="block">Login</ion-button>
-  </form>
-</div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <ion-list style="height: 100%; margin-bottom: 20px;">
+        <ion-item>
+          <ion-label position="fixed" color="primary">Username:</ion-label>
+          <ion-input style="border: 0px;" formControlName="username" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.username.errors }"></ion-input>
+        </ion-item>
+        <ion-label style="margin-bottom: 0px; font-size: xx-small;" *ngIf="submitted && f.username.errors"
+          color="danger">Username is required</ion-label>
+
+
+        <ion-item>
+          <ion-label position="fixed" color="primary">Password:</ion-label>
+          <ion-input style="border: 0px;" type="password" formControlName="password" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.password.errors }"></ion-input>
+        </ion-item>
+        <ion-label style="margin-bottom: 0px; font-size: xx-small;" *ngIf="submitted && f.password.errors"
+          color="danger">Password is required</ion-label>
+
+      </ion-list>
+      <ion-button type="submit" expand="block">Login</ion-button>
+    </form>
+  </div>
 
 </ion-content>
