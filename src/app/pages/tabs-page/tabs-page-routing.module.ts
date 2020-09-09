@@ -62,6 +62,29 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'stats',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../stats/stats.module').then(m => m.StatsPageModule)
+          },
+          {
+          path: 'statpicker',
+          children: [
+            { path: "",
+              loadChildren: () => import('../statpicker/statpicker.module').then(m => m.StatpickerPageModule)
+            },
+            { path: "playbyplay",
+              loadChildren: () => import('../playbyplay/playbyplay.module').then(m => m.PlaybyplayPageModule)
+            },
+            { path: "individualstats",
+              loadChildren: () => import('../individualstats/individualstats.module').then(m => m.IndividualstatsPageModule)
+            }
+          ]
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: '/app/tabs/teams',
         pathMatch: 'full'

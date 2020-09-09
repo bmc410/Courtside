@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title mode="md">Stats</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="menu.toggle($event)">
+        <ion-icon slot="icon-only" ios="ellipsis-vertical" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
+
+<ion-content >
+  <ion-list>
+    <ion-item>
+      <ion-select (ionChange)="onChange()" [(ngModel)]="match.objectId" [compareWith]="compareFn"
+        placeholder="Select match" interface="popover">
+        <ion-select-option *ngFor="let match of matches" value={{match.objectId}}>
+          {{match?.Home}} vs {{match?.Opponent}} ({{match?.MatchDate}})
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-select [(ngModel)]="game.objectId" [compareWith]="compareFn" placeholder="Select game" interface="popover">
+        <ion-select-option *ngFor="let game of gamesformatch" value={{game.objectId}}>
+          Game {{game?.GameNumber}} ({{game?.HomeScore}} - {{game?.OpponentScore}})
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <div style="width: 100%; display: flex; justify-content: center;">
+    <button (click)="showstatpicker()" style="width: 80%; margin-top: 20px;" class="btn btn-primary" type="submit" >View Stats</button>  
+  </div>
+</ion-content>

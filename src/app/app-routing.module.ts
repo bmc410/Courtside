@@ -95,6 +95,22 @@ const routes: Routes = [
   {
     path: 'scoreboard',
     loadChildren: () => import('./pages/scoreboard/scoreboard.module').then( m => m.ScoreboardPageModule)
+  },
+  {
+    path: 'stats',
+    loadChildren: () => import('./pages/stats/stats.module').then( m => m.StatsPageModule)
+  },
+  {
+    path: 'statpicker',
+    loadChildren: () => import('./pages/statpicker/statpicker.module').then( m => m.StatpickerPageModule)
+  },
+  {
+    path: 'playbyplay',
+    loadChildren: () => import('./pages/playbyplay/playbyplay.module').then( m => m.PlaybyplayPageModule)
+  },
+  {
+    path: 'individualstats',
+    loadChildren: () => import('./pages/individualstats/individualstats.module').then( m => m.IndividualstatsPageModule)
   }
 ];
 
