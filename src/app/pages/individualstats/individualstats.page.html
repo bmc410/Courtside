@@ -13,5 +13,93 @@
 <p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 
 <ion-content>
+  <mat-table #table [dataSource]="statviews">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="firstName">
+      <mat-header-cell *matHeaderCellDef>Player</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.firstName}} </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="k">
+      <mat-header-cell *matHeaderCellDef>K</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.k}} </mat-cell>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="he">
+      <mat-header-cell *matHeaderCellDef>HE</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.he}} </mat-cell>
+    </ng-container>
+
+
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="b">
+      <mat-header-cell *matHeaderCellDef>B</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.b}} </mat-cell>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="bt">
+      <mat-header-cell *matHeaderCellDef>BT</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.bt}} </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="be">
+      <mat-header-cell *matHeaderCellDef>BE</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.be}} </mat-cell>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="a">
+      <mat-header-cell *matHeaderCellDef>A</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.a}} </mat-cell>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="d">
+      <mat-header-cell *matHeaderCellDef>D</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.d}} </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="bhe">
+      <mat-header-cell *matHeaderCellDef>BHE</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.bhe}} </mat-cell>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="sre">
+      <mat-header-cell *matHeaderCellDef>SRE</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.sre}} </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="se">
+      <mat-header-cell *matHeaderCellDef>SE</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.se}} </mat-cell>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="sa">
+      <mat-header-cell *matHeaderCellDef>SA</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.sa}} </mat-cell>
+    </ng-container>
+
+
+
+
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row (click)="itemSelected(row)" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+  </mat-table>
 
 </ion-content>

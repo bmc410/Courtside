@@ -66,7 +66,13 @@ export class StatsPage implements OnInit {
   }
 
   showstatpicker() {
-    this.router.navigate(['/app/tabs/stats/statpicker'], { queryParams: { context: this.game.objectId } });
+    var item = {
+      gId: this.game.objectId,
+      htId: this.matches.filter(x => x.objectId === this.match.objectId)[0].HomeTeamId,
+      mId: this.match.objectId
+    }
+
+    this.router.navigate(['/app/tabs/stats/statpicker'], { queryParams: { context: JSON.stringify(item) } });
   }
 
   async onChange(m) {

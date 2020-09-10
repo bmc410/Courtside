@@ -7,12 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { PlaybyplayPageRoutingModule } from './playbyplay-routing.module';
 
 import { PlaybyplayPage } from './playbyplay.page';
+import { MenuModule } from 'primeng/menu';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    MenuModule,
     IonicModule,
+    MatTableModule,
     PlaybyplayPageRoutingModule
   ],
   declarations: [PlaybyplayPage]

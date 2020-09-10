@@ -7,11 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { IndividualstatsPageRoutingModule } from './individualstats-routing.module';
 
 import { IndividualstatsPage } from './individualstats.page';
+import { MenuModule } from 'primeng/menu';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    MenuModule,
+    MatTableModule,
     IonicModule,
     IndividualstatsPageRoutingModule
   ],

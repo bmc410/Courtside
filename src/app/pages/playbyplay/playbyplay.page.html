@@ -13,5 +13,32 @@
 <p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 
 <ion-content>
+  <mat-table #table [dataSource]="playbyplay">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="homescore">
+      <mat-header-cell *matHeaderCellDef>Home</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.homescore}} </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="opponentscore">
+      <mat-header-cell *matHeaderCellDef>Club</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.opponentscore}} </mat-cell>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.action}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row (click)="itemSelected(row)" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    
+  </mat-table>
 
 </ion-content>
