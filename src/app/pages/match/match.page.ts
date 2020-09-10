@@ -344,7 +344,7 @@ export class MatchPage implements OnInit {
       componentProps: { context: this.players }
     });
     modal.onDidDismiss().then((dataReturned) => {
-      if (dataReturned !== null) {
+      if (dataReturned.data !== undefined) {
         if (this.playerPositions[id].playerPos != "Select Player") {
           this.players.push(this.playerPositions[id].player)
           console.log(this.playerPositions[id].playerPos)

@@ -11,7 +11,7 @@
 <p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 
 <ion-content >
-  <ion-list>
+  <ion-list style="margin-top: 20px;">
     <ion-item>
       <ion-select (ionChange)="onChange()" [(ngModel)]="match.objectId" [compareWith]="compareFn"
         placeholder="Select match" interface="popover">
