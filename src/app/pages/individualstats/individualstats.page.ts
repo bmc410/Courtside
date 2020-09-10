@@ -46,27 +46,25 @@ export class IndividualstatsPage implements OnInit {
       })
     }
 
-    ngOnInit() {
-      this.matchService.getPlayers().then(result => {
+    async ngOnInit() {
+      await this.matchService.getPlayers().then(async result => {
         var json = JSON.stringify(result);
         this.allPlayers = JSON.parse(json)
-        this.matchService.getMatchById(this.context.mId).then(result => {
+        await this.matchService.getMatchById(this.context.mId).then(async result => {
           var json = JSON.stringify(result);
           var g = JSON.parse(json);
-          this.matchService.getPlayersByTeamId(this.context.htId).then(result => {
+          await this.matchService.getPlayersByTeamId(this.context.htId).then(async result => {
             var json = JSON.stringify(result);
             var g = JSON.parse(json);
             g.forEach(p => {
               this.players.push(this.allPlayers.filter(x => x.objectId == p.PlayerId)[0])
             });
-            this.matchService.getstats(this.context.gId).then(result => {
+            await this.matchService.getstats(this.context.gId).then(result => {
               var json = JSON.stringify(result);
               this.stats = JSON.parse(json);
-            })
-  
-              
               this.setupStatView();
               this.showData();
+            })
           })
         })
       })
@@ -136,7 +134,7 @@ export class IndividualstatsPage implements OnInit {
       const index = this.statviews.findIndex(
         sv => sv.PlayerId === element.PlayerId
       );
-      switch (element.StatType) {
+      switch (element.StatType.toLowerCase()) {
         case "k":
           this.statviews[index].k += 1;
           this.teamtotal.k += 1;
