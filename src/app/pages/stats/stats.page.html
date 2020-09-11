@@ -13,7 +13,7 @@
 <ion-content >
   <ion-list style="margin-top: 20px;">
     <ion-item>
-      <ion-select (ionChange)="onChange()" [(ngModel)]="match.objectId" [compareWith]="compareFn"
+      <ion-select (ionChange)="onChange($event)" [(ngModel)]="match.objectId" [compareWith]="compareFn"
         placeholder="Select match" interface="popover">
         <ion-select-option *ngFor="let match of matches" value={{match.objectId}}>
           {{match?.Home}} vs {{match?.Opponent}} ({{match?.MatchDate}})
