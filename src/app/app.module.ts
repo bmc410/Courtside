@@ -30,7 +30,8 @@ import { AuthenticationService } from './services/authentication.service';
 import { NetworkService } from './services/network.service';
 import { AngularFireModule } from '@angular/fire';
 import { MessageService } from 'primeng/api';
-
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { OverlayModule } from '@angular/cdk/overlay';
 @NgModule({
   imports: [
     BrowserModule,
@@ -41,6 +42,8 @@ import { MessageService } from 'primeng/api';
     MatInputModule,
     ToastModule,
     MatFormFieldModule,
+    MatDialogModule,
+    OverlayModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
@@ -56,7 +59,7 @@ import { MessageService } from 'primeng/api';
     MatInputModule,
   ],
   declarations: [AppComponent],
-  providers: [InAppBrowser, SplashScreen, StatusBar,AuthenticateService,AuthguardService,NavParams,
+  providers: [MatDialog, InAppBrowser, SplashScreen, StatusBar,AuthenticateService,AuthguardService,NavParams,
     MatchService, OfflineService, MessageService, AngularFirestore, AppStateService,AuthenticationService,NetworkService],
   bootstrap: [AppComponent]
 })

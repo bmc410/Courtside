@@ -14,6 +14,8 @@ import { CourtPosition, GameScore, GameWithId, PlayerWithId, Stat, statEntry, St
 import { async } from 'rxjs/internal/scheduler/async';
 import { PlayerpickerPage } from '../playerpicker/playerpicker.page';
 import { ScoreboardPage } from '../scoreboard/scoreboard.page';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ScoremodalPage } from '../scoremodal/scoremodal.page';
 
 
 @Component({
@@ -75,6 +77,7 @@ export class MatchPage implements OnInit {
   opponentpointOptions = ["he", "be", "bhe", "sre", "se"];
 
   constructor(
+    public matDialog: MatDialog,
     private matchService: MatchService,
     private route: ActivatedRoute,
     private networkService: NetworkService,
@@ -148,6 +151,27 @@ export class MatchPage implements OnInit {
     //this.matchService.updateGame(this.game.gameid, this.game);
   }
 
+  openModal() {
+
+    var sbdata = {
+      home: this.match.Home,
+      away: this.match.Opponent,
+      homescore: this.game.HomeScore,
+      awayscore: this.game.OpponentScore
+    };
+
+    const dialogConfig = new MatDialogConfig();
+    // The user can't close the dialog by clicking outside its body
+    dialogConfig.disableClose = true;
+    //dialogConfig.id = "modal-component";
+    dialogConfig.height = "";
+    dialogConfig.width = "90vw";
+    // https://material.angular.io/components/dialog/overview
+    const modalDialog = this.matDialog.open(ScoremodalPage, {data: { pageValue: sbdata }, width: '99%', height: '', position: {top: '1%'}});
+    setTimeout(() => {
+      this.matDialog.closeAll()
+    }, 2000);
+  }
 
   updateGame(team: string, action: any, stat: string, players: PlayerWithId[]) {
 
@@ -159,14 +183,17 @@ export class MatchPage implements OnInit {
       else {
         this.game.HomeScore = this.game.HomeScore - 1
       }
+      this.openModal()
     }
     else if (team === "opponent") {
+      this.openModal()
       if (action === "a") {
         this.game.OpponentScore = this.game.OpponentScore + 1
       }
       else {
         this.game.OpponentScore = this.game.OpponentScore - 1
       }
+      this.openModal()
     }
     else {
         stat = "sub"

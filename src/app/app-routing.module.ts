@@ -111,6 +111,10 @@ const routes: Routes = [
   {
     path: 'individualstats',
     loadChildren: () => import('./pages/individualstats/individualstats.module').then( m => m.IndividualstatsPageModule)
+  },
+  {
+    path: 'scoremodal',
+    loadChildren: () => import('./pages/scoremodal/scoremodal.module').then( m => m.ScoremodalPageModule)
   }
 ];
 

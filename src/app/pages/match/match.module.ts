@@ -16,6 +16,7 @@ import { ScoreboardPage } from '../scoreboard/scoreboard.page';
 import {DialogModule} from 'primeng/dialog';
 import { PlayerpickerPageModule } from '../playerpicker/playerpicker.module';
 import {NumberPickerModule} from 'ng-number-picker';
+import { MatDialog } from '@angular/material/dialog';
 @NgModule({
   imports: [
     CommonModule,
@@ -26,6 +27,7 @@ import {NumberPickerModule} from 'ng-number-picker';
     MatchPageRoutingModule,
     PlayerpickerPageModule,
     MatSelectModule,
+    //MatDialog,
     NumberPickerModule,
     DialogModule
   ],
