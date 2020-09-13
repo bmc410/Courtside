@@ -6,6 +6,7 @@ import { OfflineService } from 'src/app/services/offline.service';
 import { Platform, PopoverController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { PlayerWithId, statEntry, gameMatch, statView } from 'src/app/models/appModels';
+import { Observable, Subscription, timer } from 'rxjs';
 
 @Component({
   selector: 'app-playbyplay',
@@ -26,6 +27,7 @@ export class PlaybyplayPage implements OnInit {
   matchgameStats: statEntry[] = [];
   pct: number = 0;
   displayedColumns = ['homescore', 'opponentscore', 'action'];
+  mytimer: Subscription;
 
   constructor(private matchService: MatchService,
     private route: ActivatedRoute,
@@ -36,35 +38,47 @@ export class PlaybyplayPage implements OnInit {
     private authenticationService: AuthenticationService,
     private popover: PopoverController) { 
       this.matchService.loadMatches()
+      this.mytimer = timer(0, 5000)
+        .subscribe(() => this.getData())
       this.route.queryParams.subscribe(params => {
         this.context = JSON.parse(params['context']);
       })
     }
-
-  ngOnInit() {
-    this.matchService.getPlayers().then(result => {
-      var json = JSON.stringify(result);
-      this.allPlayers = JSON.parse(json)
-      this.matchService.getMatchById(this.context.mId).then(result => {
+  
+    getData() {
+      this.matchService.getPlayers().then(result => {
         var json = JSON.stringify(result);
-        var g = JSON.parse(json);
-        this.matchService.getPlayersByTeamId(this.context.htId).then(result => {
+        this.allPlayers = JSON.parse(json)
+        this.matchService.getMatchById(this.context.mId).then(result => {
           var json = JSON.stringify(result);
           var g = JSON.parse(json);
-          g.forEach(p => {
-            this.players.push(this.allPlayers.filter(x => x.objectId == p.PlayerId)[0])
-          });
-          this.matchService.getPlayByPlay(this.context.gId).then(result => {
+          this.matchService.getPlayersByTeamId(this.context.htId).then(result => {
             var json = JSON.stringify(result);
-            this.playbyplay= JSON.parse(json);
+            var g = JSON.parse(json);
+            g.forEach(p => {
+              this.players.push(this.allPlayers.filter(x => x.objectId == p.PlayerId)[0])
+            });
+            this.matchService.getPlayByPlay(this.context.gId).then(result => {
+              var json = JSON.stringify(result);
+              this.playbyplay= JSON.parse(json);
+              //this.playbyplay = this.playbyplay.sort(x )
+              this.playbyplay.sort((a,b)=>b.createdAt.localeCompare(a.createdAt));
+            })
+  
+              
+              this.setupStatView();
+              this.showData();
           })
-
-            
-            this.setupStatView();
-            this.showData();
         })
       })
-    })
+    }
+  
+  ngOnDestroy() {
+    this.mytimer.unsubscribe()
+  }
+
+  ngOnInit() {
+    this.getData()
   }
 
   menuitems = [{
