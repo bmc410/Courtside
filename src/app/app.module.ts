@@ -32,6 +32,7 @@ import { AngularFireModule } from '@angular/fire';
 import { MessageService } from 'primeng/api';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { MatSortModule } from '@angular/material/sort';
 @NgModule({
   imports: [
     BrowserModule,
@@ -43,6 +44,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
     ToastModule,
     MatFormFieldModule,
     MatDialogModule,
+    MatSortModule,
     OverlayModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),

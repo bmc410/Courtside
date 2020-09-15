@@ -12,12 +12,16 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MenuModule} from 'primeng/menu';
 import {MenuItem} from 'primeng/api';
 import {MatTableModule} from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 @NgModule({
   imports: [
     MenuModule,
     FormsModule,
     TableModule,
     CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
     IonicModule,
     MatTableModule,
     MatchesPageRoutingModule

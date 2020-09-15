@@ -23,6 +23,19 @@
  :root {
 
   $toolbar-background: #3D9BDD;
+  $radio-md-icon-width: 0;
+  $radio-md-icon-height:0;
+  $radio-md-icon-border-width:0;
+  $radio-md-icon-border-radius:0;
+  ion-select-popover ion-list ion-item {
+    --border-width: 0;
+    --inner-border-width: 0;
+  }
+  
+  ion-select-popover ion-list ion-item ion-radio {
+    --color: transparent;
+    --color-checked: transparent;
+  }
   
   /** primary **/
   --ion-color-primary: #3880ff;

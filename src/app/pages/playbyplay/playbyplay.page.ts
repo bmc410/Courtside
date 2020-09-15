@@ -45,7 +45,7 @@ export class PlaybyplayPage implements OnInit {
       })
     }
   
-    getData() {
+  getData() {
       this.matchService.getPlayers().then(result => {
         var json = JSON.stringify(result);
         this.allPlayers = JSON.parse(json)
@@ -71,7 +71,7 @@ export class PlaybyplayPage implements OnInit {
           })
         })
       })
-    }
+  }
   
   ngOnDestroy() {
     this.mytimer.unsubscribe()

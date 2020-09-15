@@ -18,14 +18,19 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <mat-table #table [dataSource]="matches">
+  <mat-form-field style="margin-right: 10px; margin-left: 10px;">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)"  #input>
+  </mat-form-field>
+
+  <mat-table  matSort (matSortChange)="sortData($event)" [dataSource]="datasource">
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
 
     <!-- Position Column -->
     <ng-container matColumnDef="Home">
-      <mat-header-cell *matHeaderCellDef>Home</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Home</mat-header-cell>
       <mat-cell *matCellDef="let match"> {{match.Home}} </mat-cell>
     </ng-container>
 
