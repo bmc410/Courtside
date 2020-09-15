@@ -46,7 +46,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatDialogModule,
     MatSortModule,
     OverlayModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({animated: false}),
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule.enablePersistence(),

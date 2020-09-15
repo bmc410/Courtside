@@ -76,3 +76,11 @@ ion-select {
     overflow-y: hidden !important;
 }
 
+:root ion-content {
+    --background: transparent !important;
+}
+
+.match {
+    --background: black !important;
+}
+

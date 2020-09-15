@@ -16,7 +16,7 @@
 </ion-header>
 <p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 
-<ion-content>
+<ion-content class="clear">
   <ion-item >
     <ion-button *ngIf="deletevisible == true" (click)="deleteplayer();" color="danger" slot="end">
       <ion-icon name="trash-outline"></ion-icon>

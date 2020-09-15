@@ -15,7 +15,7 @@
 </ion-header>
 <p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 
-<ion-content>
+<ion-content class="clear">
   <div style="margin-left: 0px; margin-right: 0px; margin-top: 5px; margin-bottom: 15px;"
     class="row d-flex align-items-center">
     <div class="col-8">
@@ -31,18 +31,6 @@
       </ion-button>
     </div>
   </div>
-  <!-- <ion-toolbar >
-    <ion-title mode="md" style="padding-left: 0px" slot="start">{{matchtitle}}</ion-title>
-    <ion-item style="margin-bottom: 10px" lines="none">
-      <ion-button *ngIf="deletevisible == true" (click)="startMatch($event);" color="success" slot="end"   >
-        <ion-icon name="play-outline"></ion-icon>
-      </ion-button>
-      <ion-button *ngIf="deletevisible == true" (click)="deleteMatch();" color="danger" slot="end" >
-        <ion-icon name="trash-outline"></ion-icon>
-      </ion-button>
-    </ion-item>
-  </ion-toolbar> -->
-  
   <ion-item>
     <ion-label color="primary" class="ion-label">Home Team</ion-label>
     <ion-select [(ngModel)]="selectedTeamId" placeholder="Select team" interface="popover">

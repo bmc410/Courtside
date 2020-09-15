@@ -15,7 +15,7 @@
 </ion-header>
 <p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 
-<ion-content style="display: flex; flex-flow:column; height: 100%;">
+<ion-content class="clear" style="display: flex; flex-flow:column; height: 100%; opacity: 0.8;">
   <ion-item lines="none">
     <ion-title slot="start" mode="md" style="padding-left: 0px" slot="start">{{selectedteamname}}</ion-title>
     <ion-button *ngIf="deletevisible == true" (click)="deleteTeam();" color="danger" slot="end">

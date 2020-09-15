@@ -165,9 +165,9 @@ export class MatchPage implements OnInit {
     dialogConfig.disableClose = true;
     //dialogConfig.id = "modal-component";
     dialogConfig.height = "";
-    dialogConfig.width = "90vw";
+    dialogConfig.width = "100%";
     // https://material.angular.io/components/dialog/overview
-    const modalDialog = this.matDialog.open(ScoremodalPage, {data: { pageValue: sbdata }, width: '99%', height: '', position: {top: '1%'}});
+    const modalDialog = this.matDialog.open(ScoremodalPage, {data: { pageValue: sbdata },maxWidth: '100%',  width: '95%', height: '', position: {top: '2%'}});
     setTimeout(() => {
       this.matDialog.closeAll()
     }, 2000);
@@ -222,7 +222,6 @@ export class MatchPage implements OnInit {
     const modal = await this.popover.create({
       component: ScoreboardPage,
       event: ev,
-      translucent: true,
       componentProps: { context: sbData }
     });
     modal.style.cssText = '--min-width: 100vw';
