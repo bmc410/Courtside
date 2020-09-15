@@ -81,6 +81,7 @@ export class Match {
   Opponent?: string;
   MatchDate?: string;
   displaydate?: Date;
+  matchdisplay?: string;
   //gameDate?: number;
 }
 
@@ -94,6 +95,7 @@ export class Game {
   HomeScore?: number;
   OpponentScore?: number;
   subs?: number;
+  gamedisplay?: string;
 }
 
 export class TeamPlayer{

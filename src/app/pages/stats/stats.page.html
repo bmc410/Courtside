@@ -11,7 +11,25 @@
 <p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 
 <ion-content >
-  <ion-list style="margin-top: 20px;">
+  <p-dropdown 
+    placeholder="Select a Match"
+    (onChange)="onMatchChange($event)" 
+    [style]="{'width':'95%', 'margin': '10px'}" 
+    [options]="matches" 
+    [(ngModel)]="match" 
+    optionLabel="matchdisplay">
+  </p-dropdown>
+  <p-dropdown 
+    placeholder="Select Game"
+    [style]="{'width':'95%', 'margin': '10px'}" 
+    [options]="gamesformatch" 
+    [(ngModel)]="game" 
+    optionLabel="gamedisplay">
+  </p-dropdown>
+
+  <!-- <ion-list style="margin-top: 20px;">
+   
+    
     <ion-item>
       <ion-select (ionChange)="onChange($event)" [(ngModel)]="match.objectId" [compareWith]="compareFn"
         placeholder="Select match" interface="popover">
@@ -20,6 +38,7 @@
         </ion-select-option>
       </ion-select>
     </ion-item>
+
     <ion-item>
       <ion-select [(ngModel)]="game.objectId" [compareWith]="compareFn" placeholder="Select game" interface="popover">
         <ion-select-option *ngFor="let game of gamesformatch" value={{game.objectId}}>
@@ -27,8 +46,9 @@
         </ion-select-option>
       </ion-select>
     </ion-item>
-  </ion-list>
+  
+  </ion-list> -->
   <div style="width: 100%; display: flex; justify-content: center;">
-    <button (click)="showstatpicker()" style="width: 80%; margin-top: 20px;" class="btn btn-primary" type="submit" >View Stats</button>  
+    <button (click)="showstatpicker()" style="width: 80%; margin-top: 20px; font-size: 14px;" class="btn btn-primary" type="submit" >View Stats</button>  
   </div>
 </ion-content>

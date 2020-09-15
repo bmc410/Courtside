@@ -8,6 +8,7 @@ import { StatsPageRoutingModule } from './stats-routing.module';
 
 import { StatsPage } from './stats.page';
 import { MenuModule } from 'primeng/menu';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { MenuModule } from 'primeng/menu';
     FormsModule,
     IonicModule,
     MenuModule,
+    DropdownModule,
     StatsPageRoutingModule
   ],
   declarations: [StatsPage]

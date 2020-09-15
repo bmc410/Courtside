@@ -2,3 +2,17 @@ ion-select {
     max-width: 100%;
     width: 100%;
 }
+
+:host ::ng-deep .dark-panel.p-panel {
+    .p-panel-titlebar {
+        background: #212121;
+    }
+}
+
+:host ::ng-deep .p-inputtext {
+    font-size: 14px;
+}
+
+:host ::ng-deep .p-component {
+    font-size: 14px;
+}

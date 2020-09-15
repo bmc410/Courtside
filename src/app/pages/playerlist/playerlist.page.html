@@ -16,7 +16,29 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-list style="width: 100%; margin-top: 10px;">
+
+  <mat-table  matSort  [dataSource]="datasource">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="FirstName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>First</mat-header-cell>
+      <mat-cell *matCellDef="let player"> {{player?.FirstName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="LastName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Last</mat-header-cell>
+      <mat-cell *matCellDef="let player"> {{player?.LastName}} </mat-cell>
+    </ng-container>
+
+   
+    <mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></mat-header-row>
+    <mat-row (click)="showPlayer(row)" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <!-- <ion-list style="width: 100%; margin-top: 10px;">
     <ion-item-sliding  *ngFor="let item of players">
       <ion-item (click)="showPlayer(item)">
         <ion-grid>
@@ -33,5 +55,5 @@
       </ion-item-options>
     </ion-item-sliding>
 
-  </ion-list>
+  </ion-list> -->
 </ion-content>

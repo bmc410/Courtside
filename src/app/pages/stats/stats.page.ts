@@ -15,7 +15,7 @@ import { MatchWithId, GameWithId } from 'src/app/models/appModels';
 export class StatsPage implements OnInit {
   matches: MatchWithId[] = [];
   match: MatchWithId;
-  gamesformatch: GameWithId[] = []
+  gamesformatch: any[] = []
   game:any
   
   constructor(private matchService: MatchService,
@@ -52,6 +52,9 @@ export class StatsPage implements OnInit {
     await this.matchService.getMatchesAsync().subscribe(result => {
       var json = JSON.stringify(result);
       this.matches = JSON.parse(json);
+      this.matches.forEach(element => {
+        element.matchdisplay = element.Home + " vs " + element.Opponent + " (" + element.MatchDate + ")";
+      });
       if(event) {
         setTimeout(() => {
           //console.log('Async operation has ended');
@@ -75,11 +78,17 @@ export class StatsPage implements OnInit {
     this.router.navigate(['/app/tabs/stats/statpicker'], { queryParams: { context: JSON.stringify(item) } });
   }
 
-  async onChange(m) {
-    await this.matchService.getAllGameForMatch(this.match.objectId).then(x => {
+  async onMatchChange(m:any) {
+    console.log(m)
+    await this.matchService.getAllGameForMatch(m.value.objectId).then(x => {
       var json = JSON.stringify(x);
       var tpData = JSON.parse(json);
       this.gamesformatch = tpData
+      this.gamesformatch.forEach(game => {
+        game.gamedisplay = "Game " + game.GameNumber + " (" + game.HomeScore + " - " + game.OpponentScore + ")"
+      });
+      
+      //this.match = m
       console.log(tpData)
     })
     

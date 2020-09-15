@@ -9,6 +9,7 @@ import { PlayerlistPageRoutingModule } from './playerlist-routing.module';
 import { PlayerlistPage } from './playerlist.page';
 import {MenuModule} from 'primeng/menu';
 import {MenuItem} from 'primeng/api';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import {MenuItem} from 'primeng/api';
     FormsModule,
     MenuModule,
     MenuModule,
+    MatTableModule,
     IonicModule,
     PlayerlistPageRoutingModule
   ],

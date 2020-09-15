@@ -8,6 +8,7 @@ import { OfflineService } from 'src/app/services/offline.service';
 import { MessageService } from 'primeng/api';
 import { ToastController } from '@ionic/angular';
 import { Player, PlayerWithId } from 'src/app/models/appModels';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-playerlist',
@@ -15,7 +16,8 @@ import { Player, PlayerWithId } from 'src/app/models/appModels';
   styleUrls: ['./playerlist.page.scss'],
 })
 export class PlayerlistPage implements OnInit {
-
+  datasource: MatTableDataSource<PlayerWithId>;
+  displayedColumns = ['FirstName', 'LastName'];
   selectedPlayer: Player;
   selectedPlayers: PlayerWithId[];
   availablePlayers:  PlayerWithId[] = [];
@@ -77,6 +79,10 @@ export class PlayerlistPage implements OnInit {
       })
 
       this.players = sortedArray.slice()
+      if(this.players.length > 0) {
+        this.datasource = new MatTableDataSource(this.players);
+      }
+
       if(event) {
         setTimeout(() => {
           //console.log('Async operation has ended');

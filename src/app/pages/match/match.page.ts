@@ -225,7 +225,7 @@ export class MatchPage implements OnInit {
       translucent: true,
       componentProps: { context: sbData }
     });
-    modal.style.cssText = '--width: 99vw';
+    modal.style.cssText = '--min-width: 100vw';
     var needsUpdate = false;
     modal.onDidDismiss().then((d) => {
       if (d.data) {
