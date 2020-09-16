@@ -1,6 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd, RouterEvent } from '@angular/router';
 
 import { UserData } from '../../providers/user-data';
 
@@ -8,6 +8,7 @@ import { UserOptions } from '../../interfaces/user-options';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { NetworkService } from 'src/app/services/network.service';
+import { filter } from 'rxjs/operators';
 
 
 
@@ -75,6 +76,8 @@ export class LoginPage {
 
     await this.authenticationService.login(this.f.username.value, this.f.password.value).then(result => {
           if (result.length > 0) {
+              // this.loginForm.controls['username'].setValue("");
+              // this.loginForm.controls['password'].setValue("");
               this._ngZone.run(() => {
                   this.router.navigate(['/app/tabs/teams']);
               });

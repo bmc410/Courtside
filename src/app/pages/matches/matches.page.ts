@@ -77,7 +77,8 @@ export class MatchesPage implements AfterViewInit {
   
   logoff() {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      window.location.href = '/login';
+      //this.router.navigate(['/login']);
   }
 
   addMatch() {

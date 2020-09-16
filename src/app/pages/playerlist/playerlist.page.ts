@@ -96,7 +96,8 @@ export class PlayerlistPage implements OnInit {
 
   logoff() {
     this.authenticationService.logout();
-    this.router.navigate(['/login']);
+    window.location.href = '/login';
+    //this.router.navigate(['/login']);
 }
 
   showPlayer(item) {

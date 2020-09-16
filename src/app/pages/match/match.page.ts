@@ -349,7 +349,8 @@ export class MatchPage implements OnInit {
   
   logoff() {
       this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      window.location.href = '/login';
+      //this.router.navigate(['/login']);
   }
 
   playerDisplay(dataReturned) {
