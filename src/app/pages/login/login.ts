@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, HostListener, NgZone } from '@angular/core';
 import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, NavigationEnd, RouterEvent } from '@angular/router';
 
@@ -83,6 +83,7 @@ export class LoginPage {
   animated: boolean[] = [];
   pincode: string = ""
   dotanimated = false
+  key:any
 
   constructor(
     public userData: UserData,
@@ -94,6 +95,15 @@ export class LoginPage {
     private networkService: NetworkService,
     private _ngZone: NgZone
   ) { }
+
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) { 
+    if(Number.isInteger(Number(event.key)))
+    {
+      this.enterchar(event.key)
+    }
+  }
+  
 
   ngOnInit() {
 
@@ -176,10 +186,8 @@ export class LoginPage {
       return this.numbergrowstring[index]
   }
 
-  async change(e) {
-    this.animate(+e.srcElement.innerHTML - 1)
-
-    this.pincode += e.srcElement.innerHTML
+  async enterchar(e) {
+    this.pincode += e
     this.filled[this.pincode.length -1] = true;
     this.empty[this.pincode.length -1] = false;
     this.wrong[this.pincode.length -1] = false;
@@ -210,6 +218,11 @@ export class LoginPage {
           }
         })
     }
+  }
+
+  async change(e) {
+    this.animate(+e.srcElement.innerHTML - 1)
+    this.enterchar(+e.srcElement.innerHTML)
   }
 
   async onLogin(form: NgForm) {

@@ -19,7 +19,7 @@ const routes1: Routes = [
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/app/tabs/teams',
+    redirectTo: '/app/tabs/stats',
     pathMatch: 'full'
   },
   {

@@ -23,13 +23,13 @@
     <!-- Position Column -->
     <ng-container matColumnDef="homescore">
       <mat-header-cell *matHeaderCellDef>Home</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.homescore}} </mat-cell>
+      <mat-cell style="font-weight: bold;" *matCellDef="let element"> {{element.homescore}} </mat-cell>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="opponentscore">
       <mat-header-cell *matHeaderCellDef>Opponent</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.opponentscore}} </mat-cell>
+      <mat-cell style="font-weight: bold;" *matCellDef="let element"> {{element.opponentscore}} </mat-cell>
     </ng-container>
 
     <!-- Weight Column -->

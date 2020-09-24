@@ -14,6 +14,7 @@ export class AuthenticationService {
   public currentUser: Observable<any>;
   token: userToken = null;
   loggedIn: boolean = false;
+  admin: boolean = false
   offline: boolean = false;
 
   constructor(private http: HttpClient,
@@ -28,6 +29,10 @@ export class AuthenticationService {
 
   isLoggedIn() {
     return this.loggedIn
+  }
+
+  isAdmin() {
+    return this.admin
   }
 
   getCurrentUser() {
@@ -89,6 +94,9 @@ export class AuthenticationService {
       var user = JSON.parse(json);
       if (user.length > 0) {
          this.loggedIn = true;
+         if (user[0].isadmin === true) {
+          this.admin = true
+         }
         // this.token = new userToken()
         // this.token.username = user[0].Username;
         // const ttl = new Date();

@@ -3,7 +3,7 @@ import { MatchService } from 'src/app/services/matchservice';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NetworkService } from 'src/app/services/network.service';
 import { OfflineService } from 'src/app/services/offline.service';
-import { Platform, PopoverController } from '@ionic/angular';
+import { Platform, PopoverController, ToastController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { MatchWithId, GameWithId } from 'src/app/models/appModels';
 import { analytics } from 'firebase';
@@ -24,6 +24,7 @@ export class StatsPage implements OnInit {
     private networkService: NetworkService,
     private offlineservice: OfflineService,
     public platform: Platform,
+    public toastController: ToastController,
     private router: Router,
     private authenticationService: AuthenticationService,
     private popover: PopoverController) { 
@@ -98,20 +99,26 @@ export class StatsPage implements OnInit {
 
   async onMatchChange(m:any) {
     this.gamesformatch = []
-    await this.matchService.getAllGameForMatch(m.value.objectId).then(x => {
+    await this.matchService.getAllGameForMatch(m.value.objectId).then(async x => {
       var json = JSON.stringify(x);
       var tpData = JSON.parse(json);
       this.gamesformatch = tpData
-      this.gamesformatch.forEach(game => {
-        game.gamedisplay = "Game " + game.GameNumber + " (" + game.HomeScore + " - " + game.OpponentScore + ")"
-      });
-      var game: any = {}
-      game.gamedisplay = "Match Summary"
-      this.gamesformatch.splice(0, 0, game)
-      //this.match = m
-      //console.log(tpData)
+      if (this.gamesformatch.length > 0) {
+        this.gamesformatch.forEach(game => {
+          game.gamedisplay = "Game " + game.GameNumber + " (" + game.HomeScore + " - " + game.OpponentScore + ")"
+        });
+        var game: any = {}
+        game.gamedisplay = "Match Summary"
+        this.gamesformatch.splice(0, 0, game)
+      }
+      else {
+        const toast = await this.toastController.create({
+          color: 'primary',
+          duration: 5000,
+          message: 'The match has not started yet'
+        });
+        await toast.present();
+      }
     })
-    
   }
-
 }

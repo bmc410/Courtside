@@ -54,15 +54,21 @@
       </div>
       <!-- <p style="color: #3880ff;">Enter the password</p> -->
       <div class="numbers">
-        <div (click)="change($event)" class="number" [ngClass]="{'animated-button': animated[0]}">1</div>
-        <div (click)="change($event)" class="number" [ngClass]="{'animated-button': animated[1]}">2</div>
-        <div (click)="change($event)" class="number" [ngClass]="{'animated-button': animated[2]}">3</div>
-        <div (click)="change($event)" class="number" [ngClass]="{'animated-button': animated[3]}">4</div>
-        <div (click)="change($event)" class="number" [ngClass]="{'animated-button': animated[4]}">5</div>
-        <div (click)="change($event)" class="number" [ngClass]="{'animated-button': animated[5]}">6</div>
-        <div (click)="change($event)" class="number" [ngClass]="{'animated-button': animated[6]}">7</div>
-        <div (click)="change($event)" class="number" [ngClass]="{'animated-button': animated[7]}">8</div>
-        <div (click)="change($event)" class="number" [ngClass]="{'animated-button': animated[8]}">9</div>
+        <div class="row" style="width: 100%;">
+          <div (click)="change($event)" class="number col" [ngClass]="{'animated-button': animated[0]}">1</div>
+          <div (click)="change($event)" class="number col" [ngClass]="{'animated-button': animated[1]}">2</div>
+          <div (click)="change($event)" class="number col" [ngClass]="{'animated-button': animated[2]}">3</div>
+        </div>
+        <div class="row" style="width: 100%;">
+          <div (click)="change($event)" class="number col" [ngClass]="{'animated-button': animated[3]}">4</div>
+          <div (click)="change($event)" class="number col" [ngClass]="{'animated-button': animated[4]}">5</div>
+          <div (click)="change($event)" class="number col" [ngClass]="{'animated-button': animated[5]}">6</div>
+        </div>
+        <div class="row" style="width: 100%;">
+          <div (click)="change($event)" class="number col" [ngClass]="{'animated-button': animated[6]}">7</div>
+          <div (click)="change($event)" class="number col" [ngClass]="{'animated-button': animated[7]}">8</div>
+          <div (click)="change($event)" class="number col" [ngClass]="{'animated-button': animated[8]}">9</div>
+        </div>  
       </div>
     </div>
 
