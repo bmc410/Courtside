@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="menu.toggle($event)">
+        <ion-icon slot="icon-only" ios="ellipsis-vertical" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
+
+<ion-content class="clear">
+  <table style="margin: 0 auto; width: 98%; margin-top: 5px; text-align: center;" class="table table-bordered">
+    <thead class="primary">
+      <tr style="background-color: #ffc409;" >
+        <th style="text-align: left;" scope="col">Game Scores</th>
+        <th *ngIf="games.length > 0" scope="col">1</th>
+        <th *ngIf="games.length > 1"scope="col">2</th>
+        <th *ngIf="games.length > 2"scope="col">3</th>
+        <th *ngIf="games.length > 3"scope="col">4</th>
+        <th *ngIf="games.length > 4"scope="col">5</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th style="text-align: left;" scope="row">{{match?.Home}}</th>
+        <td *ngIf="games.length > 0">{{games[0]?.HomeScore}}</td>
+        <td *ngIf="games.length > 1">{{games[1]?.HomeScore}}</td>
+        <td *ngIf="games.length > 2">{{games[2]?.HomeScore}}</td>
+        <td *ngIf="games.length > 3">{{games[3]?.HomeScore}}</td>
+        <td *ngIf="games.length > 4">{{games[4]?.HomeScore}}</td>
+      </tr>
+      <tr>
+        <th style="text-align: left;" scope="row">{{match?.Opponent}}</th>
+        <td *ngIf="games.length > 0">{{games[0]?.OpponentScore}}</td>
+        <td *ngIf="games.length > 1">{{games[1]?.OpponentScore}}</td>
+        <td *ngIf="games.length > 2">{{games[2]?.OpponentScore}}</td>
+        <td *ngIf="games.length > 3">{{games[3]?.OpponentScore}}</td>
+        <td *ngIf="games.length > 4">{{games[4]?.OpponentScore}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <table style="margin: 0 auto; width: 98%; margin-top: 5px; text-align: left;" class="table table-bordered">
+    <thead>
+      <tr style="background-color: #ffc409;">
+        <th colspan="2" scope="col">Game Leaders</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let leader of leaders">
+        <td>{{leader.fname}} {{leader.lname}}</td>
+        <td>{{leader.action}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <table style="margin: 0 auto; width: 98%; margin-top: 5px; text-align: left;" class="table table-bordered">
+    <thead>
+      <tr style="background-color: #ffc409;">
+        <th colspan="2" scope="col">Team Statistics</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let t of ts">
+        <td >{{t.action}}</td>
+        <td style="text-align: center;">{{t.value}}</td>
+      </tr>
+    </tbody>
+  </table>
+</ion-content>

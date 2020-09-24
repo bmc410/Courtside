@@ -191,6 +191,13 @@ export class IndividualstatsPage implements OnInit {
         (this.statviews[index].k - this.statviews[index].he) /
         (this.statviews[index].k + this.statviews[index].h);
     });
+
+    const xMax = Math.max.apply(null, this.statviews.map(function(o) { return o.k; }));
+    var maxXObject = this.statviews.filter(function(o) { return o.k === xMax; })[0];
+
+    const maxValueOfY = Math.max(...this.statviews.map(o => o.k), 0);
   }
+
+  
 
 }

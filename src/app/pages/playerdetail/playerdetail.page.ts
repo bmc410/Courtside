@@ -76,7 +76,7 @@ export class PlayerdetailPage implements OnInit {
     const toast = await this.toastController.create({
       color: 'danger',
       duration: 2000,
-      message: 'Player deleter'
+      message: 'Player deleted'
     });
 
     await toast.present();

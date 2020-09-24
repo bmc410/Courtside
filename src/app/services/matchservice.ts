@@ -264,6 +264,12 @@ export class MatchService {
     })
   }
 
+  getPlayerById(objectId) {
+    const Players = Parse.Object.extend('Players');
+    const query = new Parse.Query(Players);
+    query.equalTo("objectId", objectId);
+    return query.find();
+  }
   getPlayersAsync() {
     return this.Players.asObservable()
   }

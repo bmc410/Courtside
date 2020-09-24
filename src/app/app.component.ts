@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 
@@ -31,28 +31,6 @@ export class AppComponent implements OnInit {
   players: IPlayers[] = []
   isConnected = true;
   status = 'ONLINE';
-  // appPages = [
-  //   {
-  //     title: 'Schedule',
-  //     url: '/app/tabs/schedule',
-  //     icon: 'calendar'
-  //   },
-  //   {
-  //     title: 'Speakers',
-  //     url: '/app/tabs/speakers',
-  //     icon: 'people'
-  //   },
-  //   {
-  //     title: 'Map',
-  //     url: '/app/tabs/map',
-  //     icon: 'map'
-  //   },
-  //   {
-  //     title: 'About',
-  //     url: '/app/tabs/about',
-  //     icon: 'information-circle'
-  //   }
-  // ];
   loggedIn = false;
   dark = false;
 
@@ -73,6 +51,11 @@ export class AppComponent implements OnInit {
     private toastCtrl: ToastController,
   ) {
     this.initializeApp();
+  }
+
+  @HostListener('window:unload', [ '$event' ])
+  unloadHandler(event) {
+    console.log("Leaving now")
   }
 
   async ngOnInit() {

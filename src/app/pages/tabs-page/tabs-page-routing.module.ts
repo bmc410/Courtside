@@ -69,6 +69,10 @@ const routes: Routes = [
             loadChildren: () => import('../stats/stats.module').then(m => m.StatsPageModule)
           },
           {
+            path: 'matchsummary',
+            loadChildren: () => import('../matchsummary/matchsummary.module').then(m => m.MatchsummaryPageModule)
+          },
+          {
           path: 'statpicker',
           children: [
             { path: "",
@@ -79,6 +83,9 @@ const routes: Routes = [
             },
             { path: "individualstats",
               loadChildren: () => import('../individualstats/individualstats.module').then(m => m.IndividualstatsPageModule)
+            },
+            { path: "matchsummary",
+              loadChildren: () => import('../matchsummary/matchsummary.module').then(m => m.MatchsummaryPageModule)
             }
           ]
           }

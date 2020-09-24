@@ -67,21 +67,22 @@ export class AuthenticationService {
   }
 
 
-  login(username, password) {
+  login(pincode) {
     if (this.offline == true) {
       var promise = new Promise((resolve, reject) => {
       
       });
       this.loggedIn = true;
-      localStorage.setItem('token', JSON.stringify(username));
-      this.currentUserSubject.next(username);
-      return Promise.resolve(username)
+      localStorage.setItem('token', JSON.stringify(pincode));
+      this.currentUserSubject.next(pincode);
+      return Promise.resolve(pincode)
       //return username
     }
     const Users = Parse.Object.extend('Users');
     const query = new Parse.Query(Users);
-    query.equalTo("Username", username);
-    query.equalTo("Password", password);
+    //query.equalTo("Username", username);
+    //query.equalTo("Password", password);
+    query.equalTo("pincode", pincode);
     query.equalTo("IsActive", true);
     return query.find().then((result) => {
       var json = JSON.stringify(result);

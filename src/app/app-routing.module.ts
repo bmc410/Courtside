@@ -115,6 +115,14 @@ const routes: Routes = [
   {
     path: 'scoremodal',
     loadChildren: () => import('./pages/scoremodal/scoremodal.module').then( m => m.ScoremodalPageModule)
+  },
+  {
+    path: 'gamestats',
+    loadChildren: () => import('./pages/gamestats/gamestats.module').then( m => m.GamestatsPageModule)
+  },
+  {
+    path: 'matchsummary',
+    loadChildren: () => import('./pages/matchsummary/matchsummary.module').then( m => m.MatchsummaryPageModule)
   }
 ];
 

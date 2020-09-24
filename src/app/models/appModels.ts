@@ -1,5 +1,47 @@
 //import { staticViewQueryIds } from '@angular/compiler';
 
+export class matchscore{
+  hometeam?: string
+  opponent?: string
+  gamedata?: gamescore[] = []
+}
+
+export class teamstats {
+  kills?: number
+  errors?: number
+  attempts?: number
+  hitpercentage?: number
+  assists?: number
+  aces?: number
+  blocks?: number
+}
+
+export class teamstat {
+  action?: string
+  value?: string
+}
+
+export class highstat{
+  statcount?: number
+  stattype?: string
+  playerid?: string
+}
+
+export class leader{
+  fname?: string
+  lname?: string
+  action?: string
+  count?: number
+}
+
+export class gamescore {
+  hometeam?: string
+  opponent?: string
+  game?: number
+  hscore?: number
+  oscore?: number
+}
+
 export class userToken {
   username: string;
   ttl: Date;

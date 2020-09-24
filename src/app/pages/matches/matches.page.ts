@@ -48,7 +48,7 @@ export class MatchesPage implements AfterViewInit {
   ngAfterViewInit() {
     this.matchService.loadMatches();
     this.getMatchesAsync(null)
-    console.log(this.sort);
+    //console.log(this.sort);
       
   }
 
@@ -79,6 +79,12 @@ export class MatchesPage implements AfterViewInit {
       this.authenticationService.logout();
       window.location.href = '/login';
       //this.router.navigate(['/login']);
+  }
+
+  ionViewDidEnter() {
+    this.matchService.loadMatches();
+    this.getMatchesAsync(null)
+
   }
 
   addMatch() {

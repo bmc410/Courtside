@@ -19,9 +19,9 @@
     <img style="height: 25vh;" src="assets/img/appicon.svg">
   </div> -->
 
-  <div style="margin: 15px; display: flex; flex-direction: column; align-items: center;" class="login-logo">
+  <div style="display: flex; flex-direction: column; align-items: center;" class="login-logo">
 
-    <form style="padding: 15px; background-color: white;"  [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <!-- <form style="padding: 15px; background-color: white;"  [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <ion-list style="height: 100%; margin-bottom: 20px;">
         <ion-item>
           <ion-label position="fixed" color="primary">Username:</ion-label>
@@ -42,7 +42,30 @@
 
       </ion-list>
       <button style="width: 80%;" class="btn btn-primary" type="submit" >Login</button>
-    </form>
+    </form> -->
+
+
+    <div id="pin">
+      <div class="dots">
+        <div [ngClass]="renderDotClass(0)"></div>
+        <div [ngClass]="renderDotClass(1)"></div>
+        <div [ngClass]="renderDotClass(2)"></div>
+        <div [ngClass]="renderDotClass(3)"></div>
+      </div>
+      <!-- <p style="color: #3880ff;">Enter the password</p> -->
+      <div class="numbers">
+        <div (click)="change($event)" class="number" [ngClass]="{'animated-button': animated[0]}">1</div>
+        <div (click)="change($event)" class="number" [ngClass]="{'animated-button': animated[1]}">2</div>
+        <div (click)="change($event)" class="number" [ngClass]="{'animated-button': animated[2]}">3</div>
+        <div (click)="change($event)" class="number" [ngClass]="{'animated-button': animated[3]}">4</div>
+        <div (click)="change($event)" class="number" [ngClass]="{'animated-button': animated[4]}">5</div>
+        <div (click)="change($event)" class="number" [ngClass]="{'animated-button': animated[5]}">6</div>
+        <div (click)="change($event)" class="number" [ngClass]="{'animated-button': animated[6]}">7</div>
+        <div (click)="change($event)" class="number" [ngClass]="{'animated-button': animated[7]}">8</div>
+        <div (click)="change($event)" class="number" [ngClass]="{'animated-button': animated[8]}">9</div>
+      </div>
+    </div>
+
   </div>
 
 </ion-content>

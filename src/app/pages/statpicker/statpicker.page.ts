@@ -40,6 +40,10 @@ export class StatpickerPage implements OnInit {
     this.router.navigate(['/app/tabs/stats/statpicker/playbyplay'], { queryParams: { context: this.context } });
   }
 
+  MS() {
+    this.router.navigate(['/app/tabs/stats/matchsummary'], { queryParams: { context: this.context } });
+  }
+
   menuitems = [{
     label: 'Log out',
     icon: 'pi pi-fw pi-power-off',

@@ -6,6 +6,7 @@ import { OfflineService } from 'src/app/services/offline.service';
 import { Platform, PopoverController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { MatchWithId, GameWithId } from 'src/app/models/appModels';
+import { analytics } from 'firebase';
 
 @Component({
   selector: 'app-stats',
@@ -50,6 +51,7 @@ export class StatsPage implements OnInit {
   }
 
   async getMatchesAsync(event) {
+    this.matches = []
     await this.matchService.getMatchesAsync().subscribe(result => {
       var json = JSON.stringify(result);
       this.matches = JSON.parse(json);
@@ -70,17 +72,32 @@ export class StatsPage implements OnInit {
   }
 
   showstatpicker() {
-    var item = {
-      gId: this.game.objectId,
-      htId: this.matches.filter(x => x.objectId === this.match.objectId)[0].HomeTeamId,
-      mId: this.match.objectId
+    if (this.match && this.game.gamedisplay == "Match Summary") {
+      var summaryitem = {
+        mId: this.match.objectId
+      }
+      this.router.navigate(['/app/tabs/stats/matchsummary'], { queryParams: { context: JSON.stringify(summaryitem) } });
     }
+    else {
+      var item = {
+        gId: this.game.objectId,
+        htId: this.matches.filter(x => x.objectId === this.match.objectId)[0].HomeTeamId,
+        mId: this.match.objectId
+      }
+  
+      this.router.navigate(['/app/tabs/stats/statpicker'], { queryParams: { context: JSON.stringify(item) } });
+  
+    }
+  }
 
-    this.router.navigate(['/app/tabs/stats/statpicker'], { queryParams: { context: JSON.stringify(item) } });
+  ionViewDidEnter() {
+    this.getMatchesAsync(null)
+    this.match = new MatchWithId()
+    this.game = new GameWithId()
   }
 
   async onMatchChange(m:any) {
-    console.log(m)
+    this.gamesformatch = []
     await this.matchService.getAllGameForMatch(m.value.objectId).then(x => {
       var json = JSON.stringify(x);
       var tpData = JSON.parse(json);
@@ -88,9 +105,11 @@ export class StatsPage implements OnInit {
       this.gamesformatch.forEach(game => {
         game.gamedisplay = "Game " + game.GameNumber + " (" + game.HomeScore + " - " + game.OpponentScore + ")"
       });
-      
+      var game: any = {}
+      game.gamedisplay = "Match Summary"
+      this.gamesformatch.splice(0, 0, game)
       //this.match = m
-      console.log(tpData)
+      //console.log(tpData)
     })
     
   }

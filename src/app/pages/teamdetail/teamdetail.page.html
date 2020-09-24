@@ -43,14 +43,28 @@
     </ion-select>
   </ion-item>
   <ion-list-header *ngIf="playersvisable === true">
-    <ion-toolbar>
-      <ion-label >Players (click to edit)</ion-label>
-      <ion-buttons slot="end">
-        <ion-button color="primary" (click)="addPlayers()">
-          Add
-        </ion-button>
-      </ion-buttons>
-    </ion-toolbar>
+    <div style="width: 100%;">
+      <div class="row">
+        <div class="col" style="align-self: center;">
+          <ion-label style="font-size: 20px;"  >Players</ion-label>
+        </div>
+        <div class="col">
+          <button style="float: right; margin: 5px; margin-right: 15px; font-size: .575rem;" class="btn btn-success btn-sm" color="primary" (click)="addPlayers()">
+            Add Player
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div style="font-size: 16px; color: blue;" class="col">
+          Click player to enter jersey #
+        </div>
+      </div>
+    </div>
+    <!-- <ion-toolbar> -->
+            <!-- <ion-buttons slot="end"> -->
+        
+      <!-- </ion-buttons> -->
+    <!-- </ion-toolbar> -->
   </ion-list-header>
   <ion-item *ngIf="playersvisable === true">
     <ion-list style="width: 100%;">

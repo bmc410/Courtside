@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { userToken } from '../models/appModels';
-// import { ConnectionService } from 'ng-connection-service';
+import { ConnectionService } from 'ng-connection-service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +15,11 @@ export class NetworkService {
   isConnected = true;
   //offline: boolean = false;
 
-  constructor() { 
-    // this.connectionService.monitor().subscribe(isConnected => {
-    //   this.isConnected = isConnected;
-    //   this.connected.next(isConnected);
-    // })
+  constructor(private connectionService: ConnectionService) { 
+    this.connectionService.monitor().subscribe(isConnected => {
+      this.isConnected = isConnected;
+      this.connected.next(isConnected);
+    })
 
     this.currentNetworkSubject = new BehaviorSubject<any>(false);
     this.currentStatus = this.currentNetworkSubject.asObservable();

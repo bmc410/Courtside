@@ -177,6 +177,10 @@ export class TeamdetailPage implements OnInit {
   async ngOnInit() {
     
     this.presentLoading()
+    //auto close so its not left hanging on a failure
+    setTimeout(() => {
+      this.loading.dismiss()
+    }, 5000);
     this.tdForm = this.formBuilder.group({
       teamname: ['', Validators.required]
     });
@@ -187,8 +191,6 @@ export class TeamdetailPage implements OnInit {
       year += 1;
       this.teamYears.push(year);
     }
-
-
     await this.matchService.getClubs().then(async data => {
       var json = JSON.stringify(data);
       this.clubs = JSON.parse(json);
@@ -253,7 +255,7 @@ export class TeamdetailPage implements OnInit {
         else {
           this.loading.dismiss()
         }
-      });
+      })
     });
   }
 

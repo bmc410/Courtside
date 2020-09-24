@@ -44,7 +44,11 @@ export class PlayerlistPage implements OnInit {
     }
 
   ngOnInit() {
-    this.getPlayers(event)
+    this.getPlayers(null)
+  }
+
+  ionViewDidEnter() {
+    this.getPlayers(null)
   }
 
   getPlayers(event) {
@@ -120,7 +124,7 @@ export class PlayerlistPage implements OnInit {
     const toast = await this.toastController.create({
       color: 'danger',
       duration: 2000,
-      message: 'Player deleter'
+      message: 'Player deleted'
     });
 
     await toast.present();

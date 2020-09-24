@@ -28,6 +28,13 @@ export class PlaybyplayPage implements OnInit {
   pct: number = 0;
   displayedColumns = ['homescore', 'opponentscore', 'action'];
   mytimer: Subscription;
+  menuitems = [{
+    label: 'Log out',
+    icon: 'pi pi-fw pi-power-off',
+    command: () => {
+      this.logoff();
+    }
+  }];
 
   constructor(private matchService: MatchService,
     private route: ActivatedRoute,
@@ -81,13 +88,7 @@ export class PlaybyplayPage implements OnInit {
     this.getData()
   }
 
-  menuitems = [{
-    label: 'Log out',
-    icon: 'pi pi-fw pi-power-off',
-    command: () => {
-      this.logoff();
-    }
-  }];
+  
 
   logoff() {
       this.authenticationService.logout();

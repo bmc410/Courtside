@@ -62,12 +62,21 @@ export class TeamsPage implements OnInit {
       if(event) {
         setTimeout(() => {
           //console.log('Async operation has ended');
-          event.target.complete();
+          try {
+            event.target.complete();
+          } catch (e) {
+            //console.error(e);
+          }
+          
         }, 0);
       }
     });
 
    
+  }
+
+  ionViewDidEnter() {
+    this.getClubsAndTeams(null)
   }
 
   async ngOnInit() {
