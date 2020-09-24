@@ -4,6 +4,8 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
+      <ion-label style="font-size: 14px; margin-right: 5px;">Auto Refresh</ion-label>
+      <ion-toggle (ionChange)="toggleliveview($event)" slot="start" color="success"></ion-toggle>
       <ion-button (click)="menu.toggle($event)">
         <ion-icon slot="icon-only" ios="ellipsis-vertical" md="ellipsis-vertical"></ion-icon>
       </ion-button>

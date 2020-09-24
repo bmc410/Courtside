@@ -148,32 +148,20 @@ export class MatchdetailPage implements OnInit {
     });
     this.currentPopover = this.popover;
     popover.onDidDismiss().then((dataReturned) => {
-      const item = null
-      let gm = new gameMatch();
-      gm.gameNumber = dataReturned.data;
-      gm.Home = this.teams.filter(x => x.objectId === this.selectedTeamId)[0]?.TeamName;
-      gm.MatchDate = this.matchdate;
-      gm.objectId = this.matchid;
-      gm.Opponent = this.opponent;
-      gm.HomeTeamId = this.selectedTeamId;
-      this.router.navigate(['/app/tabs/matches/matchdetail/match'], { queryParams: { context: JSON.stringify(gm) } });
-      //console.log(dataReturned.data)
+      if (dataReturned.data != undefined) {
+        const item = null
+        let gm = new gameMatch();
+        gm.gameNumber = dataReturned.data;
+        gm.Home = this.teams.filter(x => x.objectId === this.selectedTeamId)[0]?.TeamName;
+        gm.MatchDate = this.matchdate;
+        gm.objectId = this.matchid;
+        gm.Opponent = this.opponent;
+        gm.HomeTeamId = this.selectedTeamId;
+        this.router.navigate(['/app/tabs/matches/matchdetail/match'], { queryParams: { context: JSON.stringify(gm) } });
+      }
     });
     popover.style.cssText = '--width: 80vw';
     return popover.present()
-    // let gm = new gameMatch();
-    // gm.gameNumber = this.game;
-    // gm.Home = this.match.Home;
-    // gm.MatchDate = this.match.MatchDate;
-    // gm.objectId = this.match.objectId;
-    // gm.Opponent = this.match.Opponent;
-    // gm.HomeTeamId = this.match.HomeTeamId;
-
-    // this._ngZone.run(() => {
-    //   this.router.navigate(["match", gm]).then(result => {
-    //     this.matchDialogDisplay = false;
-    //   });
-    // });
   }
 
   async saveMatch() {

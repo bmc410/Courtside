@@ -28,6 +28,7 @@ export class PlaybyplayPage implements OnInit {
   pct: number = 0;
   displayedColumns = ['homescore', 'opponentscore', 'action'];
   mytimer: Subscription;
+  interval = null;    
   menuitems = [{
     label: 'Log out',
     icon: 'pi pi-fw pi-power-off',
@@ -45,12 +46,23 @@ export class PlaybyplayPage implements OnInit {
     private authenticationService: AuthenticationService,
     private popover: PopoverController) { 
       this.matchService.loadMatches()
-      this.mytimer = timer(0, 5000)
-        .subscribe(() => this.getData())
+      // this.mytimer = timer(0, 5000)
+      //   .subscribe(() => this.getData())
       this.route.queryParams.subscribe(params => {
         this.context = JSON.parse(params['context']);
       })
     }
+  
+  toggleliveview(e) {
+    if (e.detail.checked) {
+      this.interval = setInterval(() => { 
+        this.getData()
+    }, 5000);
+    }
+    else {
+      clearInterval(this.interval)
+    }
+  }
   
   getData() {
       this.matchService.getPlayers().then(result => {
@@ -81,7 +93,7 @@ export class PlaybyplayPage implements OnInit {
   }
   
   ngOnDestroy() {
-    this.mytimer.unsubscribe()
+    //this.mytimer.unsubscribe()
   }
 
   ngOnInit() {
