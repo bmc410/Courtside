@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { element } from 'protractor';
 import { gamescore, GameWithId, highstat, leader, matchscore, MatchWithId, PlayerWithId, statEntry, statView, teamstat, teamstats, TeamWithId } from 'src/app/models/appModels';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -37,6 +37,7 @@ export class MatchsummaryPage implements OnInit {
 
   constructor(private matchService: MatchService,
     private route: ActivatedRoute,
+    private router: Router,
     private authenticationService: AuthenticationService) {
     this.matchService.loadMatches()
     this.route.queryParams.subscribe(params => {
@@ -292,8 +293,8 @@ export class MatchsummaryPage implements OnInit {
 
   logoff() {
     this.authenticationService.logout();
-    window.location.href = '/login';
-    //this.router.navigate(['/login']);
+    //window.location.href = '/login';
+    this.router.navigate(['/login']);
 }
 
   async ngOnInit() {

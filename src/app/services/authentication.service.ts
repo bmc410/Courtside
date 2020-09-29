@@ -113,6 +113,8 @@ export class AuthenticationService {
 
   logout() {
     // remove user from local storage and set current user to null
+    this.loggedIn = false;
+    this.admin = false
     localStorage.removeItem('token');
     this.currentUserSubject.next(null);
   }

@@ -47,8 +47,8 @@ export class TeamsPage implements OnInit {
   
   logoff() {
       this.authenticationService.logout();
-      window.location.href = '/login';
-      //this.router.navigate(['/login']);
+      //window.location.href = '/login';
+      this.router.navigate(['/login']);
   }
 
   async getClubsAndTeams(event) {

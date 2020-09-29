@@ -16,7 +16,7 @@ import { PlayerpickerPage } from '../playerpicker/playerpicker.page';
 import { ScoreboardPage } from '../scoreboard/scoreboard.page';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ScoremodalPage } from '../scoremodal/scoremodal.page';
-
+import { Vibration } from '@ionic-native/vibration/ngx';
 
 @Component({
   selector: 'app-match',
@@ -84,6 +84,7 @@ export class MatchPage implements OnInit {
     private offlineservice: OfflineService,
     public platform: Platform,
     private router: Router,
+    private vibration: Vibration,
     private authenticationService: AuthenticationService,
     private popover: PopoverController) { }
 
@@ -116,6 +117,7 @@ export class MatchPage implements OnInit {
   }
 
   postStat(e, pos) {
+    this.vibration.vibrate(1000);
     let p = this.playerPositions[pos].player;
     this.incrementStat(pos, p, e.target.innerText);
     //console.log(e.target.innerText);
@@ -349,8 +351,8 @@ export class MatchPage implements OnInit {
   
   logoff() {
       this.authenticationService.logout();
-      window.location.href = '/login';
-      //this.router.navigate(['/login']);
+      //window.location.href = '/login';
+      this.router.navigate(['/login']);
   }
 
   playerDisplay(dataReturned) {

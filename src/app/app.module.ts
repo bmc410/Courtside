@@ -33,6 +33,9 @@ import { MessageService } from 'primeng/api';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatSortModule } from '@angular/material/sort';
+import { Vibration } from '@ionic-native/vibration/ngx';
+
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -50,9 +53,7 @@ import { MatSortModule } from '@angular/material/sort';
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule.enablePersistence(),
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production
-    }),
+    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
     BrowserAnimationsModule,
     PlayerpopoverPageModule
   ],
@@ -61,7 +62,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatInputModule,
   ],
   declarations: [AppComponent],
-  providers: [MatDialog, InAppBrowser, SplashScreen, StatusBar,AuthenticateService,AuthguardService,NavParams,
+  providers: [Vibration, MatDialog, InAppBrowser, SplashScreen, StatusBar,AuthenticateService,AuthguardService,NavParams,
     MatchService, OfflineService, MessageService, AngularFirestore, AppStateService,AuthenticationService,NetworkService],
   bootstrap: [AppComponent]
 })

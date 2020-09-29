@@ -3,6 +3,7 @@
   "short_name": "CourtSide",
   "start_url": "index.html",
   "display": "standalone",
+  "scope": "/app/tabs/",
   "icons": [
     {
       "src": "assets/img/courtside.png",

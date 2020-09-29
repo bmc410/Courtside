@@ -104,6 +104,27 @@ export class LoginPage {
     }
   }
   
+  ionViewDidEnter() {
+    for (let index = 0; index < 4; index++) {
+      this.empty[index] = true;
+      this.filled[index] = false;
+      this.wrong[index] = false;
+    }
+
+    for (let index = 0; index < 10; index++) {
+      this.animated[index] = false;
+      this.number[index] = true;
+      this.numbergrow[index] = false;
+      this.numbergrowstring[index] = "number"
+
+    }
+
+    // this.loginForm = this.formBuilder.group({
+    //   username: ['', Validators.required],
+    //   password: ['', Validators.required],
+    //   isChecked: false
+    // });
+  }
 
   ngOnInit() {
 

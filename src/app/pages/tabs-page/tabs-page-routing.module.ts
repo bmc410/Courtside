@@ -93,7 +93,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/app/tabs/teams',
+        redirectTo: 'stats',
         pathMatch: 'full'
       }
     ]
