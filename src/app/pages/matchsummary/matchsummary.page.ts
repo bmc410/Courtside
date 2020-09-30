@@ -26,7 +26,7 @@ export class MatchsummaryPage implements OnInit {
   leaders: leader[] = []
   highstats: highstat[] = []
   ts: teamstat[] = []
-  teamactions: string[] = ["Kills", "Errors", "Hitting %", "Assists", "Aces", "Blocks"]
+  teamactions: string[] = ["Kills", "Errors", "Assists", "Aces", "Blocks"]
   menuitems = [{
     label: 'Log out',
     icon: 'pi pi-fw pi-power-off',

@@ -72,3 +72,7 @@
   .clear {
     opacity: 0.8;
   }
+
+  ui-dropdown-panel .ui-dropdown-items-wrapper {
+    max-height: 100%;
+}

@@ -12,6 +12,7 @@
 
 <ion-content fullscreen class="clear">
   <p-dropdown 
+    
     placeholder="Select a Match"
     (onChange)="onMatchChange($event)" 
     [style]="{'width':'95%', 'margin': '10px'}" 
@@ -19,13 +20,26 @@
     [(ngModel)]="match" 
     optionLabel="matchdisplay">
   </p-dropdown>
-  <p-dropdown 
+  <p-dropdown  placeholder="Select"
+      (onChange)="onGameChange($event)" 
+      scrollHeight="100%" 
+      [style]="{'width':'95%', 'margin': '10px', 'max-height':'100%'}" 
+      [options]="groupedGames" [(ngModel)]="game" 
+      [group]="true">
+      <ng-template let-group pTemplate="group">
+        <div class="p-d-flex p-ai-center">
+            <span>{{group.label}}</span>
+        </div>
+    </ng-template>
+  </p-dropdown>
+  <!-- <p-dropdown 
     placeholder="Select"
+    (onChange)="onGameChange($event)" 
     [style]="{'width':'95%', 'margin': '10px'}" 
     [options]="gamesformatch" 
     [(ngModel)]="game" 
     optionLabel="gamedisplay">
-  </p-dropdown>
+  </p-dropdown> -->
 
   <!-- <ion-list style="margin-top: 20px;">
    

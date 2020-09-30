@@ -7,6 +7,7 @@ import { Platform, PopoverController, ToastController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { MatchWithId, GameWithId } from 'src/app/models/appModels';
 import { analytics } from 'firebase';
+import { SelectItem, SelectItemGroup } from 'primeng/api';
 
 @Component({
   selector: 'app-stats',
@@ -18,6 +19,8 @@ export class StatsPage implements OnInit {
   match: MatchWithId;
   gamesformatch: any[] = []
   game:any
+  groupedGames: SelectItemGroup[] = [];
+  selItems: SelectItem[] = []
   
   constructor(private matchService: MatchService,
     private route: ActivatedRoute,
@@ -93,12 +96,37 @@ export class StatsPage implements OnInit {
 
   ionViewDidEnter() {
     this.getMatchesAsync(null)
-    this.match = new MatchWithId()
+    //this.match = new MatchWithId()
     this.game = new GameWithId()
+  }
+
+  onGameChange(e) {
+    
+    var item = {
+      gId: this.game.objectId,
+      htId: this.matches.filter(x => x.objectId === this.match.objectId)[0].HomeTeamId,
+      mId: this.match.objectId,
+      gfm: this.gamesformatch
+    }
+
+    if (e.value == "Highlights") {
+      this.router.navigate(['/app/tabs/stats/matchsummary'], { queryParams: { context: JSON.stringify(item) } });
+    } 
+    else if (e.value == "IndividualStatistics") {
+      this.router.navigate(['/app/tabs/stats/statpicker/individualstats'], { queryParams: { context: JSON.stringify(item) }});
+    }
+    else {
+      this.router.navigate(['/app/tabs/stats/statpicker/playbyplay'], { queryParams: { context: JSON.stringify(item) } });
+    }
+
+    //this.router.navigate(['/app/tabs/stats/statpicker/playbyplay'], { queryParams: { context: JSON.stringify(item) }});
+
   }
 
   async onMatchChange(m:any) {
     this.gamesformatch = []
+    this.groupedGames = []
+    this.selItems = []
     await this.matchService.getAllGameForMatch(m.value.objectId).then(async x => {
       var json = JSON.stringify(x);
       var tpData = JSON.parse(json);
@@ -106,10 +134,31 @@ export class StatsPage implements OnInit {
       if (this.gamesformatch.length > 0) {
         this.gamesformatch.forEach(game => {
           game.gamedisplay = "Game " + game.GameNumber + " (" + game.HomeScore + " - " + game.OpponentScore + ")"
+          var selItem: SelectItem = {
+            value: game,
+            label: game.gamedisplay
+          }
+          this.selItems.push(selItem)
         });
-        var game: any = {}
-        game.gamedisplay = "Match Summary"
-        this.gamesformatch.splice(0, 0, game)
+
+        var sg: SelectItemGroup = {
+          label:"Play-by-play",
+          items: this.selItems
+        }
+        this.groupedGames.push(sg)
+        
+        var summary: SelectItemGroup = {
+          label: "Match Summary", 
+          items: [
+              {label: "Highlights", value: "Highlights"},
+              {label: "Individual Statistics", value: "IndividualStatistics"}
+          ]
+        }
+        this.groupedGames.push(summary)
+
+        //var game: any = {}
+        //game.gamedisplay = "Match Summary"
+        //this.gamesformatch.splice(0, 0, game)
       }
       else {
         const toast = await this.toastController.create({

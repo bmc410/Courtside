@@ -5,7 +5,7 @@ import { NetworkService } from 'src/app/services/network.service';
 import { OfflineService } from 'src/app/services/offline.service';
 import { Platform, PopoverController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { PlayerWithId, statEntry, gameMatch, statView } from 'src/app/models/appModels';
+import { PlayerWithId, statEntry, gameMatch, statView, MatchWithId } from 'src/app/models/appModels';
 import { Observable, Subscription, timer } from 'rxjs';
 
 @Component({
@@ -19,7 +19,7 @@ export class PlaybyplayPage implements OnInit {
   allPlayers: PlayerWithId[] = [];
   allstats: statEntry[] = [];
   playbyplay: any[] = [];
-  match: gameMatch;
+  match: MatchWithId;
   stats: statEntry[] = [];
   statviews: statView[] = [];
   teamtotal: statView;
@@ -70,7 +70,7 @@ export class PlaybyplayPage implements OnInit {
         this.allPlayers = JSON.parse(json)
         this.matchService.getMatchById(this.context.mId).then(result => {
           var json = JSON.stringify(result);
-          var g = JSON.parse(json);
+          this.match = JSON.parse(json)[0];
           this.matchService.getPlayersByTeamId(this.context.htId).then(result => {
             var json = JSON.stringify(result);
             var g = JSON.parse(json);
