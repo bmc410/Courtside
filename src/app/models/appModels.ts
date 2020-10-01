@@ -114,7 +114,8 @@ export class Stat {
   homeScore?: number;
   opponentScore?: number;
   subs?: number;
-  rotation: string;
+  rotation?: string;
+  passingGrade?: number
 }
 
 export class Match {
@@ -280,6 +281,7 @@ export interface statView {
   d?: number;
   bhe?: number;
   sre?: number;
+  sr?: number;
   se?: number;
   sa?: number;
 }

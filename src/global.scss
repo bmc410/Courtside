@@ -73,6 +73,24 @@
     opacity: 0.8;
   }
 
+  .perfect {
+    color: green !important;
+  }
+
+  .good {
+    color: yellow !important;
+  }
+  .poor {
+    color: orange !important;
+  }
+  .overpass {
+    color: red !important;
+  }
+
+  .action-sheet-title {
+    font-size: large;
+  }
+
   ui-dropdown-panel .ui-dropdown-items-wrapper {
     max-height: 100%;
 }

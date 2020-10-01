@@ -351,7 +351,7 @@ export class MatchService {
     } else if (stat === "sub") {
       action = "Sub [" + p[0].FirstName + " for " + p[1].FirstName + "]"
     } else {
-      action = this.getActionFromStat(stat) + p[0].FirstName + ' ' + p[0].LastName;
+      action = this.getActionFromStat(stat, -1) + p[0].FirstName + ' ' + p[0].LastName;
     }
 
     var player = null;
@@ -446,12 +446,17 @@ export class MatchService {
       rotations.push(p);
     }
 
+    if (stat.stattype == "SR" && stat.passingGrade == 0) {
+      stat.stattype = "SRE"
+    }
+
     let statObj = {
       //statorder: await this.getMaxStatId(),
       matchid: stat.matchid,
       gamenumber: stat.gamenumber,
       stattype: stat.stattype,
       homescore: g.HomeScore,
+      passingGrade: stat.passingGrade,
       opponentscore: g.OpponentScore,
       subs: g.subs,
       rotation: rotations,
@@ -463,7 +468,7 @@ export class MatchService {
     const toast = await this.toastController.create({
       color: 'dark',
       duration: 2000,
-      message: this.getActionFromStat(stat.stattype) + stat.player.FirstName
+      message: this.getActionFromStat(stat.stattype, stat.passingGrade) + stat.player.FirstName
     });
 
     await toast.present();
@@ -478,7 +483,8 @@ export class MatchService {
     query.ascending("createdAt");
     return query.find();
   }
-  getActionFromStat(stat: string) {
+
+  getActionFromStat(stat: string, pg: number) {
     var action = ""
     switch (stat.toLowerCase()) {
       case "k":
@@ -492,6 +498,13 @@ export class MatchService {
         break;
       case "bhe":
         action = "Ball handling error by "
+        break;
+      case "sr":
+        if (pg > 0 ) {
+          action = "Serve receive (" + pg.toString() + ")" + " by "
+        } else {
+          action = "Serve receive by "
+        }
         break;
       case "sre":
         action = "Serve receive error by "
@@ -553,6 +566,7 @@ export class MatchService {
     myNewObject.set('StatType', stat.stattype);
     myNewObject.set('Subs', g.subs);
     myNewObject.set('Rotation', jr);
+    myNewObject.set('passingGrade', stat.passingGrade);
 
     myNewObject.save()
     //return this.firestore.collection("games").doc(g.objectId).collection("stats").add(stat);

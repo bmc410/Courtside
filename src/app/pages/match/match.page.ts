@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ConferenceData } from 'src/app/providers/conference-data';
-import { Platform } from '@ionic/angular';
+import { ActionSheetController, Platform } from '@ionic/angular';
 import { FormControl } from '@angular/forms';
 import { PopoverController } from '@ionic/angular';
 import { PlayerpopoverPage } from '../playerpopover/playerpopover.page';
@@ -48,6 +48,7 @@ export class MatchPage implements OnInit {
   startHidden = false;
   displayscoreboard = false;
   value18: number = 10;
+  passingscore = -1
   menuitems = [{
     label: 'Log out',
     icon: 'pi pi-fw pi-power-off',
@@ -77,6 +78,7 @@ export class MatchPage implements OnInit {
   opponentpointOptions = ["he", "be", "bhe", "sre", "se"];
 
   constructor(
+    public actionSheetCtrl: ActionSheetController,
     public matDialog: MatDialog,
     private matchService: MatchService,
     private route: ActivatedRoute,
@@ -116,14 +118,51 @@ export class MatchPage implements OnInit {
     // }
   }
 
-  postStat(e, pos) {
-    this.vibration.vibrate(1000);
+  async postSR(e, pos) {
+   this.openActionSheetController(e, pos)
+  }
+
+  async postStat(e, pos) {
     let p = this.playerPositions[pos].player;
-    this.incrementStat(pos, p, e.target.innerText);
+    this.incrementStat(pos, p, e.target.innerText, -1);
     //console.log(e.target.innerText);
   }
 
-  incrementStat(pos: number, player: PlayerWithId, stat: string) {
+  async openActionSheetController(e, pos){
+    this.passingscore = -1
+    const actionSheet = await this.actionSheetCtrl.create({
+      //header: 'Assessment',
+      buttons: [
+        { text: 'Perfect Pass - 3', handler: () => {
+          this.passingscore = 3
+        }},
+        { text: 'Good Pass - 2', handler: () => {
+          this.passingscore = 2
+        } },
+        { text: 'Poor Pass - 1', handler: () => {
+          this.passingscore = 1
+        } },
+        { text: 'Over-pass/Shank - 0', handler: () => {
+          this.passingscore = 0
+        } }
+      ]
+    });
+
+   
+
+    await actionSheet.present();
+    actionSheet.onDidDismiss().then(result => {
+      var s = e.target.innerText
+      if (s == "SR" && this.passingscore == 0) {
+        s = "SRE"
+      }
+      let p = this.playerPositions[pos].player;
+      this.incrementStat(pos, p, s, this.passingscore);
+    });
+    
+}
+
+  incrementStat(pos: number, player: PlayerWithId, stat: string, passingGrade: number) {
     var affectedPlayer: PlayerWithId[] = [];
     const s = new Stat();
     s.gamenumber = this.gameNumber;
@@ -132,6 +171,7 @@ export class MatchPage implements OnInit {
     s.opponentScore = this.opponentscore;
     s.player = player;
     s.pos = pos;
+    s.passingGrade = passingGrade
     s.positions = this.playerPositions;
     s.statid = this.statId + 1;
     affectedPlayer.push(player);

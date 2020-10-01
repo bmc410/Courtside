@@ -114,6 +114,7 @@ export class IndividualstatsPage implements OnInit {
       d: 0,
       bhe: 0,
       sre: 0,
+      sr: 0,
       se: 0,
       sa: 0
     }
@@ -137,6 +138,7 @@ export class IndividualstatsPage implements OnInit {
       sv.he = 0;
       sv.se = 0;
       sv.sre = 0;
+      sv.sr = 0;
       sv.sa = 0;
       this.statviews.push(sv);
     });
@@ -190,6 +192,10 @@ export class IndividualstatsPage implements OnInit {
             this.statviews[index].sre += 1;
             this.teamtotal.sre += 1;
             break;
+            case "sr":
+              this.statviews[index].sr += 1;
+              this.teamtotal.sr += 1;
+              break;
           case "se":
             this.statviews[index].se += 1;
             this.teamtotal.se += 1;
