@@ -17,6 +17,9 @@ import {DialogModule} from 'primeng/dialog';
 import { PlayerpickerPageModule } from '../playerpicker/playerpicker.module';
 import {NumberPickerModule} from 'ng-number-picker';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import {TableModule} from 'primeng/table';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -26,6 +29,7 @@ import { MatDialog } from '@angular/material/dialog';
     IonicModule,
     MatchPageRoutingModule,
     PlayerpickerPageModule,
+    MatTableModule,
     MatSelectModule,
     //MatDialog,
     NumberPickerModule,

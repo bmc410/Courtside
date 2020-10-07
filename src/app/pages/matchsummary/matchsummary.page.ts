@@ -26,7 +26,7 @@ export class MatchsummaryPage implements OnInit {
   leaders: leader[] = []
   highstats: highstat[] = []
   ts: teamstat[] = []
-  teamactions: string[] = ["Kills", "Errors", "Assists", "Aces", "Blocks"]
+  teamactions: string[] = ["Kills", "Errors", "Total Attacks", "Assists", "Aces", "Blocks"]
   menuitems = [{
     label: 'Log out',
     icon: 'pi pi-fw pi-power-off',
@@ -208,8 +208,8 @@ export class MatchsummaryPage implements OnInit {
           t.value = (this.teamtotal.be + this.teamtotal.bhe + this.teamtotal.he
           + this.teamtotal.se + this.teamtotal.sre).toString()
           break;
-        case "Hitting %":
-          t.value = ((this.teamtotal.k - this.teamtotal.he) / this.teamtotal.h).toString()
+        case "Total Attacks":
+          t.value = (this.teamtotal.k + this.teamtotal.he + this.teamtotal.h).toString()
           break;
         case "Assists":
           t.value = this.teamtotal.a.toString()
@@ -251,6 +251,9 @@ export class MatchsummaryPage implements OnInit {
         break;
       case "sre":
         action = " Serve receive errors"
+        break;
+      case "sr":
+        action = " Serve receives "
         break;
       case "se":
         action = " Service errors"

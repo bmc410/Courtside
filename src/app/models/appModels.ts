@@ -265,6 +265,14 @@ export class PlayerNib {
   }
 }
 
+export class stat {
+  firstname?: string;
+  lastname?: string;
+  fullname?: string;
+  stattype?: string;
+  objectId?: string;
+}
+
 
 export interface statView {
   jersey?: string;

@@ -33,8 +33,8 @@ import { MessageService } from 'primeng/api';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatSortModule } from '@angular/material/sort';
-import { Vibration } from '@ionic-native/vibration/ngx';
-
+import { MatTableModule } from '@angular/material/table';
+import { ScoreboardPageModule } from './pages/scoreboard/scoreboard.module';
 
 @NgModule({
   imports: [
@@ -45,7 +45,9 @@ import { Vibration } from '@ionic-native/vibration/ngx';
     TableModule,
     MatInputModule,
     ToastModule,
+    ScoreboardPageModule,
     MatFormFieldModule,
+    MatTableModule,
     MatDialogModule,
     MatSortModule,
     OverlayModule,
@@ -62,7 +64,7 @@ import { Vibration } from '@ionic-native/vibration/ngx';
     MatInputModule,
   ],
   declarations: [AppComponent],
-  providers: [Vibration, MatDialog, InAppBrowser, SplashScreen, StatusBar,AuthenticateService,AuthguardService,NavParams,
+  providers: [MatDialog, InAppBrowser, SplashScreen, StatusBar,AuthenticateService,AuthguardService,NavParams,
     MatchService, OfflineService, MessageService, AngularFirestore, AppStateService,AuthenticationService,NetworkService],
   bootstrap: [AppComponent]
 })

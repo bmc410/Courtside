@@ -16,7 +16,8 @@ import { PlayerpickerPage } from '../playerpicker/playerpicker.page';
 import { ScoreboardPage } from '../scoreboard/scoreboard.page';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ScoremodalPage } from '../scoremodal/scoremodal.page';
-import { Vibration } from '@ionic-native/vibration/ngx';
+import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-match',
@@ -86,7 +87,6 @@ export class MatchPage implements OnInit {
     private offlineservice: OfflineService,
     public platform: Platform,
     private router: Router,
-    private vibration: Vibration,
     private authenticationService: AuthenticationService,
     private popover: PopoverController) { }
 
@@ -108,7 +108,7 @@ export class MatchPage implements OnInit {
     this.gameNumber = Number(this.match.gameNumber);
     this.game.subs = 0;
 
-    this.getPlayerData()
+    this.getGameData()
 
     // if (this.route.snapshot.params.objectId != undefined)
     //   this.match = this.route.snapshot.params;
@@ -148,8 +148,6 @@ export class MatchPage implements OnInit {
       ]
     });
 
-   
-
     await actionSheet.present();
     actionSheet.onDidDismiss().then(result => {
       var s = e.target.innerText
@@ -163,6 +161,7 @@ export class MatchPage implements OnInit {
 }
 
   incrementStat(pos: number, player: PlayerWithId, stat: string, passingGrade: number) {
+    const myClonedArray = []; 
     var affectedPlayer: PlayerWithId[] = [];
     const s = new Stat();
     s.gamenumber = this.gameNumber;
@@ -177,20 +176,22 @@ export class MatchPage implements OnInit {
     affectedPlayer.push(player);
     //s.stattime = new Date();
     s.stattype = stat;
+
     if (this.homepointOptions.indexOf(stat.toLowerCase()) > -1) {
-      this.updateGame("home", "a", stat, affectedPlayer)
-      //this.matchService.updateGame(this.game)
+      this.updateGame("home", "a", stat)
     } else if (this.opponentpointOptions.indexOf(stat.toLowerCase()) > -1) {
-      this.updateGame("opponent", "a", stat, affectedPlayer)
-      //this.matchService.updateGame(this.game)
+      this.updateGame("opponent", "a", stat)
     }
 
-      this.matchService.incrementStat(s, this.game);
-    
+    this.matchService.incrementStat(s, this.game).then(x => {
+      var json = JSON.stringify(x);
+      var tpData = JSON.parse(json);
+      this.matchService.updateGame(this.game)
+      this.playerPositions.forEach(val => myClonedArray.push(Object.assign({}, val)));
+      this.matchService.addPlayByPlay(this.game,myClonedArray,stat, affectedPlayer, tpData.objectId)
+  
+    })
 
-    //this.game.homescore = this.homescore;
-    //this.game.opponentscore = this.opponentscore;
-    //this.matchService.updateGame(this.game.gameid, this.game);
   }
 
   openModal() {
@@ -215,8 +216,7 @@ export class MatchPage implements OnInit {
     }, 2000);
   }
 
-  updateGame(team: string, action: any, stat: string, players: PlayerWithId[]) {
-
+  updateGame(team: string, action: any, stat: string) {
 
     if (team === "home") {
       if (action === "a"){
@@ -244,18 +244,11 @@ export class MatchPage implements OnInit {
         else
           this.game.subs = this.game.subs - 1
     }
-
-
-    const myClonedArray = []; 
-
-      this.matchService.updateGame(this.game)
-      this.playerPositions.forEach(val => myClonedArray.push(Object.assign({}, val)));
-      this.matchService.addPlayByPlay(this.game,myClonedArray,stat,
-        players, "")
+  
   }
 
-
   async showscoreboard(ev) {
+    const myClonedArray = []; 
     // this.displayscoreboard = true;
     var sbData = {
       match: {...this.match},
@@ -273,15 +266,23 @@ export class MatchPage implements OnInit {
         if(d.data && d.data.game.HomeScore != this.game.HomeScore || 
           d.data.game.OpponentScore != this.game.OpponentScore || 
           d.data.game.subs != this.game.subs) {
+            this.playerPositions.forEach(val => myClonedArray.push(Object.assign({}, val)));
             this.game.HomeScore = d.data.game.HomeScore;
             this.game.OpponentScore = d.data.game.OpponentScore;
             this.game.subs = d.data.game.subs;
             let g = new GameWithId();
             g.objectId = this.game.objectId;
             g.HomeScore = this.game.HomeScore;
-            g.OpponentScore = this.opponentscore
+            g.OpponentScore = this.game.OpponentScore
             g.subs = this.game.subs
             this.matchService.updateGame(g);
+            const s = new Stat();
+            s.playerid = 'n/a'
+            s.stattype = 'TP'
+            s.passingGrade = -1
+            s.rotation = JSON.stringify(myClonedArray)
+            this.matchService.createStat(s, this.game)
+            this.matchService.addPlayByPlay(this.game, myClonedArray,"TP", null, null)
         }
       }
     })
@@ -289,7 +290,7 @@ export class MatchPage implements OnInit {
     return await modal.present();
   }
 
-  async getPlayerData() {
+  async getGameData() {
     var _this = this;
     await this.matchService.getPlayers().then(async allPlayers => {
       var json = JSON.stringify(allPlayers);
@@ -354,7 +355,7 @@ export class MatchPage implements OnInit {
       
               if (this.stats && this.stats.length > 0) {
                 this.startMatch();
-                var r = this.stats[this.stats.length-1]
+                var r = this.stats[0]
                 this.game.HomeScore = r.homescore;
                 this.game.OpponentScore = r.opponentscore;
                 this.game.subs = r.subs;
@@ -377,8 +378,6 @@ export class MatchPage implements OnInit {
         })
     })
   }
-
-  
 
   startMatch() {
     this.liberoDisabled = true;
@@ -487,8 +486,6 @@ export class MatchPage implements OnInit {
     this.playerPositions[5] = this.playerPositions[6];
     this.playerPositions[6] = tempPlayer;
   }
-
-
 
 }
 

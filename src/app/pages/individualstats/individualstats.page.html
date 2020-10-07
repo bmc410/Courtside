@@ -36,7 +36,11 @@
       <mat-cell *matCellDef="let element"> {{element.he}} </mat-cell>
     </ng-container>
 
-
+     <!-- Name Column -->
+     <ng-container matColumnDef="h">
+      <mat-header-cell *matHeaderCellDef>TA</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.h}} </mat-cell>
+    </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="b">

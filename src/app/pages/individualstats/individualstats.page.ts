@@ -25,7 +25,7 @@ export class IndividualstatsPage implements OnInit {
   teamtotals: statView[] = []
   matchgameStats: statEntry[] = [];
   pct: number = 0;
-  displayedColumns = ['firstName', 'k', 'he',
+  displayedColumns = ['firstName', 'k', 'he', 'h',
   'b', 'bt',
   'be', 'a',
   'd', 'bhe',
@@ -155,6 +155,8 @@ export class IndividualstatsPage implements OnInit {
           case "k":
             this.statviews[index].k += 1;
             this.teamtotal.k += 1;
+            this.statviews[index].h += 1;
+            this.teamtotal.h += 1;
             break;
           case "h":
             this.statviews[index].h += 1;
@@ -163,6 +165,8 @@ export class IndividualstatsPage implements OnInit {
           case "he":
             this.statviews[index].he += 1;
             this.teamtotal.he += 1;
+            this.statviews[index].h += 1;
+            this.teamtotal.h += 1;
             break;
           case "b":
             this.statviews[index].b += 1;
@@ -207,9 +211,9 @@ export class IndividualstatsPage implements OnInit {
           default:
             break;
         }
-        this.pct =
-          (this.statviews[index].k - this.statviews[index].he) /
-          (this.statviews[index].k + this.statviews[index].h);
+        // this.pct =
+        //   (this.statviews[index].k - this.statviews[index].he) /
+        //   (this.statviews[index].k + this.statviews[index].h);
       });
   
       const xMax = Math.max.apply(null, this.statviews.map(function(o) { return o.k; }));

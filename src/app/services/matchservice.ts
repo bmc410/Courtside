@@ -325,6 +325,31 @@ export class MatchService {
 
   //#region ******* PlayByPlay  */
 
+  deletePBPByStatId(statId) {
+    this.getBystatId(statId).then(x => {
+      var j = JSON.stringify(x);
+      var d = JSON.parse(j)[0];
+      const PlayByPlay = Parse.Object.extend('PlayByPlay');
+      const query = new Parse.Query(PlayByPlay);
+      
+      // here you put the objectId that you want to delete
+      return query.get(d.objectId).then((object) => {
+        return object.destroy()
+      });
+  
+    })
+
+    
+  }
+
+  getBystatId(statid) {
+    const PlayByPlay = Parse.Object.extend('PlayByPlay');
+    const query = new Parse.Query(PlayByPlay);
+    query.equalTo("statid", statid);
+    return query.find()
+  }
+
+
   deletePBPById(pbpId) {
     const PlayByPlay = Parse.Object.extend('PlayByPlay');
     const query = new Parse.Query(PlayByPlay);
@@ -340,9 +365,10 @@ export class MatchService {
     query.equalTo("gameId", gId);
     return query.find()
   }
-  addPlayByPlay(g: GameWithId, cp: CourtPosition[], stat: string, p: PlayerWithId[], action: string = "") {
+  addPlayByPlay(g: GameWithId, cp: CourtPosition[], stat: string, p: PlayerWithId[], statid: string = "") {
     var rotations: pbpPosition[] = [];
     let pos = cp;
+    var action = ""
     if (stat === "start") {
       action = "Start [" + cp[1].player.FirstName + ", "
         + cp[2].player.FirstName + ", " + cp[3].player.FirstName + ", "
@@ -350,6 +376,8 @@ export class MatchService {
         + cp[6].player.FirstName + "]"
     } else if (stat === "sub") {
       action = "Sub [" + p[0].FirstName + " for " + p[1].FirstName + "]"
+    } else if (stat === "TP") {
+      action = "Opponent Error - Team Point"
     } else {
       action = this.getActionFromStat(stat, -1) + p[0].FirstName + ' ' + p[0].LastName;
     }
@@ -400,6 +428,7 @@ export class MatchService {
     myNewObject.set('stattype', stat);
     myNewObject.set('rotation', jR);
     myNewObject.set('gameId', g.objectId);
+    myNewObject.set('statid', statid);
 
     myNewObject.save();
     //this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
@@ -430,9 +459,8 @@ export class MatchService {
   deleteStat(sId) {
     const Stats = Parse.Object.extend('Stats');
     const query = new Parse.Query(Stats);
-    // here you put the objectId that you want to delete
-    query.get(sId).then((object) => {
-      object.destroy()
+    return query.get(sId).then((object) => {
+      return object.destroy()
     })
   }
 
@@ -464,14 +492,14 @@ export class MatchService {
       //rotation: stat.positions,
       statdate: this.datetoepoch(new Date())
     };
-    this.createStat(statObj, g);
-    const toast = await this.toastController.create({
+        const toast = await this.toastController.create({
       color: 'dark',
       duration: 2000,
       message: this.getActionFromStat(stat.stattype, stat.passingGrade) + stat.player.FirstName
     });
 
     await toast.present();
+    return this.createStat(statObj, g);
 
     //this.messageService.add({ severity: 'success', summary: 'Service Message', detail: this.getActionFromStat(stat.stattype) + stat.player.FirstName });
     //this.stattable.add(statObj);
@@ -480,7 +508,7 @@ export class MatchService {
     const Stats = Parse.Object.extend('Stats');
     const query = new Parse.Query(Stats);
     query.equalTo("GameId", id);
-    query.ascending("createdAt");
+    query.descending("createdAt");
     return query.find();
   }
 
@@ -525,7 +553,7 @@ export class MatchService {
         action = "Block touch by "
         break;
       case "h":
-        action = "Attach by "
+        action = "Attack by "
         break;
       case "d":
         action = "Dig by "
@@ -568,7 +596,7 @@ export class MatchService {
     myNewObject.set('Rotation', jr);
     myNewObject.set('passingGrade', stat.passingGrade);
 
-    myNewObject.save()
+    return myNewObject.save()
     //return this.firestore.collection("games").doc(g.objectId).collection("stats").add(stat);
   }
   //#endregion
