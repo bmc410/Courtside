@@ -89,12 +89,14 @@ export class ScoreboardPage implements OnInit {
       st.forEach(element => {
         var stat: stat = {}
         var p = this.allPlayers.filter(x => x.objectId === element.PlayerId)[0]
-        stat.firstname = p.FirstName
-        stat.lastname = p.LastName
-        stat.fullname = p.LastName + " " + p.FirstName
-        stat.stattype = element.StatType
-        stat.objectId = element.objectId
-        this.stats.push(stat)
+        if (p) {
+          stat.firstname = p.FirstName
+          stat.lastname = p.LastName
+          stat.fullname = p.LastName + " " + p.FirstName
+          stat.stattype = element.StatType
+          stat.objectId = element.objectId
+          this.stats.push(stat)
+        }
       });
       //this.setupStatView();
       //this.showData();

@@ -365,6 +365,7 @@ export class MatchService {
     query.equalTo("gameId", gId);
     return query.find()
   }
+
   addPlayByPlay(g: GameWithId, cp: CourtPosition[], stat: string, p: PlayerWithId[], statid: string = "") {
     var rotations: pbpPosition[] = [];
     let pos = cp;
@@ -378,6 +379,12 @@ export class MatchService {
       action = "Sub [" + p[0].FirstName + " for " + p[1].FirstName + "]"
     } else if (stat === "TP") {
       action = "Opponent Error - Team Point"
+    } else if (stat === "OP") {
+      action = "Team Error - Opponent Point"
+    } else if (stat === "S") {
+      action = "Home Team - Sub"
+    } else if (stat === "SAA") {
+      action = "Score Adjustment"
     } else {
       action = this.getActionFromStat(stat, -1) + p[0].FirstName + ' ' + p[0].LastName;
     }
@@ -398,12 +405,12 @@ export class MatchService {
       opponentscore: g.OpponentScore,
       action: action,
       rotation: {
-        1: cp[1].player.FirstName,
-        2: cp[2].player.FirstName,
-        3: cp[3].player.FirstName,
-        4: cp[4].player.FirstName,
-        5: cp[5].player.FirstName,
-        6: cp[6].player.FirstName
+        1: cp[1].player,
+        2: cp[2].player,
+        3: cp[3].player,
+        4: cp[4].player,
+        5: cp[5].player,
+        6: cp[6].player
       },
     }
 
@@ -413,7 +420,7 @@ export class MatchService {
     d.forEach(element => {
       let r = new pbpPosition();
       r.posNo = element.posNo;
-      r.playerName = element.player.FirstName;
+      r.playerName = element.player.objectId;
       rotations.push(r);
     });
 
@@ -455,6 +462,12 @@ export class MatchService {
   //#endregion
 
   //#region ******* Stats  */
+
+  getStatTypes() {
+    const Players = Parse.Object.extend('StatTypes');
+    const query = new Parse.Query(Players);
+    return query.find();
+  }
 
   deleteStat(sId) {
     const Stats = Parse.Object.extend('Stats');

@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs-page';
 
 
+//http://localhost:4200/app/tabs/matches/matchdetail/match?context=%7B%22gameNumber%22:%221%22,%22Home%22:%22RL%20Varsity%22,%22MatchDate%22:%2210%2F12%2F2020%22,%22objectId%22:%22ihgsKTcYIF%22,%22Opponent%22:%22Central%22,%22HomeTeamId%22:%22dIV4QF9u9a%22%7D
+
 const routes: Routes = [
   {
     path: 'tabs',
@@ -22,13 +24,21 @@ const routes: Routes = [
                 path: '',
                 loadChildren: () => import('../matchdetail/matchdetail.module').then(m => m.MatchdetailPageModule)                
               },
+              // {
+              //   path: 'match',
+              //   loadChildren: () => import('../match/match.module').then(m => m.MatchPageModule)                
+              // },
+              // {
+              //   path: 'match/:id',
+              //   loadChildren: () => import('../match/match.module').then(m => m.MatchPageModule)                
+              // },
               {
                 path: 'match',
-                loadChildren: () => import('../match/match.module').then(m => m.MatchPageModule)                
+                loadChildren: () => import('../tabletmatchview/tabletmatchview.module').then(m => m.TabletmatchviewPageModule)                
               },
               {
                 path: 'match/:id',
-                loadChildren: () => import('../match/match.module').then(m => m.MatchPageModule)                
+                loadChildren: () => import('../tabletmatchview/tabletmatchview.module').then(m => m.TabletmatchviewPageModule)                
               }
             ]
           }

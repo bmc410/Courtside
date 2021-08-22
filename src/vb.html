@@ -1,0 +1,1214 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>My first three.js app</title>
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <style>
+        .numberCircle {
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            padding: 8px;
+            background: #fff;
+            border: 2px solid #666;
+            color: #666;
+            text-align: center;
+            font: 32px Arial, sans-serif;
+        }
+    </style>
+</head>
+
+<body style="background-color: darkslategray;">
+    <div style="max-height:100%; background-color: dimgray; max-width: 100%; margin: 0 auto;">
+        <div style="height:10%; background-color: darkslategray; max-width: 100%; margin: 5px;" class=" row">
+        </div>
+
+
+        <div style="margin: 5px; max-width: 100%;" class=" row">
+            <div class="col-sm">
+                <div class="row">
+                    <div style="background-color: darkslategray; justify-content: center; display: flex; padding: 0px;"
+                        class="col-4">
+                        <div class="container-fluid" style="padding: 5px;">
+                            <div style="display: flex; justify-content: center;">
+                                <div> <span style="color: white; font-size: xx-large;">4</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; margin-top: 10px;">
+                                <div>
+                                    <span style="color: white;">
+                                        <img style="max-width: 100%;"
+                                            src="https://dw3jhbqsbya58.cloudfront.net/editorial/article/f/3/1/f31b2b7e-1e1e-4ac1-a0f7-75bdb1ce9ed8/cdfe4b68-38aa-e811-80c4-a9242bd1c80e_original.jpg">
+                                    </span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; margin-top: 10px;">
+                                <div>
+                                    <div style="color: white; font-size: x-large; text-align: center;">
+                                        Holly
+                                    </div>
+                                    <div style="color: white; font-size: x-large; text-align: center;">
+                                        Holmes
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; margin-top: 20px;">
+                                <div>
+                                    <span class="numberCircle" ;">
+                                        30
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8" style="background-color: white;">
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">SERVING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="max-height: 50px; padding: 0px;" type="button"
+                                            class="btn btn-primary btn-block">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="max-height: 50px; padding: 0px;" type="button"
+                                            class="btn btn-primary btn-block">ACE</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="max-height: 50px; padding: 0px;" type="button"
+                                            class="btn btn-primary btn-block">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">HITTING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: purple; color: white;"
+                                            type="button" class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: purple; color: white;"
+                                            type="button" class="btn btn-sm">KILL</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: purple; color: white;"
+                                            type="button" class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">PASSING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">0</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">1</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">2</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">3</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">4</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">BLOCKING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">BLK</button>
+                                    </div>
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">ASST</button>
+                                    </div>
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">SETTING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: green; color: white;"
+                                            type="button" class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: green; color: white;"
+                                            type="button" class="btn btn-sm">ASST</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: green; color: white;"
+                                            type="button" class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">DEFENSE</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: red; color: white;" type="button"
+                                            class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: red; color: white;" type="button"
+                                            class="btn btn-sm">DIG</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: red; color: white;" type="button"
+                                            class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="row">
+                    <div style="background-color: darkslategray; justify-content: center; display: flex; padding: 0px;"
+                        class="col-4">
+                        <div class="container-fluid" style="padding: 5px;">
+                            <div style="display: flex; justify-content: center;">
+                                <div> <span style="color: white; font-size: xx-large;">3</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; margin-top: 10px;">
+                                <div>
+                                    <span style="color: white;">
+                                        <img style="max-width: 100%;"
+                                            src="https://dw3jhbqsbya58.cloudfront.net/editorial/article/f/3/1/f31b2b7e-1e1e-4ac1-a0f7-75bdb1ce9ed8/cdfe4b68-38aa-e811-80c4-a9242bd1c80e_original.jpg">
+                                    </span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; margin-top: 10px;">
+                                <div>
+                                    <div style="color: white; font-size: x-large; text-align: center;">
+                                        Rita
+                                    </div>
+                                    <div style="color: white; font-size: x-large; text-align: center;">
+                                        Smith
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; margin-top: 20px;">
+                                <div>
+                                    <span class="numberCircle" ;">
+                                        13
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8" style="background-color: white;">
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">SERVING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="max-height: 50px; padding: 0px;" type="button"
+                                            class="btn btn-primary btn-block">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="max-height: 50px; padding: 0px;" type="button"
+                                            class="btn btn-primary btn-block">ACE</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="max-height: 50px; padding: 0px;" type="button"
+                                            class="btn btn-primary btn-block">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">HITTING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: purple; color: white;"
+                                            type="button" class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: purple; color: white;"
+                                            type="button" class="btn btn-sm">KILL</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: purple; color: white;"
+                                            type="button" class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">PASSING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">0</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">1</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">2</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">3</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">4</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">BLOCKING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">BLK</button>
+                                    </div>
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">ASST</button>
+                                    </div>
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">SETTING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: green; color: white;"
+                                            type="button" class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: green; color: white;"
+                                            type="button" class="btn btn-sm">ASST</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: green; color: white;"
+                                            type="button" class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">DEFENSE</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: red; color: white;" type="button"
+                                            class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: red; color: white;" type="button"
+                                            class="btn btn-sm">DIG</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: red; color: white;" type="button"
+                                            class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="row">
+                    <div style="background-color: darkslategray; justify-content: center; display: flex; padding: 0px;"
+                        class="col-4">
+                        <div class="container-fluid" style="padding: 5px;">
+                            <div style="display: flex; justify-content: center;">
+                                <div> <span style="color: white; font-size: xx-large;">2</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; margin-top: 10px;">
+                                <div>
+                                    <span style="color: white;">
+                                        <img style="max-width: 100%;"
+                                            src="https://dw3jhbqsbya58.cloudfront.net/editorial/article/f/3/1/f31b2b7e-1e1e-4ac1-a0f7-75bdb1ce9ed8/cdfe4b68-38aa-e811-80c4-a9242bd1c80e_original.jpg">
+                                    </span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; margin-top: 10px;">
+                                <div>
+                                    <div style="color: white; font-size: x-large; text-align: center;">
+                                        Bill
+                                    </div>
+                                    <div style="color: white; font-size: x-large; text-align: center;">
+                                        McCoy
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; margin-top: 20px;">
+                                <div>
+                                    <span class="numberCircle" ;">
+                                        05
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8" style="background-color: white;">
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">SERVING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="max-height: 50px; padding: 0px;" type="button"
+                                            class="btn btn-primary btn-block">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="max-height: 50px; padding: 0px;" type="button"
+                                            class="btn btn-primary btn-block">ACE</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="max-height: 50px; padding: 0px;" type="button"
+                                            class="btn btn-primary btn-block">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">HITTING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: purple; color: white;"
+                                            type="button" class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: purple; color: white;"
+                                            type="button" class="btn btn-sm">KILL</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: purple; color: white;"
+                                            type="button" class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">PASSING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">0</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">1</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">2</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">3</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">4</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">BLOCKING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">BLK</button>
+                                    </div>
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">ASST</button>
+                                    </div>
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">SETTING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: green; color: white;"
+                                            type="button" class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: green; color: white;"
+                                            type="button" class="btn btn-sm">ASST</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: green; color: white;"
+                                            type="button" class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">DEFENSE</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: red; color: white;" type="button"
+                                            class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: red; color: white;" type="button"
+                                            class="btn btn-sm">DIG</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: red; color: white;" type="button"
+                                            class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="margin: 5px; max-width: 100%;" class=" row">
+            <div class="col-sm">
+                <div class="row">
+                    <div style="background-color: darkslategray; justify-content: center; display: flex; padding: 0px;"
+                        class="col-4">
+                        <div class="container-fluid" style="padding: 5px;">
+                            <div style="display: flex; justify-content: center;">
+                                <div> <span style="color: white; font-size: xx-large;">5</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; margin-top: 10px;">
+                                <div>
+                                    <span style="color: white;">
+                                        <img style="max-width: 100%;"
+                                            src="https://dw3jhbqsbya58.cloudfront.net/editorial/article/f/3/1/f31b2b7e-1e1e-4ac1-a0f7-75bdb1ce9ed8/cdfe4b68-38aa-e811-80c4-a9242bd1c80e_original.jpg">
+                                    </span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; margin-top: 10px;">
+                                <div>
+                                    <div style="color: white; font-size: x-large; text-align: center;">
+                                        Alexis
+                                    </div>
+                                    <div style="color: white; font-size: x-large; text-align: center;">
+                                        Dubal
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; margin-top: 20px;">
+                                <div>
+                                    <span class="numberCircle" ;">
+                                        25
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8" style="background-color: white;">
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">SERVING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="max-height: 50px; padding: 0px;" type="button"
+                                            class="btn btn-primary btn-block">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="max-height: 50px; padding: 0px;" type="button"
+                                            class="btn btn-primary btn-block">ACE</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="max-height: 50px; padding: 0px;" type="button"
+                                            class="btn btn-primary btn-block">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">HITTING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: purple; color: white;"
+                                            type="button" class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: purple; color: white;"
+                                            type="button" class="btn btn-sm">KILL</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: purple; color: white;"
+                                            type="button" class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">PASSING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">0</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">1</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">2</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">3</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">4</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">BLOCKING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">BLK</button>
+                                    </div>
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">ASST</button>
+                                    </div>
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">SETTING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: green; color: white;"
+                                            type="button" class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: green; color: white;"
+                                            type="button" class="btn btn-sm">ASST</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: green; color: white;"
+                                            type="button" class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">DEFENSE</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: red; color: white;" type="button"
+                                            class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: red; color: white;" type="button"
+                                            class="btn btn-sm">DIG</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: red; color: white;" type="button"
+                                            class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="row">
+                    <div style="background-color: darkslategray; justify-content: center; display: flex; padding: 0px;"
+                        class="col-4">
+                        <div class="container-fluid" style="padding: 5px;">
+                            <div style="display: flex; justify-content: center;">
+                                <div> <span style="color: white; font-size: xx-large;">6</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; margin-top: 10px;">
+                                <div>
+                                    <span style="color: white;">
+                                        <img style="max-width: 100%;"
+                                            src="https://dw3jhbqsbya58.cloudfront.net/editorial/article/f/3/1/f31b2b7e-1e1e-4ac1-a0f7-75bdb1ce9ed8/cdfe4b68-38aa-e811-80c4-a9242bd1c80e_original.jpg">
+                                    </span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; margin-top: 10px;">
+                                <div>
+                                    <div style="color: white; font-size: x-large; text-align: center;">
+                                        Millie
+                                    </div>
+                                    <div style="color: white; font-size: x-large; text-align: center;">
+                                        Raginaw
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; margin-top: 20px;">
+                                <div>
+                                    <span class="numberCircle" ;">
+                                        07
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8" style="background-color: white;">
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">SERVING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="max-height: 50px; padding: 0px;" type="button"
+                                            class="btn btn-primary btn-block">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="max-height: 50px; padding: 0px;" type="button"
+                                            class="btn btn-primary btn-block">ACE</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="max-height: 50px; padding: 0px;" type="button"
+                                            class="btn btn-primary btn-block">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">HITTING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: purple; color: white;"
+                                            type="button" class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: purple; color: white;"
+                                            type="button" class="btn btn-sm">KILL</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: purple; color: white;"
+                                            type="button" class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">PASSING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">0</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">1</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">2</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">3</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">4</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">BLOCKING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">BLK</button>
+                                    </div>
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">ASST</button>
+                                    </div>
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">SETTING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: green; color: white;"
+                                            type="button" class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: green; color: white;"
+                                            type="button" class="btn btn-sm">ASST</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: green; color: white;"
+                                            type="button" class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">DEFENSE</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: red; color: white;" type="button"
+                                            class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: red; color: white;" type="button"
+                                            class="btn btn-sm">DIG</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: red; color: white;" type="button"
+                                            class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="row">
+                    <div style="background-color: darkslategray; justify-content: center; display: flex; padding: 0px;"
+                        class="col-4">
+                        <div class="container-fluid" style="padding: 5px;">
+                            <div style="display: flex; justify-content: center;">
+                                <div> <span style="color: white; font-size: xx-large;">1</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; margin-top: 10px;">
+                                <div>
+                                    <span style="color: white;">
+                                        <img style="max-width: 100%;"
+                                            src="https://dw3jhbqsbya58.cloudfront.net/editorial/article/f/3/1/f31b2b7e-1e1e-4ac1-a0f7-75bdb1ce9ed8/cdfe4b68-38aa-e811-80c4-a9242bd1c80e_original.jpg">
+                                    </span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; margin-top: 10px;">
+                                <div>
+                                    <div style="color: white; font-size: x-large; text-align: center;">
+                                        Lauren
+                                    </div>
+                                    <div style="color: white; font-size: x-large; text-align: center;">
+                                        Littler
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; margin-top: 20px;">
+                                <div>
+                                    <span class="numberCircle" ;">
+                                        10
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8" style="background-color: white;">
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">SERVING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="max-height: 50px; padding: 0px;" type="button"
+                                            class="btn btn-primary btn-block">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="max-height: 50px; padding: 0px;" type="button"
+                                            class="btn btn-primary btn-block">ACE</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="max-height: 50px; padding: 0px;" type="button"
+                                            class="btn btn-primary btn-block">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">HITTING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: purple; color: white;"
+                                            type="button" class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: purple; color: white;"
+                                            type="button" class="btn btn-sm">KILL</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: purple; color: white;"
+                                            type="button" class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">PASSING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">0</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">1</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">2</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">3</button>
+                                    </div>
+                                    <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+                                        <button style="width: 100%; background-color: brown; color: white;"
+                                            type="button" class="btn btn-sm">4</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">BLOCKING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">BLK</button>
+                                    </div>
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">ASST</button>
+                                    </div>
+                                    <div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+                                        <button
+                                            style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+                                            type="button" class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">SETTING</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: green; color: white;"
+                                            type="button" class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: green; color: white;"
+                                            type="button" class="btn btn-sm">ASST</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: green; color: white;"
+                                            type="button" class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 5px; height: 15%; " class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <span style="width: 100%; font-size: x-small;">DEFENSE</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: red; color: white;" type="button"
+                                            class="btn btn-sm">ATT</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: red; color: white;" type="button"
+                                            class="btn btn-sm">DIG</button>
+                                    </div>
+                                    <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+                                        <button style="width: 100%; background-color: red; color: white;" type="button"
+                                            class="btn btn-sm">ERR</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -17,16 +17,16 @@ import { Player, PlayerWithId } from 'src/app/models/appModels';
 export class PlayerpickerPage implements OnInit {
   selectedPlayer: Player;
   selectedPlayers: PlayerWithId[];
-  availablePlayers:  PlayerWithId[] = [];
-  players:  PlayerWithId[] = [];
+  availablePlayers: PlayerWithId[] = [];
+  players: PlayerWithId[] = [];
   menuitems = [{
     label: 'Log out',
     icon: 'pi pi-fw pi-power-off',
     command: () => {
       this.logoff();
     }
-}];
-  constructor(private popover:PopoverController,
+  }];
+  constructor(private popover: PopoverController,
     private router: Router,
     private matchService: MatchService,
     private navParams: NavParams,
@@ -37,37 +37,48 @@ export class PlayerpickerPage implements OnInit {
     private offlineservice: OfflineService,
     private messageService: MessageService,
     public toastController: ToastController) {
-      this.matchService.loadPlayers()
-     }
+    //this.matchService.loadPlayers()
+    //console.log(this.navParams.data.context);
+  }
+
 
   ngOnInit() {
-    //console.table(this.navParams.data.context);
+    //console.log(this.navParams.data.context);
     // this.matchService.getPlayersAsync().subscribe(data => {
-      // var json = JSON.stringify(data);
-      // var d = JSON.parse(json);
-      this.selectedPlayers = this.navParams.data.context
+    // var json = JSON.stringify(data);
+    // var d = JSON.parse(json);
+    this.selectedPlayers = this.navParams.data.context
+    // if(this.selectedPlayers == null) {
+    //   this.matchService.getPlayersAsync().subscribe(data => { 
+    //     console.log(data)
+    //   });
+    // }
 
-      this.selectedPlayers = this.selectedPlayers.sort((t1, t2) => {
-        const name1 = t1.LastName.toLowerCase();
-        const name2 = t2.LastName.toLowerCase();
-        if (name1 > name2) { return 1; }
-        if (name1 < name2) { return -1; }
-        return 0;
-      });
 
-      this.players = this.selectedPlayers.slice()
-      this.availablePlayers = this.selectedPlayers;
-      // this.players = data.map(e => {
-      //   return {
-      //     id: e.payload.doc.id,
-      //     ...e.payload.doc.data() as {}
-      //   } as PlayerWithId;
-      // })
-      for (let index = 0; index < this.players.length; index++) {
-        const element = this.players[index];
-        this.players[index].fullName = this.players[index].FirstName + " " + this.players[index].LastName
-      }
-    // });
+    this.players = this.selectedPlayers.slice()
+    this.availablePlayers = this.selectedPlayers;
+    for (let index = 0; index < this.players.length; index++) {
+      const element = this.players[index];
+      this.players[index].fullName = this.players[index].FirstName + " " + this.players[index].LastName
+    }
+
+
+
+
+    this.selectedPlayers = this.selectedPlayers.sort((t1, t2) => {
+      const name1 = t1.LastName.toLowerCase();
+      const name2 = t2.LastName.toLowerCase();
+      if (name1 > name2) { return 1; }
+      if (name1 < name2) { return -1; }
+      return 0;
+    });
+
+    // this.players = data.map(e => {
+    //   return {
+    //     id: e.payload.doc.id,
+    //     ...e.payload.doc.data() as {}
+    //   } as PlayerWithId;
+    // })
   }
 
   logoff() {

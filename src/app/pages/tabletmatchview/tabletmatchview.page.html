@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-toolbar mode="md" color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title mode="md">{{title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="rotate()">
+        <ion-icon name="swap-horizontal-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="menu.toggle($event)">
+        <ion-icon slot="icon-only" ios="ellipsis-vertical" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
+
+<ion-content class="no-scroll bg">
+  <div style="height:100%; background-color: dimgray; max-width: 100%; margin: 0 auto;">
+
+    <!-- HEADER -->
+    <div style="height:10%; margin: 0px; background-color: darkslategray; max-width: 100%;"
+      class="row justify-content-center">
+
+      <div style="justify-content: flex-end;" class="score-box-container col">
+        <div class="col-2">
+          Select Libero
+        </div>
+        <div style="align-self: center; height: 7vh; " class="subs col-1 ">
+          <div class="scorebtn">
+            <button (click)="showscoreboard($event)" id="vinc" style="padding: 0px; background: transparent;" ion-button icon-only clear>
+              <ion-icon name="caret-up-outline"></ion-icon>
+            </button>
+            <!-- <ion-icon name="caret-up-outline"></ion-icon> -->
+          </div>
+          <div  class="scorebtn">
+            <button (click)="showscoreboard($event)" id="vdec" style="padding: 0px; background: transparent;" ion-button icon-only clear>
+              <ion-icon name="caret-down-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+        <div class="score-box col-3">
+          <div class="score-box-teamname-away"><span>VISITOR</span></div>
+          <div class="score-box-number"><span>{{game.OpponentScore}}</span></div>
+        </div>
+      </div>
+      <div style="align-self: center; " class="subs col-1 ">
+        <div class="subs-name">SUBS</div>
+        <div>{{game.subs}}</div>
+      </div>
+      <div style="justify-content: flex-start;" class="score-box-container col">
+        <div class="score-box col-3">
+          <div class="score-box-teamname-home">HOME</div>
+          <div class="score-box-number"><span>{{game.HomeScore}}</span></div>
+        </div>
+        <div style="align-self: center; height: 7vh; " class="subs col-1 ">
+          <div class="scorebtn">
+            <button (click)="showscoreboard($event)" id="homeinc" style="padding: 0px; background: transparent;" ion-button icon-only clear>
+              <ion-icon name="caret-up-outline"></ion-icon>
+            </button>
+            <!-- <ion-icon name="caret-up-outline"></ion-icon> -->
+          </div>
+          <div  class="scorebtn">
+            <button (click)="showscoreboard($event)" id="homedec" style="padding: 0px; background: transparent;" ion-button icon-only clear>
+              <ion-icon name="caret-down-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PLAYERS -->
+    <div class="row scorearea">
+      <!-- FIRST ROW -->
+      <div style="margin: 5px; max-width: 100%; height: 48%; align-items: center;" class=" row">
+        <div class="col-sm playerbox">
+          <player (subPost)="subPlayer(4)" (statPost)="postStat($event,4)" posNum=4 name={{playerPositions[4]?.player?.FirstName}}
+            jersey={{playerPositions[4]?.player?.jersey}}></player>
+        </div>
+        <div class="col-sm playerbox">
+          <player (subPost)="subPlayer(3)" (statPost)="postStat($event,3)" posNum=3 name={{playerPositions[3]?.player?.FirstName}}
+          jersey={{playerPositions[3]?.player?.jersey}}></player>
+        </div>
+        <div class="col-sm playerbox">
+          <player (subPost)="subPlayer(2)" (statPost)="postStat($event,2)" posNum=2 name={{playerPositions[2]?.player?.FirstName}}
+          jersey={{playerPositions[2]?.player?.jersey}}></player>
+        </div>
+      </div>
+
+      <!-- SECOND ROW -->
+      <div style="margin: 5px; max-width: 100%; height: 48%; align-items: center;" class=" row">
+        <div class="col-sm playerbox">
+          <player (subPost)="subPlayer(5)" (statPost)="postStat($event,5)" posNum=5 name={{playerPositions[5]?.player?.FirstName}}
+            jersey={{playerPositions[5]?.player?.jersey}}></player>
+        </div>
+        <div class="col-sm playerbox">
+          <player (subPost)="subPlayer(6)" (statPost)="postStat($event,6)" posNum=6 name={{playerPositions[6]?.player?.FirstName}}
+          jersey={{playerPositions[6]?.player?.jersey}}></player>
+        </div>
+        <div class="col-sm playerbox">
+          <player (subPost)="subPlayer(1)" (statPost)="postStat($event,1)" posNum=1 name={{playerPositions[1]?.player?.FirstName}}
+          jersey={{playerPositions[1]?.player?.jersey}}></player>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ion-content>

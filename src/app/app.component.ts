@@ -17,6 +17,7 @@ import { MatchService } from './services/matchservice';
 // import { ConnectionService } from 'ng-connection-service';
 import { IPlayers } from './models/dexie-models';
 import { Guid } from 'guid-typescript';
+import { AppStateService } from './services/app-state-service.service';
 
 
 @Component({
@@ -49,6 +50,8 @@ export class AppComponent implements OnInit {
     private userData: UserData,
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
+    private a:AppStateService  
+
   ) {
     this.initializeApp();
   }
@@ -58,7 +61,22 @@ export class AppComponent implements OnInit {
     console.log("Leaving now")
   }
 
+  @HostListener('window:orientationchange', [ '$event' ])
+  onOrientationChange(event) {
+    if(event.target.screen.orientation.angle == 0) {
+      this.a.setTabs(true)
+    }
+    else {
+      this.a.setTabs(false)
+    }
+  }
+
   async ngOnInit() {
+    if (window.innerHeight <= 768) {
+      this.a.setTabs(false)
+    } else {
+      this.a.setTabs(true)  
+    }
 
     this.networkService.HasInternet().subscribe(isConnected => {
       this.isConnected = isConnected;

@@ -17,7 +17,11 @@ const routes: Routes = [
     path: 'app',
     canActivate: [AuthguardService],
     loadChildren: () => import('./pages/tabs-page/tabs-page.module').then(m => m.TabsModule)
-  }
+  },
+  {
+    path: 'tabletmatchview',
+    loadChildren: () => import('./pages/tabletmatchview/tabletmatchview.module').then( m => m.TabletmatchviewPageModule)
+  },
   // {
   //   path: 'teams',
   //   loadChildren: () => import('./pages/teams/teams.module').then( m => m.TeamsPageModule)

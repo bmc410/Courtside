@@ -6,6 +6,20 @@ export class matchscore{
   gamedata?: gamescore[] = []
 }
 
+export interface PBP {
+  action: string;
+  homescore: number;
+  opponentscore: number;
+  playerId?: any;
+  stattype: string;
+  rotation: string;
+  gameId: string;
+  statid: string;
+  createdAt: Date;
+  updatedAt: Date;
+  objectId: string;
+}
+
 export class teamstats {
   kills?: number
   errors?: number
@@ -99,6 +113,15 @@ export class PointPlay {
   player?: PlayerWithId;
   rotation: CourtPosition[]
 }
+
+export interface StatType {
+  StatName: string;
+  createdAt: string;
+  updatedAt: string;
+  StatAbbrev: string;
+  objectId: string;
+}
+
 
 export class Stat {
   statid?: number;

@@ -1,0 +1,191 @@
+<div class="row">
+  <div class="col-4 biobox">
+    <div class="container-fluid" style="padding: 5px;">
+      <div style="display: flex; justify-content: center;">
+        <div style="color: white; font-size: large; font-weight: bold;">{{posNum}}
+        </div>
+      </div>
+      <div style="display: flex; max-height: 200px; justify-content: center; ">
+        <div style="display: flex; justify-content: center;">
+          <button (click)="SubPlayer($event)" style="display:inline-block">
+            <img style="max-width: 100%; "
+              src="https://dw3jhbqsbya58.cloudfront.net/editorial/article/f/3/1/f31b2b7e-1e1e-4ac1-a0f7-75bdb1ce9ed8/cdfe4b68-38aa-e811-80c4-a9242bd1c80e_original.jpg">
+          </button>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: center;">
+        <div>
+          <div class="name">
+            {{name}}
+          </div>
+        </div>
+      </div>
+      <div class="jersey d-flex align-items-end">
+        <div>
+          <span class="numberCircle">
+            {{jersey}}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-8" style="background-color: white;">
+  
+    <!-- HITTING -->
+    <div style="margin-bottom: 3px;" class="row">
+      <div class="col-12">
+        <div class="row">
+          <span style="width: 100%; font-size: xx-small;">HITTING</span>
+        </div>
+        <div class="row">
+          <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+            <button (click)="DoStat('att')" style="background-color: purple;" type="button"
+              class="btn tapbutton">ATT</button>
+          </div>
+          <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+            <button (click)="DoStat('k')" style=" background-color: purple; color: white;" type="button"
+              class="btn tapbutton">KILL</button>
+          </div>
+          <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+            <button (click)="DoStat('he')" style="background-color: purple; color: white;" type="button"
+              class="btn tapbutton">ERR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- PASSING -->
+    <div style="margin-bottom: 3px;" class="row">
+      <div class="col-12">
+        <div class="row">
+          <span style="width: 100%; font-size: xx-small;">PASSING</span>
+        </div>
+        <div class="row">
+          <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+            <button (click)="DoStat('pa0')" style=" width: 100%; background-color: brown; color: white;" type="button"
+              class="btn tapbutton">0</button>
+          </div>
+          <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+            <button (click)="DoStat('pa1')" style=" width: 100%; background-color: brown; color: white;" type="button"
+              class="btn tapbutton">1</button>
+          </div>
+          <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+            <button (click)="DoStat('pa2')" style=" width: 100%; background-color: brown; color: white;" type="button"
+              class="btn tapbutton">2</button>
+          </div>
+          <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+            <button (click)="DoStat('pa3')" style=" width: 100%; background-color: brown; color: white;" type="button"
+              class="btn tapbutton">3</button>
+          </div>
+          <div style="padding-left: 5px; padding-right: 5px; width: 20%;">
+            <button (click)="DoStat('pa4')" style=" width: 100%; background-color: brown; color: white;" type="button"
+              class="btn tapbutton">4</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- BLOCKING -->
+    <div *ngIf="isFrontRow()" style="margin-bottom: 3px;" class="row">
+      <div class="col-12">
+        <div class="row">
+          <span style="width: 100%; font-size: xx-small;">BLOCKING</span>
+        </div>
+        <div class="row">
+          <div class="col-3" style="padding: 2px;">
+            <button (click)="DoStat('bt')"
+              style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+              type="button" class="btn tapbutton">BLT</button>
+          </div>
+          <div class="col-3" style="padding: 2px;">
+            <button (click)="DoStat('b')"
+              style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+              type="button" class="btn tapbutton">BLK</button>
+          </div>
+          <div class="col-3" style="padding: 2px;">
+            <button (click)="DoStat('bst')"
+              style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+              type="button" class="btn tapbutton">AST</button>
+          </div>
+          <div class="col-3" style="padding: 2px;">
+            <button (click)="DoStat('be')"
+              style="width: 100%; background-color: orange; color: white; padding-left: 0px; padding-right: 0px;"
+              type="button" class="btn tapbutton">ERR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SETTING -->
+    <div style="margin-bottom: 3px;" class="row">
+      <div class="col-12">
+        <div class="row">
+          <span style="width: 100%; font-size: xx-small;">SETTING</span>
+        </div>
+        <div class="row">
+          <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+            <button (click)="DoStat('sat')" style="width: 100%; background-color: green; color: white;" type="button"
+              class="btn tapbutton">ATT</button>
+          </div>
+          <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+            <button (click)="DoStat('ast')" style="width: 100%; background-color: green; color: white;" type="button"
+              class="btn tapbutton">AST</button>
+          </div>
+          <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+            <button (click)="DoStat('bhe')" style="width: 100%; background-color: green; color: white;" type="button"
+              class="btn tapbutton">BHE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- DEFENSE -->
+    <div style="margin-bottom: 3px;" class="row">
+      <div class="col-12">
+        <div class="row">
+          <span style="width: 100%; font-size: xx-small;">DEFENSE</span>
+        </div>
+        <div class="row">
+          <div class="col-3" style="padding: 1px;">
+            <button (click)="DoStat('sr')" style="width: 100%; padding-left: 0px; padding-right: 0px;
+            background-color: red; color: white;" type="button"
+              class="btn tapbutton">SRC</button>
+          </div>
+          <div class="col-3" style="padding: 1px;">
+            <button (click)="DoStat('sre')" style="width: 100%; 
+              padding-left: 0px; padding-right: 0px;
+              background-color: red; color: white;" type="button" class="btn tapbutton">SRE</button>
+          </div>
+          <div class="col-3" style="padding: 1px;">
+            <button (click)="DoStat('d')" style="width: 100%; padding-left: 0px; padding-right: 0px;
+            background-color: red; color: white;" type="button"
+              class="btn tapbutton">DIG</button>
+          </div>
+          <div class="col-3" style="padding: 1px;">
+            <button (click)="DoStat('bhe')" style="width: 100%; padding-left: 0px; padding-right: 0px;
+            background-color: red; color: white;" type="button"
+              class="btn tapbutton">BHE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!-- SERVING -->
+      <div *ngIf="posNum=='1'" style="margin-bottom: 3px;" class="row">
+        <div class="col-12">
+          <div class="row">
+            <span style="width: 100%; font-size: xx-small;">SERVING</span>
+          </div>
+          <div class="row">
+            <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+              <button (click)="DoStat('sat')" style="background-color: darkcyan;" type="button"
+                class="btn tapbutton">ATT</button>
+            </div>
+            <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+              <button (click)="DoStat('ace')" style="background-color: darkcyan;" type="button"
+                class="btn tapbutton">ACE</button>
+            </div>
+            <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+              <button (click)="DoStat('ser')" style="background-color: darkcyan;" type="button"
+                class="btn tapbutton">ERR</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

@@ -35,8 +35,12 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { ScoreboardPageModule } from './pages/scoreboard/scoreboard.module';
+import { PlayerpickerPageModule } from './pages/playerpicker/playerpicker.module';
 
 @NgModule({
+  declarations: [
+    AppComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -57,13 +61,14 @@ import { ScoreboardPageModule } from './pages/scoreboard/scoreboard.module';
     AngularFirestoreModule.enablePersistence(),
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
     BrowserAnimationsModule,
-    PlayerpopoverPageModule
+    PlayerpopoverPageModule,
+    PlayerpickerPageModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   exports: [
     MatFormFieldModule,
     MatInputModule,
   ],
-  declarations: [AppComponent],
   providers: [MatDialog, InAppBrowser, SplashScreen, StatusBar,AuthenticateService,AuthguardService,NavParams,
     MatchService, OfflineService, MessageService, AngularFirestore, AppStateService,AuthenticationService,NetworkService],
   bootstrap: [AppComponent]

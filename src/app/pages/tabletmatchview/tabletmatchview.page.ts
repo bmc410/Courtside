@@ -1,30 +1,23 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import { ConferenceData } from 'src/app/providers/conference-data';
-import { ActionSheetController, Platform } from '@ionic/angular';
-import { FormControl } from '@angular/forms';
-import { PopoverController } from '@ionic/angular';
-import { PlayerpopoverPage } from '../playerpopover/playerpopover.page';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ActionSheetController, Platform, PopoverController } from '@ionic/angular';
+import { GameScore, GameWithId, PlayerWithId, Stat, statEntry, CourtPosition, pbpPosition } from 'src/app/models/appModels';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { MatchService } from 'src/app/services/matchservice';
 import { NetworkService } from 'src/app/services/network.service';
 import { OfflineService } from 'src/app/services/offline.service';
-import { CourtPosition, GameScore, GameWithId, PlayerWithId, Stat, statEntry, StatNib } from 'src/app/models/appModels';
-import { async } from 'rxjs/internal/scheduler/async';
+import { MatchUser } from '../match/match.page';
 import { PlayerpickerPage } from '../playerpicker/playerpicker.page';
 import { ScoreboardPage } from '../scoreboard/scoreboard.page';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ScoremodalPage } from '../scoremodal/scoremodal.page';
-import { MatTableModule } from '@angular/material/table';
-import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
-  selector: 'app-match',
-  templateUrl: './match.page.html',
-  styleUrls: ['./match.page.scss'],
+  selector: 'app-tabletmatchview',
+  templateUrl: './tabletmatchview.page.html',
+  styleUrls: ['./tabletmatchview.page.scss'],
 })
-export class MatchPage implements OnInit {
+export class TabletmatchviewPage implements OnInit {
 
   public semSelected: any;
   player: MatchUser;
@@ -51,20 +44,20 @@ export class MatchPage implements OnInit {
   value18: number = 10;
   passingscore = -1
   menuitems = [
-   {
-     label: 'Set Starting Linup',
-     icon: 'pi pi-fw pi-users',
-     command: () => {
-      this.startMatch();
-    }
-   },{
-    label: 'Log out',
-    icon: 'pi pi-fw pi-power-off',
-    command: () => {
-      this.logoff();
-    }
-   }
-  ];
+    {
+      label: 'Set Starting Linup',
+      icon: 'pi pi-fw pi-users',
+      command: () => {
+        this.startMatch();
+      }
+    },
+    {
+      label: 'Log out',
+      icon: 'pi pi-fw pi-power-off',
+      command: () => {
+        this.logoff();
+      }
+    }];
 
   // compareFn = (o1, o2) => {
   //   return o1 && o2 ? o1.id === o2.id : o1 === o2;
@@ -100,9 +93,13 @@ export class MatchPage implements OnInit {
 
   ngOnInit() {
     for (let index = 0; index < 7; index++) {
+      const p = new PlayerWithId()
+      p.FirstName = "Select Player";
+      p.jersey = "00"
       const c = new CourtPosition();
       c.playerPos = "Select Player";
       c.posNo = index;
+      c.player = p
       this.playerPositions.push(c);
     }
 
@@ -115,6 +112,8 @@ export class MatchPage implements OnInit {
     this.gameScore = new GameScore();
     this.gameNumber = Number(this.match.gameNumber);
     this.game.subs = 0;
+
+    this.getStatTypes()
 
     this.getGameData()
 
@@ -132,8 +131,14 @@ export class MatchPage implements OnInit {
 
   async postStat(e, pos) {
     let p = this.playerPositions[pos].player;
-    this.incrementStat(pos, p, e.target.innerText, -1);
-    //console.log(e.target.innerText);
+    this.incrementStat(pos, p, e.stattype, -1);
+    console.log(e);
+  }
+
+  async subPlayer(e) {
+    //let p = this.playerPositions[pos].player;
+    //this.incrementStat(pos, p, e.target.innerText, -1);
+    this.showPopover(e);
   }
 
   async openActionSheetController(e, pos) {
@@ -265,57 +270,101 @@ export class MatchPage implements OnInit {
 
   async showscoreboard(ev) {
     var stat = ""
-    var myClonedArray = [];
-    // this.displayscoreboard = true;
-    var sbData = {
-      match: { ...this.match },
-      game: { ...this.game }
+    
+    console.log(ev.currentTarget.id)
+    if(ev.currentTarget.id == 'homeinc') {
+      stat = "TP"
+      this.game.HomeScore = this.game.HomeScore + 1
+    } else if (ev.currentTarget.id == 'homedec') {
+        stat = "SAA"
+        this.game.HomeScore = this.game.HomeScore - 1
+    } else if (ev.currentTarget.id == 'vinc') {
+        stat = "OP"
+        this.game.OpponentScore = this.game.OpponentScore + 1
+    } else if (ev.currentTarget.id == 'vdec') {
+      stat = "SAA"
+      this.game.OpponentScore = this.game.OpponentScore - 1
     }
-    const modal = await this.popover.create({
-      component: ScoreboardPage,
-      event: ev,
-      componentProps: { context: sbData }
-    });
-    modal.style.cssText = '--min-width: 100vw';
-    var needsUpdate = false;
-    modal.onDidDismiss().then((d) => {
-      if (d.data) {
-        if (d.data && d.data.game.HomeScore != this.game.HomeScore) {
-          //home score changed
-          stat = "TP"
-        }
-        else if (d.data.game.OpponentScore != this.game.OpponentScore) {
-          //opponent score changed
-          stat = "OP"
-        } else if (d.data.game.subs != this.game.subs) {
-          //subs
-          stat = "S"
-        }
 
-        if (stat != "") {
-          this.playerPositions.forEach(val => myClonedArray.push(Object.assign({}, val)));
-          //myClonedArray = myClonedArray.slice(1)
-          this.game.HomeScore = d.data.game.HomeScore;
-          this.game.OpponentScore = d.data.game.OpponentScore;
-          this.game.subs = d.data.game.subs;
-          let g = new GameWithId();
-          g.objectId = this.game.objectId;
-          g.HomeScore = this.game.HomeScore;
-          g.OpponentScore = this.game.OpponentScore
-          g.subs = this.game.subs
-          this.matchService.updateGame(g);
-          const s = new Stat();
-          s.playerid = 'n/a'
-          s.stattype = stat
-          s.passingGrade = -1
-          s.rotation = JSON.stringify(myClonedArray)
-          this.matchService.createStat(s, this.game)
-          this.matchService.addPlayByPlay(this.game, myClonedArray, stat, null, null)
-        }
+    var myClonedArray = [];
+    if (stat != "") {
+            this.playerPositions.forEach(val => myClonedArray.push(Object.assign({}, val)));
+            let g = new GameWithId();
+            g.objectId = this.game.objectId;
+            g.HomeScore = this.game.HomeScore;
+            g.OpponentScore = this.game.OpponentScore
+            g.subs = this.game.subs
+            this.matchService.updateGame(g);
+            const s = new Stat();
+            s.playerid = 'n/a'
+            s.stattype = stat
+            s.passingGrade = -1
+            s.rotation = JSON.stringify(myClonedArray)
+            this.matchService.createStat(s, this.game)
+            this.matchService.addPlayByPlay(this.game, myClonedArray, stat, null, null)
       }
-    })
+    
+    // var myClonedArray = [];
+    // // this.displayscoreboard = true;
+    // var sbData = {
+    //   match: { ...this.match },
+    //   game: { ...this.game }
+    // }
+    // const modal = await this.popover.create({
+    //   component: ScoreboardPage,
+    //   event: ev,
+    //   componentProps: { context: sbData }
+    // });
+    // modal.style.cssText = '--min-width: 100vw';
+    // var needsUpdate = false;
+    // modal.onDidDismiss().then((d) => {
+    //   if (d.data) {
+    //     if (d.data && d.data.game.HomeScore != this.game.HomeScore) {
+    //       //home score changed
+    //       stat = "TP"
+    //     }
+    //     else if (d.data.game.OpponentScore != this.game.OpponentScore) {
+    //       //opponent score changed
+    //       stat = "OP"
+    //     } else if (d.data.game.subs != this.game.subs) {
+    //       //subs
+    //       stat = "S"
+    //     }
 
-    return await modal.present();
+    //     if (stat != "") {
+    //       this.playerPositions.forEach(val => myClonedArray.push(Object.assign({}, val)));
+    //       //myClonedArray = myClonedArray.slice(1)
+    //       this.game.HomeScore = d.data.game.HomeScore;
+    //       this.game.OpponentScore = d.data.game.OpponentScore;
+    //       this.game.subs = d.data.game.subs;
+    //       let g = new GameWithId();
+    //       g.objectId = this.game.objectId;
+    //       g.HomeScore = this.game.HomeScore;
+    //       g.OpponentScore = this.game.OpponentScore
+    //       g.subs = this.game.subs
+    //       this.matchService.updateGame(g);
+    //       const s = new Stat();
+    //       s.playerid = 'n/a'
+    //       s.stattype = stat
+    //       s.passingGrade = -1
+    //       s.rotation = JSON.stringify(myClonedArray)
+    //       this.matchService.createStat(s, this.game)
+    //       this.matchService.addPlayByPlay(this.game, myClonedArray, stat, null, null)
+    //     }
+    //   }
+    // })
+
+    // return await modal.present();
+  }
+
+  pad(n) {
+    return (n < 10) ? ("0" + n) : n;
+  }
+
+  async getStatTypes() {
+    await this.matchService.getStatTypes().then(data => {
+      //console.log(JSON.stringify(data))
+    })
   }
 
   async getGameData() {
@@ -328,7 +377,7 @@ export class MatchPage implements OnInit {
         var tpData1 = JSON.parse(json1);
         tpData1.forEach(p => {
           var player = tpData.filter(x => x.objectId == p.PlayerId)[0]
-          player.jersey = tpData1.filter(x => x.PlayerId == player.objectId)[0].Jersey
+          player.jersey = this.pad(tpData1.filter(x => x.PlayerId == player.objectId)[0].Jersey)
           this.players.push(player);
         });
 
@@ -359,48 +408,66 @@ export class MatchPage implements OnInit {
 
           else {
             this.game = game[0];
-            await this.matchService.getstats(this.game.objectId).then(data => {
-              var j = JSON.stringify(data);
-              var stats = JSON.parse(j);
-              stats.forEach(function (s) {
-                var rotation = JSON.parse(s.Rotation);
-                let stat = {
-                  statid: s.GameId,
-                  homescore: s.HomeScore,
-                  matchid: s.OpponentScore,
-                  gamenumber: _this.match.gameNumber,
-                  stattype: s.StatType,
-                  playerid: s.PlayerId,
-                  statdate: s.createdAt,
-                  //pos: Map<any,any>,
-                  id: s.objectId,
-                  opponentscore: s.OpponentScore,
-                  rotation: rotation,
-                  subs: s.Subs
-                }
-                _this.stats.push(stat);
-              });
-
-              if (this.stats && this.stats.length > 0) {
-                this.startMatch();
-                var r = this.stats[0]
-                this.game.HomeScore = r.homescore;
-                this.game.OpponentScore = r.opponentscore;
-                this.game.subs = r.subs;
-                var pos = r.rotation
-                for (let i = 0; i < 6; i++) {
-                  var p1 = this.allPlayers.filter(p => p.objectId == pos[i].objectId)[0]
-                  this.playerPositions[i + 1].posNo = pos[i].posNo;
-                  this.playerPositions[i + 1].player = p1;
-                  this.playerPositions[i + 1].playerPos = this.playerDisplay(p1)
+            await this.matchService.getPlayByPlay(this.game.objectId).then(data => {
+              var j: any = JSON.stringify(data);
+              var pbp = JSON.parse(j);
+              var rotations: pbpPosition[] = JSON.parse(pbp[0].rotation)
+              rotations.forEach(element => {
+                var p1 = this.allPlayers.filter(p => p.objectId == element.playerName)[0]
+                if (p1) {
+                  this.playerPositions[element.posNo].posNo = element.posNo;
+                  this.playerPositions[element.posNo].player = p1;
+                  this.playerPositions[element.posNo].playerPos = this.playerDisplay(p1)
                   p1.FirstName + " - " + p1.jersey;
                   this.players = this.players.filter(x => x.objectId != p1.objectId)
                 }
-              }
+              });
+
+              this.matchService.getstats(this.game.objectId).then(data => {
+                var j = JSON.stringify(data);
+                var stats = JSON.parse(j);
+                stats.forEach(function (s) {
+                  var rotation = JSON.parse(s.Rotation);
+                  let stat = {
+                    statid: s.GameId,
+                    homescore: s.HomeScore,
+                    matchid: s.OpponentScore,
+                    gamenumber: _this.match.gameNumber,
+                    stattype: s.StatType,
+                    playerid: s.PlayerId,
+                    statdate: s.createdAt,
+                    //pos: Map<any,any>,
+                    id: s.objectId,
+                    opponentscore: s.OpponentScore,
+                    rotation: rotation,
+                    subs: s.Subs
+                  }
+                  _this.stats.push(stat);
+                });
+
+                if (this.stats && this.stats.length > 0) {
+                  this.startMatch();
+                  var r = this.stats[0]
+                  this.game.HomeScore = r.homescore;
+                  this.game.OpponentScore = r.opponentscore;
+                  this.game.subs = r.subs;
+                  var pos = r.rotation
+                  for (let i = 0; i < 6; i++) {
+                    var p1 = this.allPlayers.filter(p => p.objectId == pos[i].objectId)[0]
+                    if (p1) {
+                      this.playerPositions[i + 1].posNo = pos[i].posNo;
+                      this.playerPositions[i + 1].player = p1;
+                      this.playerPositions[i + 1].playerPos = this.playerDisplay(p1)
+                      p1.FirstName + " - " + p1.jersey;
+                      this.players = this.players.filter(x => x.objectId != p1.objectId)
+                    }
+                  }
+                }
+              });
+              this.game.gamenumber = this.match.gameNumber;
+              this.game.objectId = game[0].objectId;
+              this.game.subs = game[0].Subs;
             });
-            this.game.gamenumber = this.match.gameNumber;
-            this.game.objectId = game[0].objectId;
-            this.game.subs = game[0].Subs;
           }
         })
       })
@@ -433,13 +500,14 @@ export class MatchPage implements OnInit {
     }
   }
 
-  async showPopover(ev: any) {
-    let id = ev.target.parentNode.id
+  async showPopover(pos: any) {
+    let id = pos
     const modal = await this.popover.create({
       component: PlayerpickerPage,
       // event: ev,
       translucent: true,
-      componentProps: { context: this.players }
+      componentProps: { context: this.players },
+      cssClass: 'pop-over-style'
     });
     modal.onDidDismiss().then((dataReturned) => {
       if (dataReturned.data !== undefined) {
@@ -448,38 +516,38 @@ export class MatchPage implements OnInit {
           console.log(this.playerPositions[id].playerPos)
         }
         switch (id) {
-          case "1":
+          case 1:
             // this.playerPos1 = this.players.filter(x => x.objectId === dataReturned.data.objectId)[0].FirstName
             this.playerPositions[1].posNo = 1;
             this.playerPositions[1].player = dataReturned.data;
             this.playerPositions[1].playerPos = this.playerDisplay(dataReturned.data)
             //dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
             break;
-          case "2":
+          case 2:
             this.playerPositions[2].posNo = 2;
             this.playerPositions[2].player = dataReturned.data;
             this.playerPositions[2].playerPos = this.playerDisplay(dataReturned.data)
             //dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
             break;
-          case "3":
+          case 3:
             this.playerPositions[3].posNo = 3;
             this.playerPositions[3].player = dataReturned.data;
             this.playerPositions[3].playerPos = this.playerDisplay(dataReturned.data)
             //dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
             break;
-          case "4":
+          case 4:
             this.playerPositions[4].posNo = 4;
             this.playerPositions[4].player = dataReturned.data;
             this.playerPositions[4].playerPos = this.playerDisplay(dataReturned.data)
             //dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
             break;
-          case "5":
+          case 5:
             this.playerPositions[5].posNo = 5;
             this.playerPositions[5].player = dataReturned.data;
             this.playerPositions[5].playerPos = this.playerDisplay(dataReturned.data)
             //dataReturned.data.FirstName + " - " + dataReturned.data.jersey;
             break;
-          case "6":
+          case 6:
             this.playerPositions[6].posNo = 6;
             this.playerPositions[6].player = dataReturned.data;
             this.playerPositions[6].playerPos = this.playerDisplay(dataReturned.data)
@@ -518,12 +586,3 @@ export class MatchPage implements OnInit {
   }
 
 }
-
-export class MatchUser {
-  id: number
-  first: string
-  last: string
-}
-
-
-
