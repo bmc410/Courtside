@@ -61,10 +61,13 @@ export class MatchService {
     public toastController: ToastController,
     private firestore: AngularFirestore,
     private http: HttpClient,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private odb: OfflineService
   ) {
     this._gameData$ = new BehaviorSubject(null);
     this.initParse()
+    //this.loadOfflinePlayers()
+    //this.addPlayer()
   }
 
   private itemDoc: AngularFirestoreDocument<PlayerWithId>;
@@ -91,6 +94,23 @@ export class MatchService {
     );
   }
 
+//#region OFFLINE FUNCTIONALITY
+  // loadOfflinePlayers() {
+  //   this.odb.getPlayers().subscribe(x => {
+  //     console.log(x);
+  //   });
+  // }
+
+  // addPlayer() {
+  //   this.odb.addPlayer(new Player("8", "Bill","McCoy",false, "MVDuxR2pYr")).then(x => {
+  //     this.loadOfflinePlayers()
+  //   });
+  // }
+
+//#endregion
+
+
+  //#region ONLINE FUNCTIONALITY
   //#region ******* Matches  */
 
   deleteMatch(mId: string) {
@@ -101,7 +121,7 @@ export class MatchService {
       //var json = JSON.stringify(object);
       //var d = JSON.parse(json);
       return object.destroy()
-      
+
       // .then((response) => {
       //   var json = JSON.stringify(response);
       //   var d = JSON.parse(json);
@@ -133,7 +153,7 @@ export class MatchService {
 
   saveMatch(match: MatchWithId) {
     if (match.objectId == 'undefined' || match.objectId == null || match.objectId == "") {
-      match.objectId = Guid.create().toString()
+      match.objectId = Guid.create().toString().replace('-','').substr(0,10)
       return this.createMatch(match);
     } else {
       return this.updateMatch(match);
@@ -179,7 +199,7 @@ export class MatchService {
     });
   }
 
-  createMatch(m: MatchWithId) {
+  async createMatch(m: MatchWithId) {
     const Matches = Parse.Object.extend('Matches');
     const myNewObject = new Matches();
 
@@ -190,8 +210,10 @@ export class MatchService {
     myNewObject.set('MatchDate', md);
     myNewObject.set('HomeTeamId', m.HomeTeamId);
 
-    return myNewObject.save()
-
+    const result = await myNewObject.save().then(x => {
+      return x
+    })
+    return result
   }
   //#endregion
 
@@ -227,7 +249,7 @@ export class MatchService {
     return from(query.get(g.objectId).then((object) => {
       object.set('HomeScore', g.HomeScore);
       object.set('OpponentScore', g.OpponentScore);
-      object.set('Subs', g.subs);
+      object.set('Subs', g.Subs);
       object.save();
     }));
   }
@@ -238,18 +260,20 @@ export class MatchService {
     query.equalTo("MatchId", matchId);
     return query.find()
   }
-  createGame(g: GameWithId) {
+  async createGame(g: GameWithId) {
     const Games = Parse.Object.extend('Games');
     const newGame = new Games();
 
-    newGame.set('GameNumber', Number(g.gamenumber));
-    newGame.set('MatchId', g.matchid);
+    newGame.set('GameNumber', Number(g.GameNumber));
+    newGame.set('MatchId', g.MatchId);
     newGame.set('HomeScore', g.HomeScore);
     newGame.set('OpponentScore', g.OpponentScore);
-    newGame.set('Subs', g.subs);
+    newGame.set('Subs', g.Subs);
 
-    return from(newGame.save()).pipe(map(result => result));;
-
+    const result = await newGame.save().then(game => {
+      return game
+    })
+    return result
   }
 
   //#endregion
@@ -284,7 +308,7 @@ export class MatchService {
     const query = new Parse.Query(Players);
     return query.find();
   }
- 
+
   savePlayer(p: any) {
     if (!p.objectId) {
       return this.createPlayer(p)
@@ -331,15 +355,15 @@ export class MatchService {
       var d = JSON.parse(j)[0];
       const PlayByPlay = Parse.Object.extend('PlayByPlay');
       const query = new Parse.Query(PlayByPlay);
-      
+
       // here you put the objectId that you want to delete
       return query.get(d.objectId).then((object) => {
         return object.destroy()
       });
-  
+
     })
 
-    
+
   }
 
   getBystatId(statid) {
@@ -366,65 +390,36 @@ export class MatchService {
     return query.find()
   }
 
-  addPlayByPlay(g: GameWithId, cp: CourtPosition[], stat: string, p: PlayerWithId[], statid: string = "") {
+  addPlayByPlay(g: GameWithId, cp: any[], stat: any, p: any, statid: string = "") {
     var rotations: pbpPosition[] = [];
     let pos = cp;
+    var poositions = JSON.stringify(cp);
     var action = ""
-    if (stat === "start") {
-      action = "Start [" + cp[1].player.FirstName + ", "
-        + cp[2].player.FirstName + ", " + cp[3].player.FirstName + ", "
-        + cp[4].player.FirstName + ", " + cp[5].player.FirstName + ", "
-        + cp[6].player.FirstName + "]"
-    } else if (stat === "sub") {
+    if (stat.stattype === "start") {
+      action = "Start [" + cp[0].playerName + ", "
+        + cp[1].playerName + ", " + cp[2].playerName + ", "
+        + cp[3].playerName + ", " + cp[4].playerName + ", "
+        + cp[5].playerName + "]"
+    } else if (stat.stattype === "sub") {
       action = "Sub [" + p[0].FirstName + " for " + p[1].FirstName + "]"
-    } else if (stat === "TP") {
+    } else if (stat.stattype === "TP") {
       action = "Opponent Error - Team Point"
-    } else if (stat === "OP") {
+    } else if (stat.stattype === "OP") {
       action = "Team Error - Opponent Point"
-    } else if (stat === "S") {
+    } else if (stat.stattype === "S") {
       action = "Home Team - Sub"
-    } else if (stat === "SAA") {
+    } else if (stat.stattype === "SAA") {
       action = "Score Adjustment"
     } else {
-      action = this.getActionFromStat(stat, -1) + p[0].FirstName + ' ' + p[0].LastName;
+      action = this.getActionFromStat(stat.stattype, -1) + p.FirstName + ' ' + p.LastName;
     }
 
     var player = null;
     var objId = null
     if (p != null) {
-      player = p[0];
-      objId = player.objectId;
+      objId = p.objectId;
     }
 
-    let pbpObj = {
-      id: g.objectId,
-      //pbpDate: this.datetoepoch(new Date()),
-      player: player,
-      stattype: stat,
-      homescore: g.HomeScore,
-      opponentscore: g.OpponentScore,
-      action: action,
-      rotation: {
-        1: cp[1].player,
-        2: cp[2].player,
-        3: cp[3].player,
-        4: cp[4].player,
-        5: cp[5].player,
-        6: cp[6].player
-      },
-    }
-
-    pos = pos.splice(1, 6);
-    var j = JSON.stringify(pos);
-    var d = JSON.parse(j);
-    d.forEach(element => {
-      let r = new pbpPosition();
-      r.posNo = element.posNo;
-      r.playerName = element.player.objectId;
-      rotations.push(r);
-    });
-
-    var jR = JSON.stringify(rotations);
     const PlayByPlay = Parse.Object.extend('PlayByPlay');
     const myNewObject = new PlayByPlay();
 
@@ -432,12 +427,13 @@ export class MatchService {
     myNewObject.set('homescore', g.HomeScore);
     myNewObject.set('opponentscore', g.OpponentScore);
     myNewObject.set('playerId', objId);
-    myNewObject.set('stattype', stat);
-    myNewObject.set('rotation', jR);
+    myNewObject.set('stattype', stat.stattype);
+    myNewObject.set('collectdate', stat.StatDate);
+    myNewObject.set('rotation', poositions);
     myNewObject.set('gameId', g.objectId);
     myNewObject.set('statid', statid);
 
-    myNewObject.save();
+    return myNewObject.save();
     //this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
     //return this.createPBPInFirestore(pbpObj);
 
@@ -499,15 +495,15 @@ export class MatchService {
       homescore: g.HomeScore,
       passingGrade: stat.passingGrade,
       opponentscore: g.OpponentScore,
-      subs: g.subs,
+      subs: g.Subs,
       rotation: rotations,
       playerid: stat.player.objectId,
       //rotation: stat.positions,
       statdate: this.datetoepoch(new Date())
     };
-        const toast = await this.toastController.create({
+    const toast = await this.toastController.create({
       color: 'dark',
-      duration: 2000,
+      duration: 1000,
       message: this.getActionFromStat(stat.stattype, stat.passingGrade) + stat.player.FirstName
     });
 
@@ -528,6 +524,9 @@ export class MatchService {
   getActionFromStat(stat: string, pg: number) {
     var action = ""
     switch (stat.toLowerCase()) {
+      case "serve":
+        action = "Serve by "
+        break;
       case "k":
         action = "Kill by "
         break;
@@ -541,7 +540,7 @@ export class MatchService {
         action = "Ball handling error by "
         break;
       case "sr":
-        if (pg > 0 ) {
+        if (pg > 0) {
           action = "Serve receive (" + pg.toString() + ")" + " by "
         } else {
           action = "Serve receive by "
@@ -585,29 +584,21 @@ export class MatchService {
   }
   createStat(stat: any, g: GameWithId) {
     var rotations: pbpPosition[] = [];
-    //let pos = stat.rotation;
-
-    // pos = pos.splice(1, 6);
-    // var j = JSON.stringify(pos);
-    // var d = JSON.parse(j);
-    // d.forEach(element => {
-    //   let r = new pbpPosition();
-    //   r.posNo = element.posNo;
-    //   r.playerName = element.player.FirstName;
-    //   rotations.push(r);
-    // });
-
+    var passingGrade: Number = 0;
     var jr = JSON.stringify(stat.rotation);
     const Stats = Parse.Object.extend('Stats');
     const myNewObject = new Stats();
     myNewObject.set('GameId', g.objectId);
-    myNewObject.set('HomeScore', g.HomeScore);
-    myNewObject.set('OpponentScore', g.OpponentScore);
-    myNewObject.set('PlayerId', stat.playerid);
-    myNewObject.set('StatType', stat.stattype);
-    myNewObject.set('Subs', g.subs);
-    myNewObject.set('Rotation', jr);
-    myNewObject.set('passingGrade', stat.passingGrade);
+    myNewObject.set('HomeScore', stat.HomeScore);
+    myNewObject.set('OpponentScore', stat.OpponentScore);
+    myNewObject.set('PlayerId', stat.PlayerId);
+    myNewObject.set('StatType', stat.StatType);
+    myNewObject.set('Subs', stat.Subs);
+    myNewObject.set('Rotation', stat.Rotation);
+    if(stat.StatType.includes('pa')) {
+      passingGrade = Number(stat.StatType.substring(2))
+      myNewObject.set('passingGrade', passingGrade);
+    }
 
     return myNewObject.save()
     //return this.firestore.collection("games").doc(g.objectId).collection("stats").add(stat);
@@ -632,7 +623,7 @@ export class MatchService {
     })
   }
 
- 
+
   getTeamsAsync() {
     return this.Teams.asObservable()
   }
@@ -664,11 +655,11 @@ export class MatchService {
     return from(newTeam.save()).pipe(map(result => result));;
 
   }
- 
+
   //#endregion
 
   //#region ******* Teams Players  */
-  
+
   getTeamPlayersAsync() {
     return this.TeamPlayers.asObservable()
   }
@@ -739,6 +730,9 @@ export class MatchService {
   //#endregion
 
   //#region ******* Utilities  */
+  //#endregion
+
+
   DateToYYYYMMDD(Date: Date): string {
     let DS: string = ('0' + (Date.getMonth() + 1)).slice(-2)
       + '/' + ('0' + Date.getDate()).slice(-2)

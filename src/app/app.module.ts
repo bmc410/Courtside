@@ -24,11 +24,17 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { MatchService } from './services/matchservice';
 import { OfflineService } from './services/offline.service';
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+//import { AngularFirestore } from 'angularfire2';
+
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+
+//import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AppStateService } from './services/app-state-service.service';
 import { AuthenticationService } from './services/authentication.service';
 import { NetworkService } from './services/network.service';
-import { AngularFireModule } from '@angular/fire';
+//import { AngularFireModule } from 'angularfire2';
 import { MessageService } from 'primeng/api';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -36,6 +42,9 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { ScoreboardPageModule } from './pages/scoreboard/scoreboard.module';
 import { PlayerpickerPageModule } from './pages/playerpicker/playerpicker.module';
+import { DexieService } from './services/dexie.service';
+import { OfflineDatabase } from './models/dexie-models';
+import {ConnectionServiceModule} from 'ng-connection-service';
 
 @NgModule({
   declarations: [
@@ -58,19 +67,21 @@ import { PlayerpickerPageModule } from './pages/playerpicker/playerpicker.module
     IonicModule.forRoot({animated: false}),
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule.enablePersistence(),
+    //AngularFirestoreModule.enablePersistence(),
+    AngularFireStorageModule,
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
     BrowserAnimationsModule,
     PlayerpopoverPageModule,
     PlayerpickerPageModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ConnectionServiceModule
   ],
   exports: [
     MatFormFieldModule,
     MatInputModule,
   ],
   providers: [MatDialog, InAppBrowser, SplashScreen, StatusBar,AuthenticateService,AuthguardService,NavParams,
-    MatchService, OfflineService, MessageService, AngularFirestore, AppStateService,AuthenticationService,NetworkService],
+    MatchService, OfflineService, OfflineDatabase, MessageService, DexieService,
+    AppStateService,AuthenticationService,NetworkService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

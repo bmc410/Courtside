@@ -132,18 +132,19 @@ export class Stat {
   stattype?: string;
   pos?: number;
   player?: PlayerWithId;
-  stattime?: number;
+  stattime?: Date;
   positions?: CourtPosition[];
   homeScore?: number;
   opponentScore?: number;
   subs?: number;
-  rotation?: string;
+  rotation?: pbpPosition[];
   passingGrade?: number
 }
 
 export class Match {
   Home?: string;
   HomeTeamId?: string
+  HomeTeamLibero?: string
   Opponent?: string;
   MatchDate?: string;
   displaydate?: Date;
@@ -156,11 +157,11 @@ export class MatchWithId extends Match {
 }
 
 export class Game {
-  gamenumber?: number;
-  matchid?: string;
-  HomeScore?: number;
-  OpponentScore?: number;
-  subs?: number;
+  GameNumber?: number;
+  MatchId?: string;
+  HomeScore?: number = 0;
+  OpponentScore?: number = 0;
+  Subs?: number = 0;
   gamedisplay?: string;
 }
 
@@ -297,6 +298,12 @@ export class stat {
 }
 
 
+export class MatchUser {
+  id: number
+  first: string
+  last: string
+}
+
 export interface statView {
   jersey?: string;
   firstName?: string;
@@ -315,4 +322,9 @@ export interface statView {
   sr?: number;
   se?: number;
   sa?: number;
+}
+
+export interface fileInfo {
+  name?: string;
+  url?: string
 }

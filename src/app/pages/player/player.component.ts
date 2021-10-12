@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { StatNib } from 'src/app/models/appModels';
+import { CourtPosition, StatNib } from 'src/app/models/appModels';
 
 @Component({
   selector: 'player',
@@ -8,15 +8,32 @@ import { StatNib } from 'src/app/models/appModels';
 })
 export class PlayerComponent implements OnInit {
 
+  @Input() libero: string;
+  @Input() playerId: string;
   @Input() posNum: string;
-  @Input() name: string;
-  @Input() jersey: string;
+  @Input() playerPosition: any;
+  //@Input() name: string;
+  //@Input() jersey: string;
   @Output() statPost = new EventEmitter();
   @Output() subPost = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
+    //console.log(this.playerPosition)
+    //console.log(this.libero)
+    if(this.playerPosition[this.posNum].objectId == this.libero)
+    {
+      "This is the libero for the match"
+    }
+  }
+
+  isLibero() {
+    var l = false
+    if (this.playerPosition[this.posNum].player.objectId == this.libero ) {
+      l = true
+    }
+    return l
   }
 
   isFrontRow() {

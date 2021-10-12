@@ -11,6 +11,15 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
+        path: 'admin',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../admin/admin.module').then(m => m.AdminPageModule)
+          }
+        ]
+      },
+      {
         path: 'matches',
         children: [
           {

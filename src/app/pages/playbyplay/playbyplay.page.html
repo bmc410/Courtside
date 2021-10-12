@@ -3,6 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
+    <ion-title mode="md">{{title}}</ion-title>
     <ion-buttons slot="end">
       <ion-label style="font-size: 14px; margin-right: 5px;">Auto Refresh</ion-label>
       <ion-toggle (ionChange)="toggleliveview($event)" slot="start" color="success"></ion-toggle>
@@ -20,21 +21,18 @@
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
 
-    <!-- Position Column -->
     <ng-container matColumnDef="homescore">
       <mat-header-cell *matHeaderCellDef>{{match?.Home}}</mat-header-cell>
       <mat-cell style="font-weight: bold;" *matCellDef="let element"> {{element.homescore}} </mat-cell>
     </ng-container>
 
-    <!-- Name Column -->
     <ng-container matColumnDef="opponentscore">
       <mat-header-cell *matHeaderCellDef>{{match?.Opponent}}</mat-header-cell>
       <mat-cell style="font-weight: bold;" *matCellDef="let element"> {{element.opponentscore}} </mat-cell>
     </ng-container>
 
-    <!-- Weight Column -->
     <ng-container matColumnDef="action">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.action}} </mat-cell>
     </ng-container>
 

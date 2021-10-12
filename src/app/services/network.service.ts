@@ -12,16 +12,16 @@ export class NetworkService {
   public connected: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   public currentStatus: Observable<any>;
-  isConnected = true;
+  isConnected = navigator.onLine;
   //offline: boolean = false;
 
-  constructor(private connectionService: ConnectionService) { 
+  constructor(private connectionService: ConnectionService) {     
     this.connectionService.monitor().subscribe(isConnected => {
       this.isConnected = isConnected;
       this.connected.next(isConnected);
     })
 
-    this.currentNetworkSubject = new BehaviorSubject<any>(false);
+    this.currentNetworkSubject = new BehaviorSubject<any>(navigator.onLine);
     this.currentStatus = this.currentNetworkSubject.asObservable();
   }
 

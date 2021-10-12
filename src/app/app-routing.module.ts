@@ -22,6 +22,10 @@ const routes: Routes = [
     path: 'tabletmatchview',
     loadChildren: () => import('./pages/tabletmatchview/tabletmatchview.module').then( m => m.TabletmatchviewPageModule)
   },
+  {
+    path: 'admin',
+    loadChildren: () => import('./pages/admin/admin.module').then( m => m.AdminPageModule)
+  },
   // {
   //   path: 'teams',
   //   loadChildren: () => import('./pages/teams/teams.module').then( m => m.TeamsPageModule)

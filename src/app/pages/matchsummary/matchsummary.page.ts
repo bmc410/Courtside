@@ -4,6 +4,7 @@ import { element } from 'protractor';
 import { gamescore, GameWithId, highstat, leader, matchscore, MatchWithId, PlayerWithId, statEntry, statView, teamstat, teamstats, TeamWithId } from 'src/app/models/appModels';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { MatchService } from 'src/app/services/matchservice';
+import { OfflineService } from 'src/app/services/offline.service';
 
 @Component({
   selector: 'app-matchsummary',
@@ -12,6 +13,7 @@ import { MatchService } from 'src/app/services/matchservice';
 })
 export class MatchsummaryPage implements OnInit {
   context: any;
+  title: string = ""
   players: PlayerWithId[] = [];
   allPlayers: PlayerWithId[] = [];
   match: MatchWithId;
@@ -35,11 +37,12 @@ export class MatchsummaryPage implements OnInit {
     }
   }];
 
-  constructor(private matchService: MatchService,
+  constructor(//private matchService: MatchService,
+    private offlineservice: OfflineService,
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService) {
-    this.matchService.loadMatches()
+    this.offlineservice.loadMatches()
     this.route.queryParams.subscribe(params => {
       this.context = JSON.parse(params['context']);
     })
@@ -306,45 +309,66 @@ export class MatchsummaryPage implements OnInit {
     this.router.navigate(['/login']);
 }
 
-  async ngOnInit() {
-    await this.matchService.getPlayers().then(async result => {
-      var json = JSON.stringify(result);
-      this.allPlayers = JSON.parse(json)
-
-      await this.matchService.getMatchById(this.context.mId).then(async result => {
-        var json = JSON.stringify(result);
-        this.match = JSON.parse(json)[0];
-        //this.match = this.match[0]
-        await this.matchService.getPlayersByTeamId(this.match.HomeTeamId).then(async result => {
-          var json = JSON.stringify(result);
-          var players = JSON.parse(json)
-          players.forEach(p => {
-            this.players.push(this.allPlayers.filter(x => x.objectId == p.PlayerId)[0])
-          });
-          await this.matchService.getAllGameForMatch(this.context.mId).then(async result => {
-            var json = JSON.stringify(result);
-            this.games = JSON.parse(json);
-            var count = this.games.length
-            var i = 1
-            this.games.forEach(async element => {
-              await this.matchService.getstats(element.objectId).then(result => {
-                var json = JSON.stringify(result);
-                var stats = JSON.parse(json);
-                stats.forEach(element => {
-                  this.stats.push(element);
-                });
-                if (i == count) {
-                  this.setupStatView();
-                  this.showData();
-                }
-                else {
-                  i += 1;
-                }
-              })
+  init() {
+    this.offlineservice.getPlayersNow().then(x => {
+      this.allPlayers = x
+        this.offlineservice.getMatchById(this.context.mId).then(async match => {
+          //var json = JSON.stringify(result);
+          //var g = match;  //JSON.parse(json);
+          this.title = match[0].Home + " vs " + match[0].Opponent
+          this.title += " -- Date : " + match[0].MatchDate
+          await this.offlineservice.getTeamPlayersByTeamId(this.context.htId).then(async result => {
+            //var json = JSON.stringify(result);
+            //var g = JSON.parse(json);
+            this.players = []
+            result.forEach(p => {
+              this.players.push(this.allPlayers.filter(x => x.objectId == p.PlayerId)[0])
             });
+
+            this.offlineservice.getStatsforMatch(this.context.mId).then(async stats => {
+              stats.forEach(stat => {
+                this.stats.push(stat)
+              });
+              //gamecount += 1
+              this.setupStatView();
+              this.showData();
+            });
+
+            // await this.offlineservice.getAllGameForMatch(this.context.mId).then(async result => {
+            //   var json = JSON.stringify(result);
+            //   this.games = JSON.parse(json);
+            //   var count = this.games.length
+            //   var i = 1
+            //   this.games.forEach(async element => {
+            //     await this.offlineservice.getstats(element.objectId).then(result => {
+            //       var json = JSON.stringify(result);
+            //       var stats = JSON.parse(json);
+            //       stats.forEach(element => {
+            //         this.stats.push(element);
+            //       });
+            //       if (i == count) {
+            //         this.setupStatView();
+            //         this.showData();
+            //       }
+            //       else {
+            //         i += 1;
+            //       }
+            //     })
+            //   });
+            // })
+
+
+
+
+
+
           })
         })
-      })
     })
+  }
+
+
+  async ngOnInit() {
+    this.init()
   }
 }

@@ -14,6 +14,7 @@ import { PlayerWithId, statEntry, gameMatch, statView } from 'src/app/models/app
 })
 export class IndividualstatsPage implements OnInit {
   context: any;
+  title: string = ""
   players: PlayerWithId[] = [];
   allPlayers: PlayerWithId[] = [];
   allstats: statEntry[] = [];
@@ -32,7 +33,7 @@ export class IndividualstatsPage implements OnInit {
   'sre', 'se',
   'sa'];
 
-  constructor(private matchService: MatchService,
+  constructor(//private matchService: MatchService,
     private route: ActivatedRoute,
     private networkService: NetworkService,
     private offlineservice: OfflineService,
@@ -40,7 +41,8 @@ export class IndividualstatsPage implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     private popover: PopoverController) { 
-      this.matchService.loadMatches()
+      //this.matchService.loadMatches()
+      offlineservice.loadMatches()
       this.route.queryParams.subscribe(params => {
         this.context = JSON.parse(params['context']);
       })
@@ -51,36 +53,40 @@ export class IndividualstatsPage implements OnInit {
     }
 
     async ngOnInit() {
+      this.offlineservice.loadPlayers()
+      this.offlineservice.loadMatches()
+      this.offlineservice.loadStats()
       this.stats = []
+      this.players = []
       var gamecount = 1
       var loaded = false
-      await this.matchService.getPlayers().then(async result => {
-        var json = JSON.stringify(result);
-        this.allPlayers = JSON.parse(json)
-        await this.matchService.getMatchById(this.context.mId).then(async result => {
-          var json = JSON.stringify(result);
-          var g = JSON.parse(json);
-          await this.matchService.getPlayersByTeamId(this.context.htId).then(async result => {
-            var json = JSON.stringify(result);
-            var g = JSON.parse(json);
-            g.forEach(p => {
-              this.players.push(this.allPlayers.filter(x => x.objectId == p.PlayerId)[0])
-            });
-            this.context.gfm.forEach(async element => {
-              await this.matchService.getstats(element.objectId).then(result => {
-                var json = JSON.stringify(result);
-                var st = JSON.parse(json);
-                st.forEach(element => {
-                  this.stats.push(element)
+      this.offlineservice.getPlayersNow().then(x => {
+        this.allPlayers = x
+          this.offlineservice.getMatchById(this.context.mId).then(async match => {
+            //var json = JSON.stringify(result);
+            //var g = match;  //JSON.parse(json);
+            this.title = match[0].Home + " vs " + match[0].Opponent
+            this.title += " -- Date : " + match[0].MatchDate
+            await this.offlineservice.getTeamPlayersByTeamId(this.context.htId).then(async result => {
+              //var json = JSON.stringify(result);
+              //var g = JSON.parse(json);
+              this.players = []
+              result.forEach(p => {
+                this.players.push(this.allPlayers.filter(x => x.objectId == p.PlayerId)[0])
+              });
+  
+              
+              this.offlineservice.getStatsforMatch(this.context.mId).then(async stats => {
+                stats.forEach(stat => {
+                  this.stats.push(stat)
                 });
+                gamecount += 1
                 this.setupStatView();
                 this.showData();
-                gamecount += 1
               });
             })
           })
-        })
-      })
+        }) 
     }
 
 
@@ -119,12 +125,13 @@ export class IndividualstatsPage implements OnInit {
       sa: 0
     }
     this.statviews = [];
+    
     this.teamtotals = [];
     this.matchgameStats = [];
     this.players.forEach(element => {
       let sv = <statView>{};
-      sv.firstName = element.FirstName;
-      sv.lastName = element.LastName;
+      sv.firstName = element.FirstName.substr(0,5);
+      sv.lastName = element.LastName.substr(0,1);
       //sv.jersey = element.jersey;
       sv.PlayerId = element.objectId;
       sv.k = 0;

@@ -1,0 +1,139 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title mode="md">Settings</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="clear">
+  <div class="container-fluid" style="margin-top: 20px;">
+    <!-- Clubs -->
+    <div class="row">
+      <div style="justify-content:flex-start; align-items: center;" class="col-3 d-flex">
+        <span >Clubs</span>
+      </div>
+      <div style="justify-content:flex-start; align-items: center;" class="col-2 d-flex">
+        <div><span style="margin-right: 5px;">Online:</span><span>{{onlineClubCount}}</span></div>
+      </div>
+      <div style="justify-content:flex-start; align-items: center;" class="col-2 d-flex">
+        <div><span style="margin-right: 5px;">Offline:</span><span>{{offlineClubCount}}</span></div>
+      </div>
+      <div style="justify-content:flex-end; align-items: flex-end;" class="col d-flex">
+        <button id="syncteamstocloud" (click)="SyncClubs($event)" type="button" class="btn btn-sm  btn-warning">Sync to Cloud</button>
+        <span style="width: 5px;"></span>
+        <button id="syncteamslocal" (click)="SyncClubs($event)" type="button" class="btn btn-sm  btn-info">Sync Down</button>
+      </div>
+    </div>
+    <hr width="100%" />
+    <!-- Teams -->
+    <div class="row">
+      <div style="justify-content:flex-start; align-items: center;" class="col-3 d-flex">
+        <span >Teams</span>
+      </div>
+      <div style="justify-content:flex-start; align-items: center;" class="col-2 d-flex">
+        <div><span style="margin-right: 5px;">Online:</span><span>{{onlineTeamCount}}</span></div>
+      </div>
+      <div style="justify-content:flex-start; align-items: center;" class="col-2 d-flex">
+        <div><span style="margin-right: 5px;">Offline:</span><span>{{offlineTeamCount}}</span></div>
+      </div>
+      <div style="justify-content:flex-end; align-items: flex-end;" class="col d-flex">
+        <button id="syncteamstocloud" (click)="SyncTeams($event)" type="button" class="btn btn-sm  btn-warning">Sync to Cloud</button>
+        <span style="width: 5px;"></span>
+        <button id="syncteamslocal" (click)="SyncTeams($event)" type="button" class="btn btn-sm  btn-info">Sync Down</button>
+
+      </div>
+    </div>
+    <hr width="100%" />
+    <!-- Players -->
+    <div class="row">
+      <div style="justify-content:flex-start; align-items: center;" class="col-3 d-flex">
+        <span >Players</span>
+      </div>
+      <div style="justify-content:flex-start; align-items: center;" class="col-2 d-flex">
+        <div><span style="margin-right: 5px;">Online:</span><span>{{onlinePlayerCount}}</span></div>
+      </div>
+      <div style="justify-content:flex-start; align-items: center;" class="col-2 d-flex">
+        <div><span style="margin-right: 5px;">Offline:</span><span>{{offlinePlayerCount}}</span></div>
+      </div>
+      <div style="justify-content:flex-end; align-items: flex-end;" class="col d-flex">
+        <button id="syncplayerstocloud" (click)="SyncPlayers($event)" type="button" class="btn btn-sm  btn-warning">Sync to Cloud</button>
+        <span style="width: 5px;"></span>
+        <button id="syncplayerslocal" (click)="SyncPlayers($event)" type="button" class="btn btn-sm  btn-info">Sync Down</button>
+      </div>
+    </div>
+    <hr width="100%" />
+    <!-- TeamPlayers -->
+    <div class="row">
+      <div style="justify-content:flex-start; align-items: center;" class="col-3 d-flex">
+        <span >TeamPlayers</span>
+      </div>
+      <div style="justify-content:flex-start; align-items: center;" class="col-2 d-flex">
+        <div><span style="margin-right: 5px;">Online:</span><span>{{onlineTeamPlayerCount}}</span></div>
+      </div>
+      <div style="justify-content:flex-start; align-items: center;" class="col-2 d-flex">
+        <div><span style="margin-right: 5px;">Offline:</span><span>{{offlineTeamPlayerCount}}</span></div>
+      </div>
+      <div style="justify-content:flex-end; align-items: flex-end;" class="col d-flex">
+        <button id="syncteamplayerstocloud" (click)="SyncTeamPlayers($event)" type="button" class="btn btn-sm  btn-warning">Sync to Cloud</button>
+        <span style="width: 5px;"></span>
+        <button id="syncteamplayerslocal" (click)="SyncTeamPlayers($event)" type="button" class="btn btn-sm  btn-info">Sync Down</button>
+      </div>
+    </div>
+    <hr width="100%" />
+    <!-- Matches -->
+    <div class="row">
+      <div style="justify-content:flex-start; align-items: center;" class="col-3 d-flex">
+        <span >Matches</span>
+      </div>
+      <div style="justify-content:flex-start; align-items: center;" class="col-2 d-flex">
+        <div><span style="margin-right: 5px;">Offline:</span><span>{{offlineMatchCount}}</span></div>
+      </div>
+      <div style="justify-content:flex-start; align-items: center;" class="col-5 d-flex">
+        <div style="font-size: small;">
+          <ion-select [(ngModel)]="selectedmatch" placeholder="Select match" interface="popover">
+            <ion-select-option *ngFor="let match of offlineMatches" value="{{match.objectId}}">
+              {{match.Home}} vs {{match.Opponent}} - {{match.MatchDate}}
+            </ion-select-option>
+          </ion-select>
+        </div>
+      </div>
+      <div style="justify-content:flex-end; align-items: flex-end;" class="col d-flex">
+        <button id="clearMatch" (click)="ClearMatch($event)" type="button" class="btn btn-sm  btn-danger">Clear</button>
+        <span style="width: 5px;"></span>
+        <button id="syncmatchtocloud" (click)="UploadMatch($event)" type="button" class="btn btn-sm   btn-warning">Sync to Cloud</button>
+      </div>
+    </div>
+    <hr width="100%" />
+    <!-- Download -->
+    <div class="row">
+      <div style="justify-content:flex-start; align-items: center;" class="col d-flex">
+        <span >Download CSV</span>
+      </div>
+     
+      <div style="justify-content:flex-end; align-items: flex-end;" class="col d-flex">
+        <button (click)="Download()" type="button" class="btn btn-sm   btn-success">Download</button>
+      </div>
+    </div>
+    <hr width="100%" />
+  </div>
+</ion-content>
+ <!-- <div class="row">
+      <div style="justify-content:flex-start; align-items: center;" class="col-3 d-flex">
+        <span >Games</span>
+      </div>
+      <div style="justify-content:flex-start; align-items: center;" class="col-2 d-flex">
+        <div><span style="margin-right: 5px;">Offline:</span><span>{{offlineGameCount}}</span></div>
+      </div>
+      <div style="justify-content:flex-end; align-items: flex-end;" class="col d-flex">
+        <button (click)="ClearGames()" type="button" class="btn btn-sm  btn-danger">Clear</button>
+        <span style="width: 5px;"></span>
+        <button id="syncgamestocloud" (click)="SyncGames($event)" type="button" class="btn btn-sm  btn-warning">Sync to Cloud</button>
+        <span style="width: 5px;"></span>
+        <button id="syncgamelocal" (click)="SyncGames($event)" type="button" class="btn btn-sm  btn-info">Sync Down</button>
+
+      </div>
+    </div>
+    <hr width="100%" /> -->

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { PopoverController, NavParams, ModalController } from '@ionic/angular';
 import { PlayerWithId } from 'src/app/models/appModels';
 import { MatchService } from 'src/app/services/matchservice';
+import { OfflineService } from 'src/app/services/offline.service';
 
 @Component({
   selector: 'app-playerpopover',
@@ -14,18 +15,20 @@ export class PlayerpopoverPage implements OnInit {
   selectedPlayers: PlayerWithId[];
   
   constructor(public navParams: NavParams, 
-    private matchService: MatchService,
+    //private matchService: MatchService,
+    private offlineService: OfflineService,
     public modalController: ModalController,
     private popover:PopoverController) { 
   }
 
 
-  async ngOnInit() {
+  ngOnInit() {
     var paramplayers = JSON.parse(this.navParams.get('players'));
 
-    await this.matchService.getPlayers().then(data => {
-      var json = JSON.stringify(data);
-      var d = JSON.parse(json);
+    this.offlineService.loadPlayers()
+    this.offlineService.getPlayers().subscribe(data => {
+      //var json = JSON.stringify(data);
+      var d = data; //JSON.parse(json);
       d.forEach(element => {
         element.fullName = element.FirstName + ' ' + element.LastName
       });

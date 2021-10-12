@@ -23,7 +23,7 @@ export class TeamsPage implements OnInit {
   dataSource = new MatTableDataSource<TeamWithId>(this.teams);
   
   constructor(private router: Router,
-    private matchService: MatchService,
+    //private matchService: MatchService,
     // private connectionService: ConnectionService,
     private _ngZone: NgZone,
     private authenticationService: AuthenticationService,
@@ -32,18 +32,23 @@ export class TeamsPage implements OnInit {
     private messageService: MessageService,
     public toastController: ToastController) { 
 
-      this.matchService.loadTeams();
+      //this.matchService.loadTeams();
       
     }
 
 
-  menuitems = [{
+  menuitems = [
+  {
     label: 'Log out',
     icon: 'pi pi-fw pi-power-off',
     command: () => {
       this.logoff();
     }
   }];
+
+  admin() {
+    this.router.navigate(['/app/tabs/admin']);
+  }
   
   logoff() {
       this.authenticationService.logout();
@@ -51,13 +56,35 @@ export class TeamsPage implements OnInit {
       this.router.navigate(['/login']);
   }
 
-  async getClubsAndTeams(event) {
-    await this.matchService.getClubs().then(async data => {
-      var json = JSON.stringify(data);
-      this.clubs = JSON.parse(json);
-      await this.matchService.getTeamsAsync().subscribe(data => {
-        var json = JSON.stringify(data);
-        this.teams = JSON.parse(json);
+  // async getClubsAndTeams(event) {
+  //   await this.matchService.getClubs().then(async data => {
+  //     var json = JSON.stringify(data);
+  //     this.clubs = JSON.parse(json);
+  //     await this.matchService.getTeamsAsync().subscribe(data => {
+  //       var json = JSON.stringify(data);
+  //       this.teams = JSON.parse(json);
+  //     });
+  //     if(event) {
+  //       setTimeout(() => {
+  //         //console.log('Async operation has ended');
+  //         try {
+  //           event.target.complete();
+  //         } catch (e) {
+  //           //console.error(e);
+  //         }
+          
+  //       }, 0);
+  //     }
+  //   });
+  // }
+
+  async getOfflineClubsAndTeams(event) {
+    await this.offlineservice.getClubs().subscribe(async clubs => {
+      console.log("Got Clubs")
+      this.clubs = clubs;
+      this.offlineservice.getTeams().subscribe(teams => {
+        console.log("Got Clubs")
+        this.teams = teams;
       });
       if(event) {
         setTimeout(() => {
@@ -71,20 +98,29 @@ export class TeamsPage implements OnInit {
         }, 0);
       }
     });
+  }
 
-   
+  getData(e) {
+    // console.log("getData")
+    // if(this.networkService.isConnected) {
+    //   this.getClubsAndTeams(e)
+    // } else {
+      this.getOfflineClubsAndTeams(e);
+    // }
   }
 
   ionViewDidEnter() {
-    this.getClubsAndTeams(null)
+    this.getData(null)
   }
 
   async ngOnInit() {
-    this.getClubsAndTeams(event)
+    this.offlineservice.loadTeams()
+    this.offlineservice.loadClubs()
+    this.getData(null)
   }
 
   doRefresh(event) {
-    this.getClubsAndTeams(event)
+   this.getData(event)
   }
   
 

@@ -65,7 +65,7 @@ ion-select {
 .score-box {
     background-color: white;
     text-align: center;
-    border: 3px solid black;
+    border: 1px solid black;
     color: #000;
     font-size: xx-large;
     font-weight: bold;
@@ -80,11 +80,14 @@ ion-select {
     height: 75%;
 }
 
+.score {
+  font-size: 4vh;
+}
 
 
   .score-box-teamname-home {
-    font-size: x-small;
-    background-color: goldenrod;
+    font-size: 1.5vh;
+    background-color: #FFCF30;
     height: 25%;
     display: flex;
     flex-direction: column;
@@ -92,8 +95,9 @@ ion-select {
   }
 
   .subs-name {
-    font-size: x-small;
-    background-color: rgb(178, 235, 216);
+    font-size: 1.5vh;
+    background-color: #065680;
+    color: white;
   }
 
   .tapbutton {
@@ -119,15 +123,17 @@ ion-select {
   .subs {
     background-color: white;
     text-align: center;
-    border: 3px solid black;
-    color: #000;
+    // border: 1px solid black;
+    // color: #000;
     font-size: large;
+    height: 8vh;
     padding: 0px;
   }
 
   .score-box-teamname-away {
-    font-size: x-small;
-    background-color: rgb(140, 186, 245);
+    font-size: 1.5vh;
+    background-color: #304CFF;
+    color: white;
     height: 25%;
     display: flex;
     flex-direction: column;
@@ -166,12 +172,14 @@ ion-select {
 }
 
 .scorearea {
-    height:89%; background-color: darkslategray; max-width: 100%; margin: 5px;
+    height:89%;  max-width: 100%; margin: 5px;
       display: flex; flex-direction: column; justify-content: center; align-items: center;
 }
 
 .playerbox{
-  margin: 5px; 
+  // margin: 5px; 
+  border-right: 1px white solid;
+  height: 100%;
 }
 
 .scorebtn{
@@ -183,4 +191,23 @@ ion-select {
   justify-content: center;
 }
 
+.greenarrow {
+  padding: 0px; 
+  background-color: green; 
+  width: 100%; 
+  color: white;
+  font-size: 3.5vh;
+}
+.redarrow {
+  padding: 0px; 
+  background-color: red; 
+  width: 100%; 
+  color: white;
+  font-size: 3.5vh;
+}
+
+.toolbar {
+  --background:transparent;
+  --color: white;
+}
 

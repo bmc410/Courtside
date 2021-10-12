@@ -12,7 +12,8 @@
 
 
     <div *ngFor="let d of selectedPlayers;">
-      <ion-item (click)="dismiss(d);"> {{d.FirstName}} {{d.LastName}}</ion-item>
+      <ion-item (click)="dismiss(d);"> {{d.FirstName}} {{d.LastName}} 
+        <span *ngIf="isLibero(d)">&nbsp;&nbsp;(L)</span></ion-item>
     </div>
 
   </ion-content>

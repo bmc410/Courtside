@@ -1,6 +1,6 @@
 <ion-header >
   <ion-toolbar color="primary">
-    <ion-title mode="md">My Teams</ion-title>
+    <ion-title mode="md">Teams</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="addTeam()" >
         Add
@@ -37,7 +37,7 @@
 
     <!-- Weight Column -->
     <ng-container matColumnDef="Year">
-      <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>Year</mat-header-cell>
       <mat-cell *matCellDef="let team"> {{team.Year}} </mat-cell>
     </ng-container>
 

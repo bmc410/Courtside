@@ -22,7 +22,7 @@ export class StatsPage implements OnInit {
   groupedGames: SelectItemGroup[] = [];
   selItems: SelectItem[] = []
   
-  constructor(private matchService: MatchService,
+  constructor(//private matchService: MatchService,
     private route: ActivatedRoute,
     private networkService: NetworkService,
     private offlineservice: OfflineService,
@@ -31,16 +31,25 @@ export class StatsPage implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     private popover: PopoverController) { 
-      this.matchService.loadMatches()
+      this.offlineservice.loadMatches()
+      //this.matchService.loadMatches()
     }
 
   ngOnInit() {
-    this.getMatchesAsync(null)
+    //this.getMatchesAsync(null)
+    this.getOfflineMatches(null)
     this.match = new MatchWithId()
     this.game = new GameWithId()
   }
 
   menuitems = [{
+    label: 'Admin',
+    icon: 'pi pi-fw pi-cog',
+    command: () => {
+      this.admin();
+    }
+  },
+  {
     label: 'Log out',
     icon: 'pi pi-fw pi-power-off',
     command: () => {
@@ -48,19 +57,23 @@ export class StatsPage implements OnInit {
     }
   }];
 
+  admin() {
+    this.router.navigate(['/app/tabs/admin']);
+  }
+  
   logoff() {
       this.authenticationService.logout();
       //window.location.href = '/login';
       this.router.navigate(['/login']);
   }
 
-  async getMatchesAsync(event) {
+  async getOfflineMatches(event) {
     this.matches = []
-    await this.matchService.getMatchesAsync().subscribe(result => {
+    await this.offlineservice.getMatches().subscribe(result => {
       var json = JSON.stringify(result);
-      this.matches = JSON.parse(json);
-      this.matches.forEach(element => {
-        element.matchdisplay = element.Home + " vs " + element.Opponent + " (" + element.MatchDate + ")";
+      this.matches = result;  //JSON.parse(json);
+      this.matches.forEach(match => {
+        match.matchdisplay = match.Home + " vs " + match.Opponent + " (" + match.MatchDate + ")";
       });
       if(event) {
         setTimeout(() => {
@@ -70,6 +83,23 @@ export class StatsPage implements OnInit {
       }
     });
   }
+
+  // async getMatchesAsync(event) {
+  //   this.matches = []
+  //   await this.matchService.getMatchesAsync().subscribe(result => {
+  //     var json = JSON.stringify(result);
+  //     this.matches = JSON.parse(json);
+  //     this.matches.forEach(element => {
+  //       element.matchdisplay = element.Home + " vs " + element.Opponent + " (" + element.MatchDate + ")";
+  //     });
+  //     if(event) {
+  //       setTimeout(() => {
+  //         //console.log('Async operation has ended');
+  //         event.target.complete();
+  //       }, 0);
+  //     }
+  //   });
+  // }
 
   compareFn(e1: MatchWithId, e2: MatchWithId): boolean {
     return e1 && e2 ? e1.objectId === e2.objectId : e1 === e2;
@@ -95,7 +125,7 @@ export class StatsPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.getMatchesAsync(null)
+    this.getOfflineMatches(null)
     //this.match = new MatchWithId()
     this.game = new GameWithId()
   }
@@ -103,6 +133,7 @@ export class StatsPage implements OnInit {
   onGameChange(e) {
     
     var item = {
+      gn: this.game.GameNumber,
       gId: this.game.objectId,
       htId: this.matches.filter(x => x.objectId === this.match.objectId)[0].HomeTeamId,
       mId: this.match.objectId,
@@ -123,14 +154,63 @@ export class StatsPage implements OnInit {
 
   }
 
+  // async onMatchChange(m:any) {
+  //   this.gamesformatch = []
+  //   this.groupedGames = []
+  //   this.selItems = []
+  //   await this.matchService.getAllGameForMatch(m.value.objectId).then(async x => {
+  //     var json = JSON.stringify(x);
+  //     var tpData = JSON.parse(json);
+  //     this.gamesformatch = tpData
+  //     if (this.gamesformatch.length > 0) {
+  //       this.gamesformatch.forEach(game => {
+  //         game.gamedisplay = "Game " + game.GameNumber + " (" + game.HomeScore + " - " + game.OpponentScore + ")"
+  //         var selItem: SelectItem = {
+  //           value: game,
+  //           label: game.gamedisplay
+  //         }
+  //         this.selItems.push(selItem)
+  //       });
+
+  //       var sg: SelectItemGroup = {
+  //         label:"Play-by-play",
+  //         items: this.selItems
+  //       }
+  //       this.groupedGames.push(sg)
+        
+  //       var summary: SelectItemGroup = {
+  //         label: "Match Summary", 
+  //         items: [
+  //             {label: "Highlights", value: "Highlights"},
+  //             {label: "Individual Statistics", value: "IndividualStatistics"}
+  //         ]
+  //       }
+  //       this.groupedGames.push(summary)
+
+  //       //var game: any = {}
+  //       //game.gamedisplay = "Match Summary"
+  //       //this.gamesformatch.splice(0, 0, game)
+  //     }
+  //     else {
+  //       const toast = await this.toastController.create({
+  //         color: 'primary',
+  //         duration: 5000,
+  //         message: 'The match has not started yet'
+  //       });
+  //       await toast.present();
+  //     }
+  //   })
+  // }
+
   async onMatchChange(m:any) {
     this.gamesformatch = []
     this.groupedGames = []
     this.selItems = []
-    await this.matchService.getAllGameForMatch(m.value.objectId).then(async x => {
-      var json = JSON.stringify(x);
-      var tpData = JSON.parse(json);
-      this.gamesformatch = tpData
+    await this.offlineservice.getGamesForSync(m.value.objectId).then(async games => {
+      //var json = JSON.stringify(x);
+      //var tpData = JSON.parse(json);
+      this.gamesformatch = games.sort((a, b) => a.GameNumber < b.GameNumber ? -1 : a.GameNumber > b.GameNumber ? 1 : 0)
+      //this.gamesformatch = games
       if (this.gamesformatch.length > 0) {
         this.gamesformatch.forEach(game => {
           game.gamedisplay = "Game " + game.GameNumber + " (" + game.HomeScore + " - " + game.OpponentScore + ")"
@@ -163,11 +243,12 @@ export class StatsPage implements OnInit {
       else {
         const toast = await this.toastController.create({
           color: 'primary',
-          duration: 5000,
+          duration: 1000,
           message: 'The match has not started yet'
         });
         await toast.present();
       }
     })
   }
+
 }

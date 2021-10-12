@@ -15,6 +15,7 @@ import { Observable, Subscription, timer } from 'rxjs';
 })
 export class PlaybyplayPage implements OnInit {
   context: any;
+  title: string = ""
   players: PlayerWithId[] = [];
   allPlayers: PlayerWithId[] = [];
   allstats: statEntry[] = [];
@@ -37,7 +38,7 @@ export class PlaybyplayPage implements OnInit {
     }
   }];
 
-  constructor(private matchService: MatchService,
+  constructor(//private matchService: MatchService,
     private route: ActivatedRoute,
     private networkService: NetworkService,
     private offlineservice: OfflineService,
@@ -45,7 +46,7 @@ export class PlaybyplayPage implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     private popover: PopoverController) { 
-      this.matchService.loadMatches()
+      this.offlineservice.loadMatches()
       // this.mytimer = timer(0, 5000)
       //   .subscribe(() => this.getData())
       this.route.queryParams.subscribe(params => {
@@ -64,32 +65,62 @@ export class PlaybyplayPage implements OnInit {
     }
   }
   
-  getData() {
-      this.matchService.getPlayers().then(result => {
-        var json = JSON.stringify(result);
-        this.allPlayers = JSON.parse(json)
-        this.matchService.getMatchById(this.context.mId).then(result => {
-          var json = JSON.stringify(result);
-          this.match = JSON.parse(json)[0];
-          this.matchService.getPlayersByTeamId(this.context.htId).then(result => {
-            var json = JSON.stringify(result);
-            var g = JSON.parse(json);
-            g.forEach(p => {
+  getOfflinePBP() {
+    this.offlineservice.getPlayersNow().then(x => {
+      this.allPlayers = x
+        this.offlineservice.getMatchById(this.context.mId).then(async match => {
+          //var json = JSON.stringify(result);
+          this.match = match[0];  //JSON.parse(json);
+          this.title = this.match.Home + " vs " + this.match.Opponent + " : GAME " + this.context.gn
+          await this.offlineservice.getTeamPlayersByTeamId(this.context.htId).then(async result => {
+            //var json = JSON.stringify(result);
+            //var g = JSON.parse(json);
+            this.players = []
+            result.forEach(p => {
               this.players.push(this.allPlayers.filter(x => x.objectId == p.PlayerId)[0])
             });
-            this.matchService.getPlayByPlay(this.context.gId).then(result => {
-              var json = JSON.stringify(result);
-              this.playbyplay= JSON.parse(json);
+            
+            this.offlineservice.getPlayByPlayById(this.context.gId).then(pbp => {
+              //var json = JSON.stringify(result);
+              this.playbyplay= pbp; //JSON.parse(json);
               //this.playbyplay = this.playbyplay.sort(x )
               this.playbyplay.sort((a,b)=>b.createdAt.localeCompare(a.createdAt));
             })
-  
-              
-              this.setupStatView();
-              this.showData();
+              //this.setupStatView();
+              //this.showData();
+            //});
           })
         })
-      })
+      }) 
+  }
+
+
+  getData() {
+      // this.matchService.getPlayers().then(result => {
+      //   var json = JSON.stringify(result);
+      //   this.allPlayers = JSON.parse(json)
+      //   this.matchService.getMatchById(this.context.mId).then(result => {
+      //     var json = JSON.stringify(result);
+      //     this.match = JSON.parse(json)[0];
+      //     this.matchService.getPlayersByTeamId(this.context.htId).then(result => {
+      //       var json = JSON.stringify(result);
+      //       var g = JSON.parse(json);
+      //       g.forEach(p => {
+      //         this.players.push(this.allPlayers.filter(x => x.objectId == p.PlayerId)[0])
+      //       });
+      //       this.matchService.getPlayByPlay(this.context.gId).then(result => {
+      //         var json = JSON.stringify(result);
+      //         this.playbyplay= JSON.parse(json);
+      //         //this.playbyplay = this.playbyplay.sort(x )
+      //         this.playbyplay.sort((a,b)=>b.createdAt.localeCompare(a.createdAt));
+      //       })
+  
+              
+      //         this.setupStatView();
+      //         this.showData();
+      //     })
+      //   })
+      // })
   }
   
   ngOnDestroy() {
@@ -97,7 +128,7 @@ export class PlaybyplayPage implements OnInit {
   }
 
   ngOnInit() {
-    this.getData()
+    this.getOfflinePBP()
   }
 
   

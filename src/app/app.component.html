@@ -1,7 +1,7 @@
 <ion-app fullscreen [class.dark-theme]="dark">
-    <div *ngIf="!isConnected" class="btn-danger" style=" display: flex; flex-direction: column; justify-content: center; padding-left: 15px;  z-index: 99999; position:relative; width: 100%; height: 45px;  opacity: 1;">
-        No network connection
-    </div>
     <ion-router-outlet animated="false" id="main-content"></ion-router-outlet>
+      <!-- <div *ngIf="!isConnected" class="btn-danger" style=" display: flex; flex-direction: column; justify-content: center; padding-left: 15px;  z-index: 99999; position:relative; width: 100%; height: 5px;  opacity: 1;">
+        No network connection
+    </div> -->
 <p-toast  position="center" [baseZIndex]="1000"></p-toast>
 </ion-app>

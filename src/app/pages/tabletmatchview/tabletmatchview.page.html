@@ -1,7 +1,7 @@
 <ion-header>
-  <ion-toolbar mode="md" color="primary">
+  <ion-toolbar mode="md" color="primary" >
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button id='backbutton'></ion-back-button>
     </ion-buttons>
     <ion-title mode="md">{{title}}</ion-title>
     <ion-buttons slot="end">
@@ -17,53 +17,55 @@
 
 <p-menu #menu [popup]="true" [model]="menuitems"></p-menu>
 
-<ion-content class="no-scroll bg">
-  <div style="height:100%; background-color: dimgray; max-width: 100%; margin: 0 auto;">
+<ion-content class="no-scroll clear">
+  <div style="height:100%;  max-width: 100%; margin: 0 auto;">
 
     <!-- HEADER -->
-    <div style="height:10%; margin: 0px; background-color: darkslategray; max-width: 100%;"
+    <div style="height:10%; margin: 2px; background-color: whitesmoke; max-width: 100%;"
       class="row justify-content-center">
 
+      <!-- Opponent Scorebox -->
       <div style="justify-content: flex-end;" class="score-box-container col">
-        <div class="col-2">
-          Select Libero
-        </div>
-        <div style="align-self: center; height: 7vh; " class="subs col-1 ">
+        <div style="align-self: center;" class="subs col-2 ">
           <div class="scorebtn">
-            <button (click)="showscoreboard($event)" id="vinc" style="padding: 0px; background: transparent;" ion-button icon-only clear>
+            <button class="greenarrow" (click)="teampoint($event)" id="vinc" ion-button icon-only clear>
               <ion-icon name="caret-up-outline"></ion-icon>
             </button>
             <!-- <ion-icon name="caret-up-outline"></ion-icon> -->
           </div>
           <div  class="scorebtn">
-            <button (click)="showscoreboard($event)" id="vdec" style="padding: 0px; background: transparent;" ion-button icon-only clear>
+            <button class="redarrow" (click)="teampoint($event)" id="vdec" ion-button icon-only clear>
               <ion-icon name="caret-down-outline"></ion-icon>
             </button>
           </div>
         </div>
-        <div class="score-box col-3">
-          <div class="score-box-teamname-away"><span>VISITOR</span></div>
-          <div class="score-box-number"><span>{{game.OpponentScore}}</span></div>
+        <div class="score-box col-10">
+          <div class="score-box-teamname-away"><span>{{match?.Opponent}}</span></div>
+          <div class="score-box-number">
+            <span class="score">{{game?.OpponentScore}}</span>
+          </div>
         </div>
       </div>
-      <div style="align-self: center; " class="subs col-1 ">
+      <!-- Subs -->
+      <div style="align-self: center; " class="subs col-2 ">
         <div class="subs-name">SUBS</div>
-        <div>{{game.subs}}</div>
+        <div class="score">{{game?.Subs}}</div>
       </div>
+      <!-- Home Scorebox -->
       <div style="justify-content: flex-start;" class="score-box-container col">
-        <div class="score-box col-3">
-          <div class="score-box-teamname-home">HOME</div>
-          <div class="score-box-number"><span>{{game.HomeScore}}</span></div>
+        <div class="score-box col-10">
+          <div class="score-box-teamname-home">{{match?.Home}}</div>
+          <div class="score-box-number"><span class="score">{{game?.HomeScore}}</span></div>
         </div>
-        <div style="align-self: center; height: 7vh; " class="subs col-1 ">
+        <div style="align-self: center;" class="subs col-2 ">
           <div class="scorebtn">
-            <button (click)="showscoreboard($event)" id="homeinc" style="padding: 0px; background: transparent;" ion-button icon-only clear>
+            <button class="greenarrow" (click)="teampoint($event)" id="homeinc" ion-button icon-only clear>
               <ion-icon name="caret-up-outline"></ion-icon>
             </button>
             <!-- <ion-icon name="caret-up-outline"></ion-icon> -->
           </div>
           <div  class="scorebtn">
-            <button (click)="showscoreboard($event)" id="homedec" style="padding: 0px; background: transparent;" ion-button icon-only clear>
+            <button class="redarrow" (click)="teampoint($event)" id="homedec" style="padding: 0px; background-color: red;" ion-button icon-only clear>
               <ion-icon name="caret-down-outline"></ion-icon>
             </button>
           </div>
@@ -75,34 +77,34 @@
     <!-- PLAYERS -->
     <div class="row scorearea">
       <!-- FIRST ROW -->
-      <div style="margin: 5px; max-width: 100%; height: 48%; align-items: center;" class=" row">
+      <div style="max-width: 100%; width: 100%; height: 49%; align-items: center;" class=" row">
         <div class="col-sm playerbox">
-          <player (subPost)="subPlayer(4)" (statPost)="postStat($event,4)" posNum=4 name={{playerPositions[4]?.player?.FirstName}}
-            jersey={{playerPositions[4]?.player?.jersey}}></player>
+          <player libero={{libero}} (subPost)="subPlayer(4)" (statPost)="postStat($event,4)" posNum=4 
+          [playerPosition]="playerPositions"></player>
         </div>
         <div class="col-sm playerbox">
-          <player (subPost)="subPlayer(3)" (statPost)="postStat($event,3)" posNum=3 name={{playerPositions[3]?.player?.FirstName}}
-          jersey={{playerPositions[3]?.player?.jersey}}></player>
+          <player libero={{libero}} (subPost)="subPlayer(3)" (statPost)="postStat($event,3)" posNum=3 
+          [playerPosition]="playerPositions"></player>
         </div>
         <div class="col-sm playerbox">
-          <player (subPost)="subPlayer(2)" (statPost)="postStat($event,2)" posNum=2 name={{playerPositions[2]?.player?.FirstName}}
-          jersey={{playerPositions[2]?.player?.jersey}}></player>
+          <player libero={{libero}} (subPost)="subPlayer(2)" (statPost)="postStat($event,2)" posNum=2 
+          [playerPosition]="playerPositions"></player>
         </div>
       </div>
 
       <!-- SECOND ROW -->
-      <div style="margin: 5px; max-width: 100%; height: 48%; align-items: center;" class=" row">
+      <div style="max-width: 100%; width: 100%; height: 49%; align-items: center;" class=" row">
         <div class="col-sm playerbox">
-          <player (subPost)="subPlayer(5)" (statPost)="postStat($event,5)" posNum=5 name={{playerPositions[5]?.player?.FirstName}}
-            jersey={{playerPositions[5]?.player?.jersey}}></player>
+          <player libero={{libero}} (subPost)="subPlayer(5)" (statPost)="postStat($event,5)" posNum=5 
+          [playerPosition]="playerPositions"></player>
         </div>
         <div class="col-sm playerbox">
-          <player (subPost)="subPlayer(6)" (statPost)="postStat($event,6)" posNum=6 name={{playerPositions[6]?.player?.FirstName}}
-          jersey={{playerPositions[6]?.player?.jersey}}></player>
+          <player libero={{libero}} (subPost)="subPlayer(6)" (statPost)="postStat($event,6)" posNum=6 
+          [playerPosition]="playerPositions"></player>
         </div>
         <div class="col-sm playerbox">
-          <player (subPost)="subPlayer(1)" (statPost)="postStat($event,1)" posNum=1 name={{playerPositions[1]?.player?.FirstName}}
-          jersey={{playerPositions[1]?.player?.jersey}}></player>
+          <player libero={{libero}} (subPost)="subPlayer(1)" (statPost)="postStat($event,1)" posNum=1 
+          [playerPosition]="playerPositions"></player>
         </div>
       </div>
 

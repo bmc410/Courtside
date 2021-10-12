@@ -6,3 +6,41 @@ ion-content{
     --ion-background-color:#fff;
     --ion-opacity: .8
 }
+
+:host ::ng-deep .p-panel .p-panel-header {
+    border: 1px solid #c8c8c8;
+    padding: 0.857rem 1rem;
+    margin: 10px;
+    height: 10px;
+    background-color: #f4f4f4;
+    color: #333333;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+    text-align: left;
+    padding: 0.571rem 0.857rem;
+    border: 1px solid #c8c8c8;
+    border-width: 1px 1px 1px 1px;
+    font-weight: 700;
+    color: white;
+    background:#3880ff;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+:host ::ng-deep {
+    #games {
+      .p-datatable-header {
+        background-color: red;
+      }
+    }
+  }
+
+.header {
+    font-size: 1.5vh;
+}
+
+.gamerow {
+    font-size: 2vh;
+}

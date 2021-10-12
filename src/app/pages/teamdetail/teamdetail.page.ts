@@ -10,6 +10,8 @@ import { ToastController, ModalController, LoadingController } from '@ionic/angu
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { FormGroup, Validators, FormBuilder, NgForm } from '@angular/forms';
 import { PlayerpopoverPage } from '../playerpopover/playerpopover.page';
+import { ITeamPlayers, ITeams } from 'src/app/models/dexie-models';
+import { Guid } from 'guid-typescript';
 
 @Component({
   selector: 'app-teamdetail',
@@ -51,7 +53,7 @@ export class TeamdetailPage implements OnInit {
     public loadingController: LoadingController,
     private router: Router,
     public modalController: ModalController,
-    private matchService: MatchService,
+    //private matchService: MatchService,
     // private connectionService: ConnectionService,
     private _ngZone: NgZone,
     private formBuilder: FormBuilder,
@@ -79,6 +81,7 @@ export class TeamdetailPage implements OnInit {
           this.deletevisible = true
         }
       });
+      this.offlineservice.loadPlayers()
   
   }
 
@@ -90,34 +93,71 @@ export class TeamdetailPage implements OnInit {
 
     await this.loading.present();
   }
-  
+ 
   removeItem(item) {
-      this.matchService.deleteTeamPlayer(item.objectId).then(x => {
-        this.matchService.loadTeamPlayers(this.selectedTeam.objectId)
-      })
+    this.offlineservice.deleteTeamPlayer(item.objectId)
   }
+  
+  // removeItem(item) {
+  //     this.matchService.deleteTeamPlayer(item.objectId).then(x => {
+  //       this.matchService.loadTeamPlayers(this.selectedTeam.objectId)
+  //     })
+  // }
 
   async addPlayers() {
-      const modal = await this.modalController.create({
-        component: PlayerpopoverPage,
-        swipeToClose: true,
-        componentProps: {
-          'players': JSON.stringify(this.teamPlayers),
-        }
-      });
-      this.currentModal = modal
-      modal.onDidDismiss().then((dataReturned) => {
-        if (dataReturned.data != undefined) {
-          this.matchService.addPlayersToTeam(dataReturned.data, this.selectedTeam.objectId).subscribe(x => {
-            this.matchService.loadTeams()
-            this.matchService.loadTeamPlayers(this.selectedTeam.objectId)
-            //this.getTeamPlayers()
-          })
-        }
-        console.log(dataReturned)
-      });
-      return await modal.present();
-  }
+    const modal = await this.modalController.create({
+      component: PlayerpopoverPage,
+      swipeToClose: true,
+      componentProps: {
+        'players': JSON.stringify(this.teamPlayers),
+      }
+    });
+    this.currentModal = modal
+    modal.onDidDismiss().then((dataReturned) => {
+      if (dataReturned.data != undefined) {
+        dataReturned.data.forEach(element => {
+          var tp: ITeamPlayers = {
+            objectId: this.offlineservice.createObjectId(),
+            PlayerId: element.objectId,
+            TeamId: this.selectedTeam.objectId,
+            Jersey: '',
+            clubyear: this.selectedyear.toString()
+          }
+          
+          this.offlineservice.addTeamPlayer(tp)
+        });
+
+        //this.offlineservice.bulkAddTeamPlayers(dataReturned.data)
+        this.offlineservice.loadTeams()
+        this.offlineservice.loadTeamPlayers()
+          //this.getTeamPlayers()
+      }
+      //console.log(dataReturned)
+    });
+    return await modal.present();
+}
+
+  // async addPlayers() {
+  //     const modal = await this.modalController.create({
+  //       component: PlayerpopoverPage,
+  //       swipeToClose: true,
+  //       componentProps: {
+  //         'players': JSON.stringify(this.teamPlayers),
+  //       }
+  //     });
+  //     this.currentModal = modal
+  //     modal.onDidDismiss().then((dataReturned) => {
+  //       if (dataReturned.data != undefined) {
+  //         this.matchService.addPlayersToTeam(dataReturned.data, this.selectedTeam.objectId).subscribe(x => {
+  //           this.matchService.loadTeams()
+  //           this.matchService.loadTeamPlayers(this.selectedTeam.objectId)
+  //           //this.getTeamPlayers()
+  //         })
+  //       }
+  //       console.log(dataReturned)
+  //     });
+  //     return await modal.present();
+  // }
     
   logoff() {
         this.authenticationService.logout();
@@ -125,35 +165,35 @@ export class TeamdetailPage implements OnInit {
         this.router.navigate(['/login']);
   }
 
-  async getTeamPlayers() {
-      this.teamPlayers = []
-      this.teamPlayerIDs = []
-      this.pickedPlayers = []
-      this.availablePlayers = []
-      this.selectedPlayers.forEach((x) => {
-        this.availablePlayers.push(Object.assign({}, x));
-      })
-       await this.matchService.getPlayersByTeamId(this.selectedTeam.objectId).then(result => {
-        var json = JSON.stringify(result);
-        var data = JSON.parse(json);
-        data.forEach(p => {
-          var pl = this.selectedPlayers.filter(x => x.objectId == p.PlayerId)[0];
-          this.availablePlayers.forEach( (item, index) => {
-            if(item.objectId == pl.objectId) 
-            {
-              this.availablePlayers.splice(index,1); 
-            }
-          });
-          //this.pickedPlayers.push(this.selectedPlayers.filter(x => x.objectId = p.PlayerId)[0]);
-          let tp = new TeamPlayerWithID()
-          tp.FirstName = pl.FirstName
-          tp.LastName = pl.LastName
-          tp.objectId = p.objectId;
-          tp.jersey = p.Jersey
-          this.teamPlayers.push(tp);
-        });
-      })
-  }
+  // async getTeamPlayers() {
+  //     this.teamPlayers = []
+  //     this.teamPlayerIDs = []
+  //     this.pickedPlayers = []
+  //     this.availablePlayers = []
+  //     this.selectedPlayers.forEach((x) => {
+  //       this.availablePlayers.push(Object.assign({}, x));
+  //     })
+  //      await this.matchService.getPlayersByTeamId(this.selectedTeam.objectId).then(result => {
+  //       var json = JSON.stringify(result);
+  //       var data = JSON.parse(json);
+  //       data.forEach(p => {
+  //         var pl = this.selectedPlayers.filter(x => x.objectId == p.PlayerId)[0];
+  //         this.availablePlayers.forEach( (item, index) => {
+  //           if(item.objectId == pl.objectId) 
+  //           {
+  //             this.availablePlayers.splice(index,1); 
+  //           }
+  //         });
+  //         //this.pickedPlayers.push(this.selectedPlayers.filter(x => x.objectId = p.PlayerId)[0]);
+  //         let tp = new TeamPlayerWithID()
+  //         tp.FirstName = pl.FirstName
+  //         tp.LastName = pl.LastName
+  //         tp.objectId = p.objectId;
+  //         tp.jersey = p.Jersey
+  //         this.teamPlayers.push(tp);
+  //       });
+  //     })
+  // }
 
   showPlayer(item) {
     this.displayPlayer = true
@@ -166,21 +206,28 @@ export class TeamdetailPage implements OnInit {
     console.log(this.selectedPlayer)
   }
 
+  // close() {
+  //   this.matchService.updatePlayerJersey(String(this.selectedPlayer.jersey), 
+  //     this.selectedPlayer.objectId).subscribe(x => {
+  //       this.matchService.loadTeams()
+  //       this.matchService.loadTeamPlayers(this.selectedTeam.objectId)
+  //   })
+  // }
+
   close() {
-    this.matchService.updatePlayerJersey(String(this.selectedPlayer.jersey), 
-      this.selectedPlayer.objectId).subscribe(x => {
-        this.matchService.loadTeams()
-        this.matchService.loadTeamPlayers(this.selectedTeam.objectId)
+    this.offlineservice.updatePlayerJersey(this.selectedPlayer.jersey, 
+      this.selectedPlayer.objectId).then(x => {
+        this.offlineservice.loadTeamPlayers()
     })
   }
 
   async ngOnInit() {
     
-    this.presentLoading()
+    //this.presentLoading()
     //auto close so its not left hanging on a failure
-    setTimeout(() => {
-      this.loading.dismiss()
-    }, 5000);
+    // setTimeout(() => {
+    //   this.loading.dismiss()
+    // }, 5000);
     this.tdForm = this.formBuilder.group({
       teamname: ['', Validators.required]
     });
@@ -191,15 +238,27 @@ export class TeamdetailPage implements OnInit {
       year += 1;
       this.teamYears.push(year);
     }
-    await this.matchService.getClubs().then(async data => {
-      var json = JSON.stringify(data);
-      this.clubs = JSON.parse(json);
+
+    //if(!this.networkService.isConnected) {
+    this.offlineservice.loadClubs()
+    this.getOfflineClubs()
+    // } else {
+    //   this.getOnlineClubs()
+    // }
+   
+  }
+
+
+  async getOfflineClubs() {
+    await this.offlineservice.getClubs().subscribe(async data => {
+      //var json = JSON.stringify(data);
+      this.clubs = data;
       //this.selectedclub = this.clubs.filter(c => String(c.objectId) === this.selectedTeam?.ClubId)[0].objectId
 
-      await this.matchService.getPlayers().then(data => {
-        var json = JSON.stringify(data);
-        var d = JSON.parse(json);
-        this.selectedPlayers = d
+      await this.offlineservice.getPlayers().subscribe(data => {
+        //var json = JSON.stringify(data);
+        //var d = JSON.parse(json);
+        this.selectedPlayers = data
   
         this.selectedPlayers = this.selectedPlayers.sort((t1, t2) => {
           const name1 = t1.LastName.toLowerCase();
@@ -225,10 +284,11 @@ export class TeamdetailPage implements OnInit {
           this.selectedyear = this.selectedTeam.Year;
           this.selectedclub = this.selectedTeam.ClubId;
           this.selectedteamname = this.selectedTeam.TeamName;
-          this.matchService.loadTeamPlayers(this.selectedTeam.objectId)
-          this.matchService.getTeamPlayersAsync().subscribe(x => {
-            var json = JSON.stringify(x);
-            var d = JSON.parse(json);
+
+          this.offlineservice.loadTeamPlayers()
+          this.offlineservice.getTeamPlayers().subscribe(x => {
+            //var json = JSON.stringify(x);
+            var d = x;
             this.teamPlayers = []
             if (d) {
             d.forEach(p => {
@@ -247,59 +307,33 @@ export class TeamdetailPage implements OnInit {
               tp.jersey = p.Jersey
               this.teamPlayers.push(tp);
             });
-            this.loading.dismiss()
+            //this.loading.dismiss()
             //console.log(d)
             //this.teamPlayers = d
           }})
         }
         else {
-          this.loading.dismiss()
+          //this.loading.dismiss()
         }
       })
     });
   }
 
-  pickYear(e) {
-    this.selectedyear = e.detail.value
-    //this.tdForm.patchValue({year: e.detail.value});
-  }
 
-  pickClub(e) {
-    //this.selectedclub = this.clubs.filter(c => c.objectId === e.detail.value)[0]
-  }
-
-  deleteTeam() {
-    this.matchService.deleteTeam(this.selectedTeam.objectId).then(async m => {
-      this.teamPlayers.forEach(element => {
-        this.matchService.deleteTeamPlayer(element.objectId).then(x => {
-        })        
-      });
-      this.matchService.loadTeamPlayers(this.selectedTeam.objectId)
-      const toast = await this.toastController.create({
-        color: 'danger',
-        duration: 2000,
-        message: this.selectedTeam.TeamName + ' was deleted'
-      });
-  
-      await toast.present();
-      this.matchService.loadTeams();
-      this.router.navigate(['/app/tabs/teams/']);
-
-    })
-  }
-
-  saveTeam(form: NgForm) {
+  async saveTeam(form: NgForm) {
+    let _this = this
     var id: string
     if (!this.selectedTeam) {
-      let t = new TeamWithId()
+      let t: ITeams = {}
       t.TeamName = this.selectedteamname
       t.ClubId = this.selectedclub;
       t.Year = this.selectedyear
-      this.matchService.createTeam(t).subscribe(async data => {
-        var s = JSON.stringify(data)
-        var d = JSON.parse(s);
-        id = d.objectId
-        this.matchService.loadTeams()
+      t.objectId = this.offlineservice.createObjectId()
+      this.offlineservice.addTeam(t)//.then(async data => {
+        //var s = JSON.stringify(data)
+        //var d = data; //JSON.parse(s);
+        //id = d.objectId
+        //this.matchService.loadTeams()
 
         // this.matchService.getTeams().then(data => {
         //   var json = JSON.stringify(data);
@@ -311,27 +345,28 @@ export class TeamdetailPage implements OnInit {
         this.deletevisible = true
         const toast = await this.toastController.create({
           color: 'success',
-          duration: 2000,
+          duration: 1000,
           message: 'Saved successfully'
         });
     
         await toast.present();
-      })
+      //}
+      //)
     }
     else {
-      let t = new TeamWithId()
+      let t: ITeams = {}
       t.TeamName = this.selectedteamname
       t.ClubId = this.selectedclub;
       t.Year = this.selectedyear
       t.objectId = this.selectedTeam.objectId
-      this.matchService.upDateTeam(t).subscribe(async data => {
-        this.matchService.loadTeams();
+      this.offlineservice.updateTeam(t).then(async data => {
+        this.offlineservice.loadTeams();
 
         this.playersvisable = true
         this.deletevisible = true
         const toast = await this.toastController.create({
           color: 'success',
-          duration: 2000,
+          duration: 1000,
           message: 'Saved successfully'
         });
     
@@ -340,6 +375,228 @@ export class TeamdetailPage implements OnInit {
     } 
    
   }
+  // saveTeam(form: NgForm) {
+  //   var id: string
+  //   if (!this.selectedTeam) {
+  //     let t = new TeamWithId()
+  //     t.TeamName = this.selectedteamname
+  //     t.ClubId = this.selectedclub;
+  //     t.Year = this.selectedyear
+  //     this.matchService.createTeam(t).subscribe(async data => {
+  //       var s = JSON.stringify(data)
+  //       var d = JSON.parse(s);
+  //       id = d.objectId
+  //       this.matchService.loadTeams()
+
+  //       // this.matchService.getTeams().then(data => {
+  //       //   var json = JSON.stringify(data);
+  //       //   var teams = JSON.parse(json);
+  //       //   this.selectedTeam = teams.filter(t => t.objectId === id)[0]
+  //       // });
+
+  //       this.playersvisable = true
+  //       this.deletevisible = true
+  //       const toast = await this.toastController.create({
+  //         color: 'success',
+  //         duration: 2000,
+  //         message: 'Saved successfully'
+  //       });
+    
+  //       await toast.present();
+  //     })
+  //   }
+  //   else {
+  //     let t = new TeamWithId()
+  //     t.TeamName = this.selectedteamname
+  //     t.ClubId = this.selectedclub;
+  //     t.Year = this.selectedyear
+  //     t.objectId = this.selectedTeam.objectId
+  //     this.matchService.upDateTeam(t).subscribe(async data => {
+  //       this.matchService.loadTeams();
+
+  //       this.playersvisable = true
+  //       this.deletevisible = true
+  //       const toast = await this.toastController.create({
+  //         color: 'success',
+  //         duration: 2000,
+  //         message: 'Saved successfully'
+  //       });
+    
+  //       await toast.present();
+  //     })
+  //   } 
+   
+  // }
+
+  // async getOnlineClubs() {
+  //   await this.matchService.getClubs().then(async data => {
+  //     var json = JSON.stringify(data);
+  //     this.clubs = JSON.parse(json);
+  //     //this.selectedclub = this.clubs.filter(c => String(c.objectId) === this.selectedTeam?.ClubId)[0].objectId
+
+  //     await this.matchService.getPlayers().then(data => {
+  //       var json = JSON.stringify(data);
+  //       var d = JSON.parse(json);
+  //       this.selectedPlayers = d
+  
+  //       this.selectedPlayers = this.selectedPlayers.sort((t1, t2) => {
+  //         const name1 = t1.LastName.toLowerCase();
+  //         const name2 = t2.LastName.toLowerCase();
+  //         if (name1 > name2) { return 1; }
+  //         if (name1 < name2) { return -1; }
+  //         return 0;
+  //       });
+  
+  //       this.players = this.selectedPlayers.slice();
+  //       this.availablePlayers = this.selectedPlayers.slice();
+  //       // this.players = data.map(e => {
+  //       //   return {
+  //       //     id: e.payload.doc.id,
+  //       //     ...e.payload.doc.data() as {}
+  //       //   } as PlayerWithId;
+  //       // })
+  //       for (let index = 0; index < this.players.length; index++) {
+  //         const element = this.players[index];
+  //         this.players[index].fullName = this.players[index].FirstName + " " + this.players[index].LastName
+  //       }
+  //       if (this.selectedTeam) {
+  //         this.selectedyear = this.selectedTeam.Year;
+  //         this.selectedclub = this.selectedTeam.ClubId;
+  //         this.selectedteamname = this.selectedTeam.TeamName;
+  //         this.matchService.loadTeamPlayers(this.selectedTeam.objectId)
+  //         this.matchService.getTeamPlayersAsync().subscribe(x => {
+  //           var json = JSON.stringify(x);
+  //           var d = JSON.parse(json);
+  //           this.teamPlayers = []
+  //           if (d) {
+  //           d.forEach(p => {
+  //             var pl = this.selectedPlayers.filter(x => x.objectId == p.PlayerId)[0];
+  //             this.availablePlayers.forEach( (item, index) => {
+  //               if(item.objectId == pl.objectId) 
+  //               {
+  //                 this.availablePlayers.splice(index,1); 
+  //               }
+  //             });
+  //             let tp = new TeamPlayerWithID()
+  //             tp.playerId = pl.objectId
+  //             tp.FirstName = pl.FirstName
+  //             tp.LastName = pl.LastName
+  //             tp.objectId = p.objectId;
+  //             tp.jersey = p.Jersey
+  //             this.teamPlayers.push(tp);
+  //           });
+  //           this.loading.dismiss()
+  //           //console.log(d)
+  //           //this.teamPlayers = d
+  //         }})
+  //       }
+  //       else {
+  //         this.loading.dismiss()
+  //       }
+  //     })
+  //   });
+  // }
+
+  pickYear(e) {
+    this.selectedyear = e.detail.value
+    //this.tdForm.patchValue({year: e.detail.value});
+  }
+
+  // pickClub(e) {
+  //   this.selectedclub = this.clubs.filter(c => c.objectId === e.detail.value)[0].objectId
+  // }
+
+  deleteTeam() {
+    this.offlineservice.deleteTeam(this.selectedTeam.objectId).then(async m => {
+      this.teamPlayers.forEach(element => {
+        this.offlineservice.deleteTeamPlayer(element.objectId)
+      });
+      this.offlineservice.loadTeamPlayers()
+      const toast = await this.toastController.create({
+        color: 'danger',
+        duration: 1000,
+        message: this.selectedTeam.TeamName + ' was deleted'
+      });
+  
+      await toast.present();
+      this.offlineservice.loadTeams();
+      this.router.navigate(['/app/tabs/teams/']);
+
+    })
+  }
+
+  // deleteTeam() {
+  //   this.matchService.deleteTeam(this.selectedTeam.objectId).then(async m => {
+  //     this.teamPlayers.forEach(element => {
+  //       this.matchService.deleteTeamPlayer(element.objectId).then(x => {
+  //       })        
+  //     });
+  //     this.matchService.loadTeamPlayers(this.selectedTeam.objectId)
+  //     const toast = await this.toastController.create({
+  //       color: 'danger',
+  //       duration: 2000,
+  //       message: this.selectedTeam.TeamName + ' was deleted'
+  //     });
+  
+  //     await toast.present();
+  //     this.matchService.loadTeams();
+  //     this.router.navigate(['/app/tabs/teams/']);
+
+  //   })
+  // }
+
+  // saveTeam(form: NgForm) {
+  //   var id: string
+  //   if (!this.selectedTeam) {
+  //     let t = new TeamWithId()
+  //     t.TeamName = this.selectedteamname
+  //     t.ClubId = this.selectedclub;
+  //     t.Year = this.selectedyear
+  //     this.matchService.createTeam(t).subscribe(async data => {
+  //       var s = JSON.stringify(data)
+  //       var d = JSON.parse(s);
+  //       id = d.objectId
+  //       this.matchService.loadTeams()
+
+  //       // this.matchService.getTeams().then(data => {
+  //       //   var json = JSON.stringify(data);
+  //       //   var teams = JSON.parse(json);
+  //       //   this.selectedTeam = teams.filter(t => t.objectId === id)[0]
+  //       // });
+
+  //       this.playersvisable = true
+  //       this.deletevisible = true
+  //       const toast = await this.toastController.create({
+  //         color: 'success',
+  //         duration: 2000,
+  //         message: 'Saved successfully'
+  //       });
+    
+  //       await toast.present();
+  //     })
+  //   }
+  //   else {
+  //     let t = new TeamWithId()
+  //     t.TeamName = this.selectedteamname
+  //     t.ClubId = this.selectedclub;
+  //     t.Year = this.selectedyear
+  //     t.objectId = this.selectedTeam.objectId
+  //     this.matchService.upDateTeam(t).subscribe(async data => {
+  //       this.matchService.loadTeams();
+
+  //       this.playersvisable = true
+  //       this.deletevisible = true
+  //       const toast = await this.toastController.create({
+  //         color: 'success',
+  //         duration: 2000,
+  //         message: 'Saved successfully'
+  //       });
+    
+  //       await toast.present();
+  //     })
+  //   } 
+   
+  // }
 
   async save() {
 
@@ -347,7 +604,7 @@ export class TeamdetailPage implements OnInit {
 
     const toast = await this.toastController.create({
       color: 'success',
-      duration: 2000,
+      duration: 1000,
       message: 'Saved successfully'
     });
 

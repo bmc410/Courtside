@@ -14,6 +14,8 @@ import { TableModule } from 'primeng/table';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import { GameselectPage } from '../gameselect/gameselect.page';
 import {ButtonModule} from 'primeng/button';
+import {PanelModule} from 'primeng/panel';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -26,6 +28,7 @@ import {ButtonModule} from 'primeng/button';
     IonicModule,
     SelectButtonModule,
     TableModule,
+    PanelModule,
     MatchdetailPageRoutingModule
   ],
   declarations: [MatchdetailPage]

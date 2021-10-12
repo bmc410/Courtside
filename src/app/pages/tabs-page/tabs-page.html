@@ -1,6 +1,6 @@
 <ion-tabs >
 
-  <ion-tab-bar  *ngIf="showTabs" style="background-color: white; opacity: .8;"  slot="teams">
+  <ion-tab-bar   style="background-color: white; opacity: .8;"  slot="teams">
     <ion-tab-button  tab="teams">
       <ion-icon name="people"></ion-icon>
       <ion-label>Teams</ion-label>
@@ -19,6 +19,11 @@
     <ion-tab-button tab="stats">
       <ion-icon name="bar-chart-outline"></ion-icon>
       <ion-label>Stats</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="admin">
+      <ion-icon name="cog-outline"></ion-icon>
+      <ion-label>Settings</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
 

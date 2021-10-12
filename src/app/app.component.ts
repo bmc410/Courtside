@@ -18,6 +18,7 @@ import { MatchService } from './services/matchservice';
 import { IPlayers } from './models/dexie-models';
 import { Guid } from 'guid-typescript';
 import { AppStateService } from './services/app-state-service.service';
+import { ConnectionService } from 'ng-connection-service';
 
 
 @Component({
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit {
   dark = false;
 
   constructor(
+    private connectionService: ConnectionService,
     private authenticationService: AuthenticationService,
     private networkService: NetworkService,
     private offlineService: OfflineService,
@@ -78,23 +80,33 @@ export class AppComponent implements OnInit {
       this.a.setTabs(true)  
     }
 
-    this.networkService.HasInternet().subscribe(isConnected => {
-      this.isConnected = isConnected;
-      console.log(isConnected)
-      if (this.isConnected) {
-        this.status = "ONLINE";
-      }
+    this.connectionService.monitor().subscribe(isConnected => {  
+      this.isConnected = isConnected;  
+      if (this.isConnected) {  
+        console.log("connected")  
+      }  
       else {
-        this.status = "OFFLINE";
-      }
-    })
+        console.log("not connected")
+      }  
+    })  
+
+    // this.networkService.HasInternet().subscribe(isConnected => {
+    //   this.isConnected = isConnected;
+    //   console.log(isConnected)
+    //   if (this.isConnected) {
+    //     this.status = "ONLINE";
+    //   }
+    //   else {
+    //     this.status = "OFFLINE";
+    //   }
+    // })
 
     var status = this.networkService.getlaststatus();
-    if(status == true) {
-      this.networkService.NetworkChange(status)
-    }
+    // if(status == true) {
+    //   this.networkService.NetworkChange(status)
+    // }
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-    this.networkService.currentStatus.subscribe(x => this.offline = x);
+    // this.networkService.currentStatus.subscribe(x => this.offline = x);
 
     this.offlineService.getPlayers().subscribe(result => {
       this.players = result

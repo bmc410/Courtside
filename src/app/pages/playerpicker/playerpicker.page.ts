@@ -19,6 +19,7 @@ export class PlayerpickerPage implements OnInit {
   selectedPlayers: PlayerWithId[];
   availablePlayers: PlayerWithId[] = [];
   players: PlayerWithId[] = [];
+  libero: any;
   menuitems = [{
     label: 'Log out',
     icon: 'pi pi-fw pi-power-off',
@@ -28,7 +29,7 @@ export class PlayerpickerPage implements OnInit {
   }];
   constructor(private popover: PopoverController,
     private router: Router,
-    private matchService: MatchService,
+    //private matchService: MatchService,
     private navParams: NavParams,
     // private connectionService: ConnectionService,
     private _ngZone: NgZone,
@@ -47,7 +48,8 @@ export class PlayerpickerPage implements OnInit {
     // this.matchService.getPlayersAsync().subscribe(data => {
     // var json = JSON.stringify(data);
     // var d = JSON.parse(json);
-    this.selectedPlayers = this.navParams.data.context
+    this.selectedPlayers = this.navParams.data.context.players
+    this.libero = this.navParams.data.context.libero
     // if(this.selectedPlayers == null) {
     //   this.matchService.getPlayersAsync().subscribe(data => { 
     //     console.log(data)
@@ -90,6 +92,10 @@ export class PlayerpickerPage implements OnInit {
   dismiss(item) {
     //console.log(item)
     this.popover.dismiss(item);
+  }
+
+  isLibero(e) {
+    return e.objectId == this.libero
   }
 
   close() {

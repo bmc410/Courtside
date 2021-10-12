@@ -1,4 +1,5 @@
 import Dexie from "dexie";
+//mport relationships from 'dexie-relationships'
 
 export class OfflineDatabase extends Dexie {
     // Declare implicit table properties.
@@ -11,45 +12,46 @@ export class OfflineDatabase extends Dexie {
     teamplayers: Dexie.Table<ITeamPlayers, string>;
     teams: Dexie.Table<ITeams, string>;
     clubs: Dexie.Table<IClubs, string>;
+    db: any
 
     constructor () {
         super("OfflineDatabase");
-        var db = this;
+        this.db = this;
         
-        this.version(1).stores({
-            players: 'objectId, FirstName, LastName',
-            matches: 'objectId, Home, HomeTeamId, Opponent, MatchDate',
-            games: 'objectId, GameNumber, MatchId, HomeScore, OpponentScore, MatchDate, Subs',
-            playbyplay: '++id, objectId, Action, PlayerId, HomeScore, OpponentScore, StatType, Rotation, GameId',
-            stats: 'objectId, Subs, PlayerId, HomeScore, OpponentScore, StatType, Rotation, GameId, StatDate',
-            teamplayers: 'objectId, PlayerId, TeamId, Jersey, ClubYear',
-            teams: 'objectId, TeamName, Year, ClubId',
-            clubs: 'objectId, ClubName'
+        this.db.version(1).stores({
+            players: '++objectId, FirstName, LastName',
+            matches: '++objectId, Home, HomeTeamId, Opponent, MatchDate, HomeTeamLibero',
+            games: '++objectId, GameNumber, MatchId, HomeScore, OpponentScore, MatchDate, Subs',
+            playbyplay: '++id, objectId, Action, PlayerId, HomeScore, OpponentScore, StatType, Rotation, GameId, StatDate',
+            stats: '++objectId, Subs, PlayerId, HomeScore, OpponentScore, StatType, Rotation, GameId, StatDate',
+            teamplayers: '++objectId, PlayerId, TeamId, Jersey, ClubYear',
+            teams: '++objectId, TeamName, Year, ClubId',
+            clubs: '++objectId, ClubName'
         });
 
-        this.players = this.table("players");
-        this.matches = this.table("matches");
-        this.games = this.table("games");
-        this.playbyplay = this.table("playbyplay");
-        this.stats = this.table("stats");
-        this.teamplayers = this.table("teamplayers");
-        this.teams = this.table("teams");
-        this.clubs = this.table('clubs');
+        //this.players = this.table("players");
+        // this.matches = this.table("matches");
+        // this.games = this.table("games");
+        // this.playbyplay = this.table("playbyplay");
+        // this.stats = this.table("stats");
+        // this.teamplayers = this.table("teamplayers");
+        // this.teams = this.table("teams");
+        //this.clubs = this.table('clubs');
     }
 }
 
 export interface ITeams {
     objectId?: string;
     TeamName?: string;
-    Year?: number;
+    Year?: Number;
     ClubId?: string;
 }
 
 export interface ITeamPlayers {
     objectId?: string;
-    playerid?: string;
-    teamid?: string;
-    jersey?: string;
+    PlayerId?: string;
+    TeamId?: string;
+    Jersey?: string;
     clubyear?: string;
 }
 
@@ -62,7 +64,9 @@ export interface IStats {
     StatType?: string;
     Rotation?: string;
     GameId?: string;
+    MatchId?;
     StatDate?: Date
+    CreatedAt?: Date
 }
 
 export interface IPlayByPlay {
@@ -75,6 +79,7 @@ export interface IPlayByPlay {
     stattype?: string;
     Rotation?: string;
     gameid?: string;
+    StatDate: Date;
 }
 
 export interface IGames {
@@ -88,19 +93,20 @@ export interface IGames {
 
 export interface IClubs {
     objectId?: string;
-    clubname?: string;
+    ClubName?: string;
 }
 
 export interface IPlayers {
     objectId?: string;
-    firstname?: string;
-    lastname?: string;
+    FirstName?: string;
+    LastName?: string;
 }
 
 export interface IMatches {
     objectId?: string;
     Home?: string;
     HomeTeamId?: string
+    HomeTeamLibero?:string
     Opponent?: string;
     MatchDate?: string;
 }

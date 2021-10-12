@@ -9,6 +9,8 @@ import { OfflineService } from 'src/app/services/offline.service';
 import { MessageService } from 'primeng/api';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { PlayerWithId } from 'src/app/models/appModels';
+import { IPlayers } from 'src/app/models/dexie-models';
+import { Guid } from 'guid-typescript';
 
 @Component({
   selector: 'app-playerdetail',
@@ -34,7 +36,7 @@ export class PlayerdetailPage implements OnInit {
   constructor(private route: ActivatedRoute,
     private router: Router,
     public modalController: ModalController,
-    private matchService: MatchService,
+    //private matchService: MatchService,
     // private connectionService: ConnectionService,
     private _ngZone: NgZone,
     private formBuilder: FormBuilder,
@@ -69,13 +71,13 @@ export class PlayerdetailPage implements OnInit {
   }
 
   async deleteplayer() {
-    this.matchService.deletePlayer(this.selectedPlayer.objectId).then(x => {
-      this.matchService.loadPlayers()
+    this.offlineservice.deletePlayer(this.selectedPlayer.objectId).then(x => {
+      this.offlineservice.loadPlayers()
     })
 
     const toast = await this.toastController.create({
       color: 'danger',
-      duration: 2000,
+      duration: 1000,
       message: 'Player deleted'
     });
 
@@ -83,24 +85,66 @@ export class PlayerdetailPage implements OnInit {
     this.router.navigate(['/app/tabs/playerlist/']);
   }
 
+  // async deleteplayer() {
+  //   this.matchService.deletePlayer(this.selectedPlayer.objectId).then(x => {
+  //     this.matchService.loadPlayers()
+  //   })
+
+  //   const toast = await this.toastController.create({
+  //     color: 'danger',
+  //     duration: 2000,
+  //     message: 'Player deleted'
+  //   });
+
+  //   await toast.present();
+  //   this.router.navigate(['/app/tabs/playerlist/']);
+  // }
+
   async savePlayer() {
 
-    let p = new PlayerWithId()
+    let p: IPlayers = {}
     p.FirstName = this.firstname
     p.LastName = this.lastname
-    this.matchService.savePlayer(p).then(x => {
-      this.matchService.loadPlayers()
-      this.deletevisible = true
-    })
+    p.objectId = this.offlineservice.createObjectId()
+    if(this.selectedPlayer) {
+      this.offlineservice.updatePlayer(p).then(x => {
+        //this.offlineservice.loadPlayers()
+        this.deletevisible = true
+      })
+    } else {
+      this.offlineservice.addPlayer(p).then(x => {
+        //this.offlineservice.loadPlayers()
+        this.deletevisible = true
+      })
+    }
 
     const toast = await this.toastController.create({
       color: 'success',
-      duration: 2000,
+      duration: 1000,
       message: 'Saved successfully'
     });
 
     await toast.present();
   }
+
+  // async savePlayer() {
+
+  //   let p = new PlayerWithId()
+  //   p.FirstName = this.firstname
+  //   p.LastName = this.lastname
+  //   this.matchService.savePlayer(p).then(x => {
+  //     this.matchService.loadPlayers()
+  //     this.deletevisible = true
+  //   })
+
+  //   const toast = await this.toastController.create({
+  //     color: 'success',
+  //     duration: 2000,
+  //     message: 'Saved successfully'
+  //   });
+
+  //   await toast.present();
+  // }
 
   logoff() {
     this.authenticationService.logout();
